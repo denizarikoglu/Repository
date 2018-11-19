@@ -40,7 +40,7 @@ root = tk.Tk()
 root.title("UFIX LTD: Disciplinary Actions")
 
 ## Global values settup:
-employee_ids = {"0000", "0001", "0002",} #contains fake data
+employee_ids = {"0000", "0001", "0002","long text test 0000000000000000000000"} #contains fake data
 disciplinary_types = {"Item not returned", "Late to work"}
 disciplinary_descs = {"Item not returned": "Employee rented an item, but did not return within the required time-frame.",
                       "Late to work": "Employee has arrived late for work on three or more occasions."}
