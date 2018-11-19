@@ -6,8 +6,15 @@
           <option name="url" value="https://github.com/WinnieUSW/off_boarding-on_boarding.git" />
           <option name="userName" value="" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://github.com/denizarikoglu/Repository/tree/Off-Boarding-On-Boarding" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
       </list>
     </option>
     <option name="cloneParentDir" value="D\usw20182019\CS2S567" />
+  </component>
+  <component name="Vcs.Log.App.Settings">
+    <option name="MIGRATED" value="true" />
   </component>
 </application>
