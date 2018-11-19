@@ -1,0 +1,28 @@
+<application>
+  <component name="PyTestFrameworkService">
+    <option name="SDK_TO_PYTEST">
+      <map>
+        <entry key="C:\Python27\ArcGIS10.4\python.exe" value="false" />
+        <entry key="D:\PortableApps\PyCharmPortable\D\usw20182019\CS2S567\Team7\venv\Scripts\python.exe" value="false" />
+        <entry key="E:\PortableApps\Portable Python 3.2.5.1\App\python.exe" value="false" />
+        <entry key="F:\PortableApps\Portable Python 3.2.5.1\App\python.exe" value="false" />
+      </map>
+    </option>
+    <option name="SDK_TO_NOSETEST">
+      <map>
+        <entry key="C:\Python27\ArcGIS10.4\python.exe" value="true" />
+        <entry key="D:\PortableApps\PyCharmPortable\D\usw20182019\CS2S567\Team7\venv\Scripts\python.exe" value="false" />
+        <entry key="E:\PortableApps\Portable Python 3.2.5.1\App\python.exe" value="false" />
+        <entry key="F:\PortableApps\Portable Python 3.2.5.1\App\python.exe" value="false" />
+      </map>
+    </option>
+    <option name="SDK_TO_TRIALTEST">
+      <map>
+        <entry key="C:\Python27\ArcGIS10.4\python.exe" value="false" />
+        <entry key="D:\PortableApps\PyCharmPortable\D\usw20182019\CS2S567\Team7\venv\Scripts\python.exe" value="false" />
+        <entry key="E:\PortableApps\Portable Python 3.2.5.1\App\python.exe" value="false" />
+        <entry key="F:\PortableApps\Portable Python 3.2.5.1\App\python.exe" value="false" />
+      </map>
+    </option>
+  </component>
+</application>
