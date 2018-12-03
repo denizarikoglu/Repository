@@ -67,7 +67,7 @@ Right = Frame(root, width=600, height=500, bd=8, relief="raise")
 Right.pack(side=RIGHT)
 Forms = Frame(Left, width=300, height=450)
 Forms.pack(side=TOP)
-Buttons = Frame(Left, width=300, height=100, bd=8, relief="raise")
+Buttons = Frame(Left, width=300, height=100, bd=8, relief="raise")#creats frame for Buttons?
 Buttons.pack(side=BOTTOM)
 
 #==================================LABEL WIDGET=======================================
@@ -101,7 +101,8 @@ btn_delete = Button(Buttons, width=10, text="Delete", state=DISABLED)
 btn_delete.pack(side=LEFT)
 btn_exit = Button(Buttons, width=10, text="Exit", command=Exit)
 btn_exit.pack(side=LEFT)
-
+btn_test = Button(Buttons, width=10, text="Button Test")#(Buttons,) is the frame it gose in?
+btn_test.pack(side=LEFT)
 #==================================LIST WIDGET========================================
 scrollbary = Scrollbar(Right, orient=VERTICAL)
 scrollbarx = Scrollbar(Right, orient=HORIZONTAL)
