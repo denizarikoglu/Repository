@@ -110,17 +110,17 @@ Id = StringVar()
 #==================================FRAME==============================================
 Top = Frame(root, width=900, height=50, bd=8, relief="raise")
 Top.pack(side=TOP)
-Left = Frame(root, width=300, height=500, bd=8, relief="raise")
+Middle = Frame(root, width=900, height=400, bd=8, relief="raise")
+Middle.pack()
+Left = Frame(Middle, width=300, height=400, bd=8, relief="raise")
 Left.pack(side=LEFT)
-Right = Frame(root, width=600, height=500, bd=8, relief="raise")
+Right = Frame(Middle, width=600, height=400, bd=8, relief="raise")
 Right.pack(side=RIGHT)
-Bottom = Frame(root, width=900, height=50, bd=8, relief="raise")
+Bottom = Frame(root, width=300, height=50, bd=4, relief="raise")
 Bottom.pack(side=BOTTOM)
-Policies = Frame(Bottom, width=300, height=50)
-Policies.pack(side=BOTTOM)
-Forms = Frame(Left, width=300, height=450)
+Forms = Frame(Left, width=300, height=400)
 Forms.pack(side=TOP)
-Buttons = Frame(Left, width=300, height=100, bd=8, relief="raise")
+Buttons = Frame(Left, width=300, height=50, bd=8, relief="raise")
 Buttons.pack(side=BOTTOM)
 
 #==================================LABEL WIDGET=======================================
@@ -138,6 +138,9 @@ txt_team = Label(Forms, text="Team:", font=('arial', 16), bd=15)
 txt_team.grid(row=4, stick="e")
 txt_result = Label(Buttons)
 txt_result.pack(side=TOP)
+link = Label(Bottom, width=900, text="Policies", fg="blue", cursor="hand2")
+link.bind("<Button-1>", callback)
+link.pack()
 
 #==================================ENTRY WIDGET=======================================
 firstName = Entry(Forms, textvariable=FirstName, width=30)
@@ -166,7 +169,7 @@ btn_exit.pack(side=LEFT)
 #==================================LIST WIDGET========================================
 scrollbary = Scrollbar(Right, orient=VERTICAL)
 scrollbarx = Scrollbar(Right, orient=HORIZONTAL)
-tree = ttk.Treeview(Right, columns=("Id", "FirstName", "LastName", "Email", "Phone", "Team"), selectmode="extended", height=500, yscrollcommand=scrollbary.set, xscrollcommand=scrollbarx.set)
+tree = ttk.Treeview(Right, columns=("Id", "FirstName", "LastName", "Email", "Phone", "Team"), selectmode="extended", height=17, yscrollcommand=scrollbary.set, xscrollcommand=scrollbarx.set)
 scrollbary.config(command=tree.yview)
 scrollbary.pack(side=RIGHT, fill=Y)
 scrollbarx.config(command=tree.xview)
@@ -185,11 +188,6 @@ tree.column('#4', stretch=NO, minwidth=0, width=80)
 tree.column('#5', stretch=NO, minwidth=0, width=80)
 tree.bind("<Button-1>", on_click)
 tree.pack()
-
-link = Label(Policies, text="Policy Document Link", fg="blue", cursor="hand2")
-link.pack()
-link.bind("<Button-1>", callback)
-
 
 #==================================INITIALIZATION=====================================
 if __name__ == '__main__':
