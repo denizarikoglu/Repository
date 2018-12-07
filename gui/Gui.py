@@ -39,19 +39,24 @@ def addwidgets(root):
 
 Top = Frame(root, width=900, height=50, bd=8, relief="raise")
 Top.pack(side=TOP)
+Bottom = Frame(root, width=900, height=50, bd=8, relief="raise")#dosent show up?
+Bottom.pack(side=BOTTOM)
 Left = Frame(root, width=300, height=500, bd=8, relief="raise")
 Left.pack(side=LEFT)
 Right = Frame(root, width=600, height=500, bd=8, relief="raise")
 Right.pack(side=RIGHT)
+
+
+#textframeRight = Frame(Right, width=550, hight=200, relief="raise")#creats a fream for the textbox
+#textframeRight.pack(side=TOP)
 Forms = Frame(Left, width=300, height=450)
 Forms.pack(side=TOP)
-##Buttons = Frame(Left, width=300, height=100, bd=8, relief="raise")  # creats frame for Buttons?
-##Buttons.pack(side=BOTTOM)
-Bottom = Frame(root, width=900, height=50, bd=8, relief="raise")#dosent show up?
-Bottom.pack(side=BOTTOM)
+#Buttons = Frame(Left, width=300, height=100, bd=8, relief="raise")  # creats frame for Buttons?
+#Buttons.pack(side=BOTTOM)
+
 
 ##======================Top Side frame======================
-labTitleBar = Label(Top,width=10,font=('arial', 20),text = "Add new action")
+labTitleBar = Label(Top,width=900,font=('arial', 20),text = "Add new action")
 labTitleBar.pack(side=TOP)
 ##======================Left Side frame======================
 #order that thing are done here is how they will show up
@@ -85,14 +90,13 @@ labDiscribeAction = Label(Right, width=600, font=('arial', 24), text = "Discribe
 labDiscribeAction.pack(side=TOP)
 
 #textbox
-txtDescription = Text(Right, height=200, width=550) ##adds a textbox on the right frame. dose not seam to care aboyt hight
+txtDescription = Text(Right,width=550, height=200 ) ##adds a textbox on the right frame. dose not seam to care aboyt hight
 txtDescription.pack(side=RIGHT)
 
 
 
-
 ##====================Buttons wigits====================
-btn_exit = Button(Bottom, width=10, text="Exit", command=Exit)#should show up on bottom frame but dosnet
+btn_exit = Button(Left, width=10, text="Exit", command=Exit)#should show up on bottom frame but dosnet
 btn_exit.pack(side=LEFT)
 
 
