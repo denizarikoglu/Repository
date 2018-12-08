@@ -6,7 +6,7 @@ import webbrowser
 
 
 root = Tk()
-root.title("Welcome page")
+root.title("GUI")
 screen_width = root.winfo_screenwidth()
 screen_height = root.winfo_screenheight()
 width = 900
@@ -97,7 +97,7 @@ def Exit():
         exit()
 
 def callback(event):
-    webbrowser.open_new(r"Policies.pdf")
+    webbrowser.open_new(r"Policies\Policies.pdf")
 #==================================VARIABLES==========================================
 
 FirstName = StringVar()
@@ -124,7 +124,7 @@ Buttons = Frame(Left, width=300, height=50, bd=8, relief="raise")
 Buttons.pack(side=BOTTOM)
 
 #==================================LABEL WIDGET=======================================
-txt_title = Label(Top, width=900, font=('arial', 24), text = "Welcome Page")
+txt_title = Label(Top, width=900, font=('arial', 24), text = "GUI")
 txt_title.pack()
 txt_firstName = Label(Forms, text="First Name:", font=('arial', 16), bd=15)
 txt_firstName.grid(row=0, stick="e")
