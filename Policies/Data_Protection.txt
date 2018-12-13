@@ -1,0 +1,35 @@
+What the Data Protection Act 2018:
+The Data Protection Act of 2018 is a new legislation enacted by the British government which complements and expands upon the General Data Protection Regulation (GDPR) law created by the European Union. Both of these legislations were created to ensure the both the safety and integrity of a person's personal data by managing the way organisations are able to store and process this it. According gov.uk, the The Data Protection Act 2018 states that personal data used by organisations must be:
+
+•	used for specified, explicit purposes
+•	used in a way that is adequate, relevant and limited to only what is necessary
+     accurate and, where necessary, kept up to date
+•	kept for no longer than is necessary
+•	handled in a way that ensures appropriate security, including protection against unlawful or unauthorised processing, access, loss, destruction or damage”
+
+gov.uk (2018) Data protection. Available at: https://www.gov.uk/data-protection (Accessed 06/11/2018).
+
+What is General Data Protection Regulation:
+The General Data Protection Regulation or GDPR, is a new law created and put in place by the European Union in 2018. It’s aim is similar to that of the Data Protection Act 2018, to ensure the safety of a person’s personal data while it’s being store and/or processed by an organisation. The principles set out by GDPR which the Information Commissioner's Office provide are as follows:
+
+•	 Lawfulness, fairness and transparency
+•	Purpose limitation
+•	Data minimisation
+•	Accuracy
+•	Storage limitation
+•	Integrity and confidentiality (security)
+•	Accountability
+
+ico.org.uk (2018) Guide to the General Data Protection Regulation (GDPR). Available at: https://ico.org.uk/for-organisations/guide-to-the-general-data-protection-regulation-gdpr/principles/ (Accessed 06/11/2018).
+
+
+
+
+
+
+
+Why are they important to Ufix Ltd.:
+Both of these laws are essential to those working at Ufix Ltd. As they are a recruitment company, they handle the personal information of not only their employees but also the information of potential employees. Because of this those working there need to be extra careful when managing this data and be sure to conform to the principles set out by both the Data Protection Act 2018 and GDPR. Failure to do so could lead to serious issue for Ufix Ltd...
+
+Consequences:
+There are a few major consequences Ufix Ltd. may face if they fail to conform to the governing rules of both the Data Protection Act 2018 and GDPR. For example, Ufix Ltd. is found to have neglected the security of a person’s personal data which they hold and depending on the severity of the situation they may be required to pay a fine of up to €10 Million or 2% of their annual turnover (Whichever results in a higher figure) or, €20 Million or 4% annual turnover (Whichever results in a higher figure). Either of these fines can be devastating to Ufix Ltd.
