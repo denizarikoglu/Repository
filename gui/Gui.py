@@ -23,23 +23,25 @@ def Database():
     global conn, cursor
     conn = sqlite3.connect('UfixLtd.s3db')
     cursor = conn.cursor()
-    cursor.execute("CREAT TABE IF NOT EXSITS 'Disciplinary_Action' (emp id INTEGER PRIMARY KEY AUTOINCMENT NOT NULL, Discipline_ID INTEGER, Employee_ID INTEGER, Comment TEXT")
+    cursor.execute("CREATE TABLE IF NOT EXISTS 'Disciplinary_Action' (emp id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Discipline_ID INTEGER, Employee_ID INTEGER, Comment TEXT")
     #connects the displanryaction table
 
 def AddNewRecord():
-    if  DISCIPLINARY_ID.get() == "" or EMPLOYEE_ID.get() == "" or COMMENT.get() == "":  #contius for all data to be enterd
-        #what are the .get() for? the table feilds or textboxs?
-        txt.resulrs.congif(text= "pleasa complete the reierd feld", fg="red")
+    if  selected_type.get() == "" or selected_emp.get() == "" or txtDescription.get("1.0", "end-1c") == "":  #contius for all data to be enterd
+        #need to check the verable for the option boxes
+        tkMessageBox.showinfo("", "pleasa complete the reierd feld")
+        #txt.resulrs.congif(text= "pleasa complete the reierd feld", fg="red")
     else:#creats new record
         Database()
         cursor.execute("INSERT INTO 'Disciplinary_list' (Discipline_ID, Employee_ID, Comment) VALUES{?, ?, ?}", str(S))
         conn.commit()
-        DISCIPLINARY_ID.set("")#will this work for combo boxes
-        EMPLOYEE_ID.set("")
-        COMMENT.set("")
+        selected_type.set("")#will this work for combo boxes
+        selected_emp.set("")
+        txtDescription.set("")
         cursor.close()
         conn.close()
-        txt.resulrs.congif(text="New recored created", fg="green")
+        tkMessageBox.showinfo("","New recored created")
+       # txt.resulrs.congif(text="New recored created", fg="green")
 
 def exit_program():  # asks the user if they want to exit
     result = tkMessageBox.askquestion('HR Demo Module', 'Are you sure you want to exit?', icon="warning")
@@ -105,6 +107,10 @@ labDiscribeDiscrtion.pack(side=TOP)
 # might work better as a textbox
 labActionTaken = Label(Left,width=10,font=('arial', 12),text = "Action taken")
 labActionTaken.pack(side=TOP)
+
+btn_CreatNewEntry = Button(Left, width=10, text="Creat new entry", command=AddNewRecord)#creats new entry in table
+btn_CreatNewEntry.pack(side=BOTTOM)
+
 
 # ======================Right Side frame======================
 # label
