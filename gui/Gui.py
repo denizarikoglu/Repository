@@ -23,7 +23,7 @@ def Database():
     global conn, cursor
     conn = sqlite3.connect('UfixLtd.s3db')
     cursor = conn.cursor()
-    cursor.execute("CREATE TABLE IF NOT EXISTS 'Disciplinary_Action' (emp id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Discipline_ID INTEGER, Employee_ID INTEGER, Comment TEXT")
+    cursor.execute("CREATE TABLE IF NOT EXISTS 'Disciplinary_Action' (emp id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Discipline_ID INTEGER, Employee_ID INTEGER, Comment TEXT)")
     #connects the displanryaction table
 
 def AddNewRecord():
@@ -33,11 +33,11 @@ def AddNewRecord():
         #txt.resulrs.congif(text= "pleasa complete the reierd feld", fg="red")
     else:#creats new record
         Database()
-        cursor.execute("INSERT INTO 'Disciplinary_list' (Discipline_ID, Employee_ID, Comment) VALUES{?, ?, ?}", str(S))
+        cursor.execute("INSERT INTO 'Disciplinary_Action' (Discipline_ID, Employee_ID, Comment) VALUES(?, ?, ?)", (str(selected_type.get()), str(selected_emp.get()), str(txtDescription.get("1.0", "end-1c"))))
         conn.commit()
         selected_type.set("")#will this work for combo boxes
         selected_emp.set("")
-        txtDescription.set("")
+        txtDescription=""
         cursor.close()
         conn.close()
         tkMessageBox.showinfo("","New recored created")
