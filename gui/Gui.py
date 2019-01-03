@@ -37,7 +37,7 @@ def AddNewRecord():
         conn.commit()
         selected_type.set("")#will this work for combo boxes
         selected_emp.set("")
-        txtDescription.set("")
+        txtDescription.insert(END,"")
         cursor.close()
         conn.close()
         tkMessageBox.showinfo("","New recored created")
