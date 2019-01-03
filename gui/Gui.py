@@ -19,12 +19,24 @@ y = (screen_height/2) - (height/2)
 root.geometry('%dx%d+%d+%d' % (width, height, x, y))
 root.resizable(0, 0)
 
-def Database():
+def Database_Disciplinary_Action():
     global conn, cursor
     conn = sqlite3.connect('UfixLtd.s3db')
     cursor = conn.cursor()
     cursor.execute("CREATE TABLE IF NOT EXISTS 'Disciplinary_Action' (emp id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Discipline_ID INTEGER, Employee_ID INTEGER, Comment TEXT)")
     #connects the displanryaction table
+
+def Databse_Disciplinary_list():
+    global conn, cursor
+    conn = sqlite3.connect('UfixLtd.s3db')
+    cursor = conn.cursor()
+    cursor.execute("CREATE TABLE IF NOT EXISTS 'Disciplinary_list' (emp id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Discipline_Name TEXT, Reson_for_Action TEXT, Action_Taken TEXT, Severity_Level INTERGER)")
+    #conncts the list table
+
+def Database_Users(): #will need the complted database for this
+    global conn, cursor
+    conn = sqlite3.connect('UfixLtd.s3db')
+    cursor = conn.cursor()
 
 def AddNewRecord():
     if  selected_type.get() == "" or selected_emp.get() == "" or txtDescription.get("1.0", "end-1c") == "":  #contius for all data to be enterd
@@ -32,10 +44,10 @@ def AddNewRecord():
         tkMessageBox.showinfo("", "pleasa complete the reierd feld")
         #txt.resulrs.congif(text= "pleasa complete the reierd feld", fg="red")
     else:#creats new record
-        Database()
+        Database_Disciplinary_Action()
         cursor.execute("INSERT INTO 'Disciplinary_Action' (Discipline_ID, Employee_ID, Comment) VALUES(?, ?, ?)", (str(selected_type.get()), str(selected_emp.get()), str(txtDescription.get("1.0", "end-1c"))))
         conn.commit()
-        selected_type.set("")#will this work for combo boxes
+        selected_type.set("")#emptys the inputboxes
         selected_emp.set("")
         txtDescription.insert(END,"")
         cursor.close()
@@ -44,6 +56,7 @@ def AddNewRecord():
        # txt.resulrs.congif(text="New recored created", fg="green")
 
 def exit_program():  # asks the user if they want to exit
+
     result = tkMessageBox.askquestion('HR Demo Module', 'Are you sure you want to exit?', icon="warning")
     if result == 'yes':
         root.destroy()
@@ -131,3 +144,12 @@ btn_exit.pack(side=RIGHT)
 # =====================================================================================
 if __name__ == '__main__':
     root.mainloop()
+
+Databse_Disciplinary_list()#trying to read data from list
+results = cursor.fetchall()
+for row in results:
+    print(row)
+cursor.close()
+conn.close()
+
+
