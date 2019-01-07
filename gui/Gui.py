@@ -41,7 +41,7 @@ def Database_Users(): #will need the complted database for this
 def AddNewRecord():
     if  selected_type.get() == "" or selected_emp.get() == "" or txtDescription.get("1.0", "end-1c") == "":  #contius for all data to be enterd
         #need to check the verable for the option boxes
-        tkMessageBox.showinfo("", "pleasa complete the reierd feld")
+        tkMessageBox.showinfo("", "please complete the record field")
         #txt.resulrs.congif(text= "pleasa complete the reierd feld", fg="red")
     else:#creats new record
         Database_Disciplinary_Action()
@@ -143,13 +143,13 @@ btn_exit.pack(side=RIGHT)
 # ==================================INITIALIZATION=====================================
 # =====================================================================================
 if __name__ == '__main__':
-    root.mainloop()
 
-Databse_Disciplinary_list()#trying to read data from list
-results = cursor.fetchall()
-for row in results:
-    print(row)
-cursor.close()
-conn.close()
+    Databse_Disciplinary_list()#trying to read data from list
+    results = cursor.fetchall()
+    for row in results:
+        print(row)
+    cursor.close()
+    conn.close()
+    root.mainloop()
 
 
