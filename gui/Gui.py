@@ -71,7 +71,12 @@ def add_widgets(root):
     global selected_type
     global disciplinary_descs
 
-    # ==================================FRAME==============================================
+
+# show the "add new disciplinary action" screen to the user. Should dissable the main frame.
+def show_add_action_screen():
+    pass
+
+# ==================================FRAME==============================================
 
 
 Top = Frame(root, width=900, height=50, bd=8, relief="raise")
@@ -121,7 +126,7 @@ labDiscribeDiscrtion.pack(side=TOP)
 labActionTaken = Label(Left,width=10,font=('arial', 12),text = "Action taken")
 labActionTaken.pack(side=TOP)
 
-btn_CreatNewEntry = Button(Left, width=10, text="Creat new entry", command=AddNewRecord)#creats new entry in table
+btn_CreatNewEntry = Button(Left, width=15, text="Create new entry", command=AddNewRecord)#creats new entry in table
 btn_CreatNewEntry.pack(side=BOTTOM)
 
 
@@ -135,21 +140,28 @@ txtDescription = Text(Right,width=550, height=200 ) ##adds a textbox on the righ
 txtDescription.pack(side=RIGHT)
 
 
-# ====================Buttons wigits====================
-btn_exit = Button(Bottom, width=10, text="Exit", command=exit_program)#should show up on bottom frame but dosnet
+# ====================Bottom frame widgits====================
+btn_exit = Button(Bottom, width=15, text="Exit", command=exit_program)#should show up on bottom frame but dosnet
 btn_exit.pack(side=RIGHT)
+btn_add_action = Button(Bottom, width=15, text="Add New Action", command=show_add_action_screen())
+btn_add_action.pack(side=LEFT)
+
+# ==================================DISCIPLINARY LIST FRAME==============================================
+
+
 
 # =====================================================================================
 # ==================================INITIALIZATION=====================================
 # =====================================================================================
-if __name__ == '__main__':
 
-    Databse_Disciplinary_list()#trying to read data from list
-    results = cursor.fetchall()
-    for row in results:
-        print(row)
-    cursor.close()
-    conn.close()
-    root.mainloop()
+#if __name__ == '__main__':
+
+Databse_Disciplinary_list()#trying to read data from list
+results = cursor.fetchall()
+for row in results:
+    print(row)
+cursor.close()
+conn.close()
+root.mainloop()
 
 
