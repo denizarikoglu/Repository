@@ -30,7 +30,8 @@ def Databse_Disciplinary_list():
     global conn, cursor
     conn = sqlite3.connect('UfixLtd.s3db')
     cursor = conn.cursor()
-    cursor.execute("CREATE TABLE IF NOT EXISTS 'Disciplinary_list' (emp id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Discipline_Name TEXT, Reson_for_Action TEXT, Action_Taken TEXT, Severity_Level INTERGER)")
+    cursor.execute("SELECT DISTINCT Discipline_Name FROM Disciplinary_list") #will get just the dispinary names from the list
+    #cursor.execute("CREATE TABLE IF NOT EXISTS 'Disciplinary_list' (emp id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Discipline_Name TEXT, Reson_for_Action TEXT, Action_Taken TEXT, Severity_Level INTERGER)")
     #conncts the list table
 
 def Database_Users(): #will need the complted database for this
@@ -110,8 +111,15 @@ drpEmployee = OptionMenu(Left, selected_emp, *employee_ids)
 drpEmployee.pack(side=TOP)
 
 selected_type = StringVar(root)
-disciplinary_types = {"Item not returned", "Late to work"}
-# drop down box
+disciplinary_types = []# drop down box
+print("data from dispnary list :")
+Databse_Disciplinary_list()#trying to read data from list
+results = cursor.fetchall()
+for row in results:
+    disciplinary_types.append(row)
+    print(row)
+cursor.close()
+conn.close()
 drpDisciplinary = OptionMenu(Left, selected_type, *disciplinary_types)
 # drpDisciplinary.grid(column=1, row=0)
 drpDisciplinary.pack(side=TOP)
@@ -156,12 +164,7 @@ btn_add_action.pack(side=LEFT)
 
 #if __name__ == '__main__':
 
-Databse_Disciplinary_list()#trying to read data from list
-results = cursor.fetchall()
-for row in results:
-    print(row)
-cursor.close()
-conn.close()
+
 root.mainloop()
 
 
