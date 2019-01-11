@@ -3,6 +3,7 @@ import sqlite3
 import tkinter.ttk as ttk
 import tkinter.messagebox as tkMessageBox
 import webbrowser
+import os
 
 
 root = Tk()
@@ -97,7 +98,8 @@ def Exit():
         exit()
 
 def callback(event):
-    webbrowser.open_new(r"Policies\Policies.pdf")
+    ##webbrowser.open_new(r"Policies\Policies.pdf")
+    os.system("policies.py")
 #==================================VARIABLES==========================================
 
 FirstName = StringVar()

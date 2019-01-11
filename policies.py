@@ -17,13 +17,54 @@ root.resizable(0, 0)
 
 #==================================METHODS============================================
 def callback(event):
-    webbrowser.open_new(r"Policies\Business_Ethics&Conduct_POLICY.pdf")
+    ##webbrowser.open_new(r"Policies\Business_Ethics&Conduct_POLICY.pdf")
+    text1 = ""
+    fichier = open("Policies\Business Ethics & Conduct POLICY.txt", "r")
+    for ligne in fichier:
+        text1 += ligne
+    fichier.close()
+    fen2 = Toplevel()
+    fen2.title("Business Ethics & Conduct POLICY")
+    text = Label(fen2, text=text1)
+    text.pack()
+    fen2.mainloop()
+
 def callback2(event):
-    webbrowser.open_new(r"Policies\Confidentiality&Non-Disclosure_POLICY.pdf")
+    ##webbrowser.open_new(r"Policies\Confidentiality&Non-Disclosure_POLICY.pdf")
+    text1 = ""
+    fichier = open("Policies\Confidentiality & Non-Disclosure POLICY.txt", "r")
+    for ligne in fichier:
+        text1 += ligne
+    fichier.close()
+    fen2 = Toplevel()
+    text = Label(fen2, text=text1)
+    text.pack()
+    fen2.mainloop()
+
 def callback3(event):
-    webbrowser.open_new(r"Policies\DISCIPLINE_AND_TERMINATION_POLICY.pdf")
+    ##webbrowser.open_new(r"Policies\DISCIPLINE_AND_TERMINATION_POLICY.pdf")
+    text1 = ""
+    fichier = open("Policies\DISCIPLINE AND TERMINATION POLICY.txt", "r")
+    for ligne in fichier:
+        text1 += ligne
+    fichier.close()
+    fen2 = Toplevel()
+    text = Label(fen2, text=text1)
+    text.pack()
+    fen2.mainloop()
+
 def callback4(event):
-    webbrowser.open_new(r"Policies\Safety_POLICY.pdf")
+    ##webbrowser.open_new(r"Policies\Safety_POLICY.pdf")
+    text1 = ""
+    fichier = open("Policies\Safety POLICY.txt", "r")
+    for ligne in fichier:
+        text1 += ligne
+    fichier.close()
+    fen2 = Toplevel()
+    text = Label(fen2, text=text1)
+    text.pack()
+    fen2.mainloop()
+
 def valide():
     if v.get() == 1:
         btn_exit.config(state=ACTIVE)
@@ -47,7 +88,6 @@ Link.pack(side=BOTTOM)
 #==================================VARIABLES==========================================
 v = IntVar()
 v.set(2)
-
 #==================================LABEL WIDGET=======================================
 txt_title = Label(Top, width=900, font=('arial', 24), text = "Policies")
 txt_title.pack()
