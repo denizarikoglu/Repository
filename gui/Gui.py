@@ -103,6 +103,7 @@ labTitleBar = Label(Top,width=900,font=('arial', 20),text = "Add new action")
 labTitleBar.pack(side=TOP)
 # ======================Left Side frame======================
 # order that thing are done here is how they will show up
+
 selected_emp = StringVar(root)  # holds the currently selected employee
 employee_ids = {"0000", "0001", "0002"}  # contains fake data
 # drop down box
