@@ -1,5 +1,7 @@
 Fork for Displinary work
 
+Location for UfixLtd.s3db is 'Repository\gui\UfixLtd.s3db
+
 "# Repository" >> README.md
 git init
 git add README.md

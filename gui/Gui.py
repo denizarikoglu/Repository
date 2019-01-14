@@ -40,16 +40,16 @@ def Database_Users(): #will need the complted database for this
     cursor = conn.cursor()
 
 def AddNewRecord():
-    if  selected_type.get() == "" or selected_emp.get() == "" or txtDescription.get("1.0", "end-1c") == "":  #contius for all data to be enterd
+    if  selected_type.get() == "" or TxtEmployeeId.get("1.0", "end-1c") == "" or txtDescription.get("1.0", "end-1c") == "":  #contius for all data to be enterd
         #need to check the verable for the option boxes
         tkMessageBox.showinfo("", "please complete the record field")
         #txt.resulrs.congif(text= "pleasa complete the reierd feld", fg="red")
     else:#creats new record
         Database_Disciplinary_Action()
-        cursor.execute("INSERT INTO 'Disciplinary_Action' (Discipline_ID, Employee_ID, Comment) VALUES(?, ?, ?)", (str(selected_type.get()), str(selected_emp.get()), str(txtDescription.get("1.0", "end-1c"))))
+        cursor.execute("INSERT INTO 'Disciplinary_Action' (Discipline_ID, Employee_ID, Comment) VALUES(?, ?, ?)", (str(selected_type.get()), str(TxtEmployeeId.get("1.0", "end-1c")), str(txtDescription.get("1.0", "end-1c"))))
         conn.commit()
         selected_type.set("")#emptys the inputboxes
-        selected_emp.set("")
+        TxtEmployeeId.insert(END,"")
         txtDescription.insert(END,"")
         cursor.close()
         conn.close()
@@ -68,7 +68,7 @@ def add_widgets(root):
 
     global employee_ids
     global disciplinary_types
-    global selected_emp
+    global TxtEmployeeId#selected_emp
     global selected_type
     global disciplinary_descs
 
@@ -104,15 +104,18 @@ labTitleBar.pack(side=TOP)
 # ======================Left Side frame======================
 # order that thing are done here is how they will show up
 
-selected_emp = StringVar(root)  # holds the currently selected employee
-employee_ids = {"0000", "0001", "0002"}  # contains fake data
+#selected_emp = StringVar(root)  # holds the currently selected employee
+#employee_ids = {"0000", "0001", "0002"}  # contains fake data
 # drop down box
-drpEmployee = OptionMenu(Left, selected_emp, *employee_ids)
+#drpEmployee = OptionMenu(Left, selected_emp, *employee_ids)
 # drpEmployee.grid(column=1, row=0)
-drpEmployee.pack(side=TOP)
-
+#drpEmployee.pack(side=TOP)
+TxtEmployeeId = Text(Left, height=1, width=10)#Textbox for user to enter users IDs
+TxtEmployeeId.pack(side=TOP)
 selected_type = StringVar(root)
-disciplinary_types = []# drop down box
+
+
+disciplinary_types = []# drop down box verables
 print("data from dispnary list :")
 Databse_Disciplinary_list()#trying to read data from list
 results = cursor.fetchall()
