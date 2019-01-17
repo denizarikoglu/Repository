@@ -18,7 +18,7 @@ root.resizable(0, 0)
 
 def Databse_Disciplinary_list():
     global conn, cursor
-    conn = sqlite3.connect('UfixLtd.s3db')
+    conn = sqlite3.connect('ufix.s3db')
     cursor = conn.cursor()
     cursor.execute("CREATE TABLE IF NOT EXISTS 'Disciplinary_list' (emp id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Discipline_Name TEXT, Reson_for_Action TEXT, Action_Taken TEXT, Severity_Level INTERGER)")
     #conncts the list table

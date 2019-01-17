@@ -21,14 +21,14 @@ root.resizable(0, 0)
 
 def Database_Disciplinary_Action():
     global conn, cursor
-    conn = sqlite3.connect('UfixLtd.s3db')
+    conn = sqlite3.connect('ufix.s3db')
     cursor = conn.cursor()
     cursor.execute("CREATE TABLE IF NOT EXISTS 'Disciplinary_Action' (emp id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Discipline_ID INTEGER, Employee_ID INTEGER, Comment TEXT)")
     #connects the displanryaction table
 
 def Databse_Disciplinary_list():
     global conn, cursor
-    conn = sqlite3.connect('UfixLtd.s3db')
+    conn = sqlite3.connect('ufix.s3db')
     cursor = conn.cursor()
     cursor.execute("SELECT DISTINCT Discipline_Name FROM Disciplinary_list") #will get just the dispinary names from the list
     #cursor.execute("CREATE TABLE IF NOT EXISTS 'Disciplinary_list' (emp id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Discipline_Name TEXT, Reson_for_Action TEXT, Action_Taken TEXT, Severity_Level INTERGER)")
@@ -36,7 +36,7 @@ def Databse_Disciplinary_list():
 
 def Database_Users(): #will need the complted database for this
     global conn, cursor
-    conn = sqlite3.connect('UfixLtd.s3db')
+    conn = sqlite3.connect('ufix.s3db')
     cursor = conn.cursor()
 
 def AddNewRecord():
