@@ -21,22 +21,22 @@ root.resizable(0, 0)
 
 def Database_Disciplinary_Action():
     global conn, cursor
-    conn = sqlite3.connect('ufix.s3db')
+    conn = sqlite3.connect('UfixLtd.s3db')
     cursor = conn.cursor()
     cursor.execute("CREATE TABLE IF NOT EXISTS 'Disciplinary_Action' (emp id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Discipline_ID INTEGER, Employee_ID INTEGER, Comment TEXT)")
     #connects the displanryaction table
 
 def Databse_Disciplinary_list():
     global conn, cursor
-    conn = sqlite3.connect('ufix.s3db')
+    conn = sqlite3.connect('UfixLtd.s3db')
     cursor = conn.cursor()
-    cursor.execute("SELECT DISTINCT Discipline_Name FROM Disciplinary_list") #will get just the dispinary names from the list
+    cursor.execute("SELECT DISTINCT Discipline_Name, Reson_for_Action FROM Disciplinary_list") #will get just the dispinary names from the list
     #cursor.execute("CREATE TABLE IF NOT EXISTS 'Disciplinary_list' (emp id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Discipline_Name TEXT, Reson_for_Action TEXT, Action_Taken TEXT, Severity_Level INTERGER)")
     #conncts the list table
 
 def Database_Users(): #will need the complted database for this
     global conn, cursor
-    conn = sqlite3.connect('ufix.s3db')
+    conn = sqlite3.connect('UfixLtd.s3db')
     cursor = conn.cursor()
 
 def AddNewRecord():
@@ -63,6 +63,8 @@ def exit_program():  # asks the user if they want to exit
         root.destroy()
         exit()
 
+def update_lables():
+    print ("hello")
 
 def add_widgets(root):
 
@@ -116,25 +118,23 @@ selected_type = StringVar(root)
 
 
 disciplinary_types = []# drop down box verables
-print("data from dispnary list :")
 Databse_Disciplinary_list()#trying to read data from list
 results = cursor.fetchall()
 for row in results:
-    disciplinary_types.append(row)
-    print(row)
+    disciplinary_types.append(row[0])
 cursor.close()
 conn.close()
-drpDisciplinary = OptionMenu(Left, selected_type, *disciplinary_types)
+drpDisciplinary = OptionMenu(Left, selected_type, *disciplinary_types, command=update_lables())
 # drpDisciplinary.grid(column=1, row=0)
 drpDisciplinary.pack(side=TOP)
 
 # label
-# might work better as a textbox
-labDiscribeDiscrtion = Label(Left,width=10,font=('arial', 12),text = "Discrtion")
+Displinary_action_text = StringVar()
+labDiscribeDiscrtion = Label(Left,width=10,font=('arial', 12),textvariable=Displinary_action_text)
 labDiscribeDiscrtion.pack(side=TOP)
+Displinary_action_text.set('Dispnary artion')
 
 # label
-# might work better as a textbox
 labActionTaken = Label(Left,width=10,font=('arial', 12),text = "Action taken")
 labActionTaken.pack(side=TOP)
 
