@@ -1,7 +1,5 @@
+import os
 from tkinter import *
-import tkinter.ttk as ttk
-import tkinter.messagebox as tkMessageBox
-import webbrowser
 
 root = Tk()
 root.title("Policy")
@@ -13,8 +11,9 @@ x = (screen_width/2) - (width/2)
 y = (screen_height/2) - (height/2)
 root.geometry('%dx%d+%d+%d' % (width, height, x, y))
 root.resizable(0, 0)
-
-
+#==================================VARIABLES==========================================
+v = IntVar()
+v.set(2)
 #==================================METHODS============================================
 def callback(event):
     ##webbrowser.open_new(r"Policies\Business_Ethics&Conduct_POLICY.pdf")
@@ -70,9 +69,12 @@ def valide():
         btn_exit.config(state=ACTIVE)
     else:
         btn_exit.config(state=DISABLED)
+
 def exit():
     root.destroy()
-
+def _destroy():
+    root.destroy()
+    os.system("policies.py")
 #==================================FRAME==============================================
 Top = Frame(root, width=900, height=50, bd=8, relief="raise")
 Top.pack(side=TOP)
@@ -85,9 +87,6 @@ Buttons.pack(side=BOTTOM)
 Link = Frame(Middle, width=100, height=50)
 Link.pack(side=BOTTOM)
 
-#==================================VARIABLES==========================================
-v = IntVar()
-v.set(2)
 #==================================LABEL WIDGET=======================================
 txt_title = Label(Top, width=900, font=('arial', 24), text = "Policies")
 txt_title.pack()
@@ -117,13 +116,14 @@ scrollbary = Scrollbar(Middle, orient=VERTICAL)
 text = Text(Middle, height=16, width=900, yscrollcommand=scrollbary.set)
 scrollbary.config(command=text.yview)
 scrollbary.pack(side=RIGHT, fill=Y)
-fichier = open("Policies\Data_Protection.txt","r")
-for ligne in fichier:
-    text.insert(END,ligne)
-fichier.close()
+file = open("Policies\Data_Protection.txt","r")
+for line in file:
+    text.insert(END, line)
+file.close()
 text.config(state=DISABLED)
 text.pack()
 
 #==================================INITIALIZATION=====================================
 if __name__ == '__main__':
+    root.protocol("WM_DELETE_WINDOW", _destroy)
     root.mainloop()

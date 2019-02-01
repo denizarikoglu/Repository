@@ -1,17 +1,15 @@
 from tkinter import *
 import sqlite3
-import tkinter.ttk as ttk
 import tkinter.messagebox as tkMessageBox
-import webbrowser
 import os
-
+from tkinter.filedialog import *
 
 root = Tk()
 root.title("OFF Boarding Page")
 screen_width = root.winfo_screenwidth()
 screen_height = root.winfo_screenheight()
-width = 900
-height = 500
+width = 600
+height = 300
 x = (screen_width/2) - (width/2)
 y = (screen_height/2) - (height/2)
 root.geometry('%dx%d+%d+%d' % (width, height, x, y))
@@ -25,29 +23,37 @@ def Database():
     cursor.execute("CREATE TABLE IF NOT EXISTS `Questionnaire` (idQuestionnaire INTEGER PRIMARY KEY  AUTOINCREMENT ,firstAnswer	VARCHAR ( 50 ),SecondAnswer	VARCHAR ( 50 ),thridAnswer	VARCHAR ( 50 ),lastAnswer	VARCHAR ( 50 ),comment	VARCHAR(500))")
 
 def Questionnaire():
-    print(3)
+    fen2 = Tk()
+    text1 = LabelFrame(fen2, text="Question 1")
+    text1.pack()
+    Label(text1, text="what you ?").pack()
+    fen2.mainloop()
 
-def Exit():
-    result = tkMessageBox.askquestion('Welcome page', 'Are you sure you want to exit?', icon="warning")
-    if result == 'yes':
-        root.destroy()
-        exit()
+def upload():
+    txt_upload.delete("0.0", END)
+    filepath = askopenfilename(title="Upload Doc", filetypes=[('pdf files', '.pdf'), ('all files', '.*')])
+    txt_upload.insert(END, filepath)
 
 def callback(event):
-    ##webbrowser.open_new(r"Policies\Policies.pdf")
     os.system("policies.py")
 
 #==================================FRAME==============================================
-Top = Frame(root, width=900, height=50, bd=8, relief="raise")
+Top = Frame(root, width=600, height=50, bd=8, relief="raise")
 Top.pack(side=TOP)
-Middle = Frame(root, width=900, height=400, bd=8, relief="raise")
+Middle = Frame(root, width=600, height=200, bd=8, relief="raise")
 Middle.pack()
-MiddleTop = Frame(Middle, width=300, height=200, bd=8, relief="raise")
+MiddleTop = Frame(Middle, width=600, height=50, bd=8, relief="raise")
 MiddleTop.pack(side=TOP)
-MiddleBottom = Frame(Middle, width=600, height=200, bd=8, relief="raise")
+MiddleBottom = Frame(Middle, width=600, height=150, bd=8, relief="raise")
 MiddleBottom.pack(side=BOTTOM)
-Bottom = Frame(root, width=300, height=50, bd=4, relief="raise")
+Bottom = Frame(root, width=600, height=50, bd=4, relief="raise")
 Bottom.pack(side=BOTTOM)
+
+#==================================BUTTONS WIDGET=====================================
+btn_questionnaire = Button(MiddleTop, width=10, text="Questionnaire", command=Questionnaire)
+btn_questionnaire.pack(side=LEFT)
+btn_upload = Button(MiddleBottom, width=10, text="upload", command=upload)
+btn_upload.pack()
 
 #==================================LABEL WIDGET=======================================
 txt_title = Label(Top, width=900, font=('arial', 24), text = "OFF Boarding Page")
@@ -55,13 +61,8 @@ txt_title.pack()
 link = Label(Bottom, width=900, text="Policies", fg="blue", cursor="hand2")
 link.bind("<Button-1>", callback)
 link.pack()
-
-#==================================BUTTONS WIDGET=====================================
-btn_questionnaire = Button(MiddleTop, width=10, text="Questionnaire", command=Questionnaire)
-btn_questionnaire.pack(side=LEFT)
-btn_exit = Button(Bottom, width=10, text="Exit", command=Exit)
-btn_exit.pack(side=RIGHT)
-
+txt_upload = Text(MiddleBottom, width=100, height=1)
+txt_upload.pack()
 #==================================INITIALIZATION=====================================
 if __name__ == '__main__':
     root.mainloop()

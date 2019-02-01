@@ -1,0 +1,12 @@
+Metadata-Version: 1.1
+Name: pip-test-jj
+Version: 0.1
+Summary: A random test pip lib
+Home-page: https://github.com/jjuhn/pip-test-jj
+Author: JJ
+Author-email: jjuhn1119@gmail.com
+License: UNKNOWN
+Download-URL: https://github.com/jjuhn/pip-test-jj/archive/master.zip
+Description: UNKNOWN
+Keywords: testing,example,pip
+Platform: UNKNOWN

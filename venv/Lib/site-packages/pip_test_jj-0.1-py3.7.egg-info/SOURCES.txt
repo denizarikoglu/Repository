@@ -1,0 +1,8 @@
+setup.cfg
+setup.py
+pip-test-jj/__init__.py
+pip-test-jj/foo.py
+pip_test_jj.egg-info/PKG-INFO
+pip_test_jj.egg-info/SOURCES.txt
+pip_test_jj.egg-info/dependency_links.txt
+pip_test_jj.egg-info/top_level.txt
