@@ -75,7 +75,8 @@ def exit_program():  # asks the user if they want to exit
         exit()
 
 def update_lables(event):
-    print ("hello")
+    print (disciplinary_discrtion[(comboDisciplinary.current())])
+    Displinary_action_text = disciplinary_discrtion[(comboDisciplinary.current())]  #todo get text chnages
 
 def add_widgets(root):
 
@@ -129,6 +130,7 @@ selected_type = StringVar(root)
 
 
 disciplinary_types = []# drop down box verables
+disciplinary_discrtion =[]#holds text about dipiary types
 Databse_Disciplinary_list()#trying to read data from list
 results = cursor.fetchall()
 Disciplinary_list = results#used to keep data read from database
@@ -136,6 +138,7 @@ cursor.close()#closes database conection
 conn.close()
 for row in Disciplinary_list:
     disciplinary_types.append(row[1])#gets just the names for displinary type
+    disciplinary_discrtion.append(row[2])
 comboDisciplinary = ttk.Combobox(Left, values=disciplinary_types )#TODO get to trgger comand when changed
 comboDisciplinary.bind("<<ComboboxSelected>>",update_lables)#creats a callback to run whenvere combo box is updataed
 comboDisciplinary.pack(side=TOP)
