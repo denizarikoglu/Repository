@@ -21,41 +21,52 @@ root.resizable(0, 0)
 
 def Database_Disciplinary_Action():
     global conn, cursor
-    conn = sqlite3.connect('UfixLtd.s3db')
+    conn = sqlite3.connect('ufix.s3db')
     cursor = conn.cursor()
     cursor.execute("CREATE TABLE IF NOT EXISTS 'Disciplinary_Action' (emp id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Discipline_ID INTEGER, Employee_ID INTEGER, Comment TEXT)")
     #connects the displanryaction table
 
 def Databse_Disciplinary_list():
     global conn, cursor
-    conn = sqlite3.connect('UfixLtd.s3db')
+    conn = sqlite3.connect('ufix.s3db')
     cursor = conn.cursor()
-    cursor.execute("SELECT DISTINCT Discipline_Name, Reson_for_Action FROM Disciplinary_list") #will get just the dispinary names from the list
+    cursor.execute("SELECT * FROM Disciplinary_list")  # will get just the dispinary names from the list
+    #cursor.execute("SELECT DISTINCT Discipline_Name, Reson_for_Action FROM Disciplinary_list") #will get just the dispinary names from the list
     #cursor.execute("CREATE TABLE IF NOT EXISTS 'Disciplinary_list' (emp id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Discipline_Name TEXT, Reson_for_Action TEXT, Action_Taken TEXT, Severity_Level INTERGER)")
     #conncts the list table
 
 def Database_Users(): #will need the complted database for this
     global conn, cursor
-    conn = sqlite3.connect('UfixLtd.s3db')
+    conn = sqlite3.connect('ufix.s3db')
     cursor = conn.cursor()
+    cursor.execute("SELECT * FROM UFIX_PIM")
 
 def AddNewRecord():
-    if  selected_type.get() == "" or TxtEmployeeId.get("1.0", "end-1c") == "" or txtDescription.get("1.0", "end-1c") == "":  #contius for all data to be enterd
+    user_ID=[]#used to hold all the user ids
+    Database_Users()
+    results = cursor.fetchall()
+    for row in results:
+        user_ID.append(row[0])
+       #print (row[0])
+    cursor.close()  # closes database conection
+    conn.close()
+    if  comboDisciplinary.get() == "" or TxtEmployeeId.get("1.0", "end-1c") =="" or txtDescription.get("1.0", "end-1c") == "":  #contius for all data to be enterd
         #need to check the verable for the option boxes
         tkMessageBox.showinfo("", "please complete the record field")
         #txt.resulrs.congif(text= "pleasa complete the reierd feld", fg="red")
-    else:#creats new record
+    elif(int(TxtEmployeeId.get("1.0", "end-1c")) in (user_ID)) :#checks weher thr user id exists
         Database_Disciplinary_Action()
-        cursor.execute("INSERT INTO 'Disciplinary_Action' (Discipline_ID, Employee_ID, Comment) VALUES(?, ?, ?)", (str(selected_type.get()), str(TxtEmployeeId.get("1.0", "end-1c")), str(txtDescription.get("1.0", "end-1c"))))
+        cursor.execute("INSERT INTO 'Disciplinary_Action' (Discipline_ID, Employee_ID, Comment) VALUES(?, ?, ?)", (str(comboDisciplinary.current()+1), str(TxtEmployeeId.get("1.0", "end-1c")), str(txtDescription.get("1.0", "end-1c"))))
         conn.commit()
-        selected_type.set("")#emptys the inputboxes
+        comboDisciplinary.set("")#emptys the inputboxes
         TxtEmployeeId.insert(END,"")
         txtDescription.insert(END,"")
         cursor.close()
         conn.close()
         tkMessageBox.showinfo("","New recored created")
        # txt.resulrs.congif(text="New recored created", fg="green")
-
+    else:
+        tkMessageBox.showinfo("", "user dose not exist")
 def exit_program():  # asks the user if they want to exit
 
     result = tkMessageBox.askquestion('HR Demo Module', 'Are you sure you want to exit?', icon="warning")
@@ -63,7 +74,7 @@ def exit_program():  # asks the user if they want to exit
         root.destroy()
         exit()
 
-def update_lables():
+def update_lables(event):
     print ("hello")
 
 def add_widgets(root):
@@ -120,13 +131,15 @@ selected_type = StringVar(root)
 disciplinary_types = []# drop down box verables
 Databse_Disciplinary_list()#trying to read data from list
 results = cursor.fetchall()
-for row in results:
-    disciplinary_types.append(row[0])
-cursor.close()
+Disciplinary_list = results#used to keep data read from database
+cursor.close()#closes database conection
 conn.close()
-drpDisciplinary = OptionMenu(Left, selected_type, *disciplinary_types, command=update_lables())
-# drpDisciplinary.grid(column=1, row=0)
-drpDisciplinary.pack(side=TOP)
+for row in Disciplinary_list:
+    disciplinary_types.append(row[1])#gets just the names for displinary type
+comboDisciplinary = ttk.Combobox(Left, values=disciplinary_types )#TODO get to trgger comand when changed
+comboDisciplinary.bind("<<ComboboxSelected>>",update_lables)#creats a callback to run whenvere combo box is updataed
+comboDisciplinary.pack(side=TOP)
+
 
 # label
 Displinary_action_text = StringVar()
