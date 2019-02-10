@@ -76,7 +76,8 @@ def exit_program():  # asks the user if they want to exit
 
 def update_lables(event):
     print (disciplinary_discrtion[(comboDisciplinary.current())])
-    Displinary_action_text = disciplinary_discrtion[(comboDisciplinary.current())]  #todo get text chnages
+    Displinary_Discrtion_text.set(disciplinary_discrtion[(comboDisciplinary.current())])
+    Displinary_Action_Taken.set(displinary_action[(comboDisciplinary.current())])
 
 def add_widgets(root):
 
@@ -131,6 +132,7 @@ selected_type = StringVar(root)
 
 disciplinary_types = []# drop down box verables
 disciplinary_discrtion =[]#holds text about dipiary types
+displinary_action=[]
 Databse_Disciplinary_list()#trying to read data from list
 results = cursor.fetchall()
 Disciplinary_list = results#used to keep data read from database
@@ -139,20 +141,23 @@ conn.close()
 for row in Disciplinary_list:
     disciplinary_types.append(row[1])#gets just the names for displinary type
     disciplinary_discrtion.append(row[2])
+    displinary_action.append(row[3])
 comboDisciplinary = ttk.Combobox(Left, values=disciplinary_types )#TODO get to trgger comand when changed
 comboDisciplinary.bind("<<ComboboxSelected>>",update_lables)#creats a callback to run whenvere combo box is updataed
 comboDisciplinary.pack(side=TOP)
 
 
 # label
-Displinary_action_text = StringVar()
-labDiscribeDiscrtion = Label(Left,width=10,font=('arial', 12),textvariable=Displinary_action_text)
+Displinary_Discrtion_text = StringVar()
+labDiscribeDiscrtion = Label(Left,font=('arial', 12),textvariable=Displinary_Discrtion_text)
 labDiscribeDiscrtion.pack(side=TOP)
-Displinary_action_text.set('Dispnary artion')
+Displinary_Discrtion_text.set('Dispnary artion')
 
 # label
-labActionTaken = Label(Left,width=10,font=('arial', 12),text = "Action taken")
+Displinary_Action_Taken = StringVar()
+labActionTaken = Label(Left,font=('arial', 12),textvariable=Displinary_Action_Taken)
 labActionTaken.pack(side=TOP)
+Displinary_Action_Taken.set("Action taken")
 
 btn_CreatNewEntry = Button(Left, width=15, text="Create new entry", command=AddNewRecord)#creats new entry in table
 btn_CreatNewEntry.pack(side=BOTTOM)
