@@ -6,6 +6,7 @@
 #
 
 from tkinter import*
+import tkinter.ttk as ttk
 import sqlite3
 import os
 # import tkinter.ttk as ttk
@@ -92,10 +93,8 @@ txtAction.pack(side=TOP)
 
 # DONE: "severity level" drop down box
 possible_severities = [1, 2, 3, 4, 5]
-selected_severity = StringVar(root)
 lblSeverity = Label(LeftMargin, text="Severity", height=1)
-drpSeverity = OptionMenu(Left, selected_severity, *possible_severities)
-drpSeverity.config(height=1, width=10)
+drpSeverity = ttk.Combobox(Left, values=possible_severities)
 lblSeverity.pack(side=TOP)
 drpSeverity.pack(side=TOP)
 
