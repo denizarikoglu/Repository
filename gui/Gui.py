@@ -7,6 +7,7 @@ from tkinter import*
 import sqlite3
 import tkinter.ttk as ttk
 import tkinter.messagebox as tkMessageBox
+import os
 
 root = Tk()
 root.title("Dispinary : Add new action")  # name for the window
@@ -90,7 +91,9 @@ def add_widgets(root):
 
 # show the "add new disciplinary action" screen to the user. Should dissable the main frame.
 def show_add_action_screen():
-    pass
+    print("DEBUG: going to next page, beep boop")
+    root.destroy()
+    os.system('python AddActionGUI.py')
 
 # ==================================FRAME==============================================
 
@@ -176,7 +179,7 @@ txtDescription.pack(side=RIGHT)
 # ====================Bottom frame widgits====================
 btn_exit = Button(Bottom, width=15, text="Exit", command=exit_program)#should show up on bottom frame but dosnet
 btn_exit.pack(side=RIGHT)
-btn_add_action = Button(Bottom, width=15, text="Add New Action", command=show_add_action_screen())
+btn_add_action = Button(Bottom, width=15, text="Add New Action", command=show_add_action_screen)
 btn_add_action.pack(side=LEFT)
 
 # ==================================DISCIPLINARY LIST FRAME==============================================
