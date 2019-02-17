@@ -116,7 +116,7 @@ scrollbary = Scrollbar(Middle, orient=VERTICAL)
 text = Text(Middle, height=16, width=900, yscrollcommand=scrollbary.set)
 scrollbary.config(command=text.yview)
 scrollbary.pack(side=RIGHT, fill=Y)
-file = open("Policies\Data_Protection.txt","r")
+file = open("Policies\Data_Protection.txt", "r")
 for line in file:
     text.insert(END, line)
 file.close()

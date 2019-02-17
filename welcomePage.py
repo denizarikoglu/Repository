@@ -1,3 +1,4 @@
+import webbrowser
 from tkinter import *
 import os
 
@@ -16,8 +17,12 @@ window.resizable(0, 0)
 
 #==================================METHODS============================================
 def callback(event):
-    os.system("policies.py")
-
+    try:
+        os.system("Page\policies.py")
+    except:
+        os.system("policies.py")
+def letter():
+    webbrowser.open_new(r"file://E:/usw20182019/CS2S567/Repository/Policies/Welcome letter.docx")
 #==================================FRAME==============================================
 Top = Frame(window, width=900, height=150)
 Top.pack(side=TOP)
@@ -42,6 +47,10 @@ Bottom.pack(side=BOTTOM)
 
 #==================================LIST WIDGET========================================
 img = PhotoImage(file="Images/UfixLogo.png")
+
+#==================================METHODS============================================
+def leave():
+    os.system("offBoarding.py")
 
 #==================================LABEL WIDGET========================================
 labelImage = Label(Top, image=img)
@@ -84,10 +93,13 @@ buttonDev = Button(Left, text="Devices", width=20, cursor="hand2")
 buttonDev.pack()
 buttonP = Button(labelService, text="PayRoll", width=20, cursor="hand2")
 buttonP.pack()
+buttonOFF = Button(labelService, text="OFF Boarding", width=20, cursor="hand2", command=leave)
+buttonOFF.pack()
 buttonL = Button(labelService, text="Leave System", width=20, cursor="hand2")
 buttonL.pack()
 
 
 #==================================INITIALIZATION=====================================
 if __name__ == '__main__':
+    letter()
     window.mainloop()

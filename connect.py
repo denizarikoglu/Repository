@@ -2,7 +2,7 @@ from tkinter import *
 import sqlite3
 import tkinter.ttk as ttk
 import tkinter.messagebox as tkMessageBox
-import webbrowser
+import hashlib
 import os
 
 
@@ -21,9 +21,9 @@ root.resizable(0, 0)
 #==================================METHODS============================================
 def Database():
     global conn, cursor
-    conn = sqlite3.connect('Ufixltd.s3db')
+    conn = sqlite3.connect("Ufixltd.s3db")
     cursor = conn.cursor()
-    cursor.execute("CREATE TABLE IF NOT EXISTS `Employee` (idEmployee INTEGER PRIMARY KEY  AUTOINCREMENT ,firstNameEmployee	VARCHAR ( 50 ),lastNameEmployee	VARCHAR ( 50 ),emailEmployee	VARCHAR ( 50 ),phoneEmployee	VARCHAR ( 20 ),idTeam	VARCHAR(50))")
+    cursor.execute("CREATE TABLE IF NOT EXISTS `Employee` (idEmployee INTEGER PRIMARY KEY  AUTOINCREMENT ,firstNameEmployee	VARCHAR ( 50 ),lastNameEmployee	VARCHAR ( 50 ),emailEmployee	VARCHAR ( 50 ),phoneEmployee	VARCHAR ( 20 ),idTeam	VARCHAR(50),log	VARCHAR(50),pass    VARCHAR(50))")
 
 
 def Create():
@@ -31,8 +31,11 @@ def Create():
         txt_result.config(text="Please complete the required field!", fg="red")
     else:
         Database()
-        cursor.execute("INSERT INTO `Employee` (firstNameEmployee, lastNameEmployee, emailEmployee, phoneEmployee, idTeam) VALUES(?, ?, ?, ?, ?)",
-                       (str(FirstName.get()), str(LastName.get()), str(Email.get()), str(Phone.get()), str(Team.get())))
+        mdp = FirstName.get()+Team.get()
+        mdp = mdp.encode()
+        mdp = hashlib.sha1(mdp).hexdigest()
+        cursor.execute("INSERT INTO `Employee` (firstNameEmployee, lastNameEmployee, emailEmployee, phoneEmployee, idTeam, log, pass) VALUES(?, ?, ?, ?, ?, ?, ?)",
+                       (str(FirstName.get()), str(LastName.get()), str(Email.get()), str(Phone.get()), str(Team.get()), str(FirstName.get())+str(LastName.get()), mdp))
         conn.commit()
         FirstName.set("")
         LastName.set("")
@@ -49,7 +52,7 @@ def Read():
     cursor.execute("SELECT * FROM `Employee`")
     fetch = cursor.fetchall()
     for data in fetch:
-        tree.insert('', 'end', values=(data[0], data[1], data[2], data[3], data[4], data[5]), tag=('click',))
+        tree.insert('', 'end', values=(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7]), tag=('click',))
     cursor.close()
     conn.close()
     txt_result.config(text="Successfully read the records from Welcome page Database", fg="green")
@@ -86,10 +89,17 @@ def Delete():
         Database()
         cursor.execute("DELETE from Employee where idEmployee = "+tree.set(tree.selection(), 'Id')+"")
         conn.commit()
+        FirstName.set("")
+        LastName.set("")
+        Email.set("")
+        Phone.set("")
+        Team.set("")
         cursor.close()
         conn.close()
         Read()
         txt_result.config(text="Successfully delete the records from Welcome page Database", fg="green")
+
+
 
 def Exit():
     result = tkMessageBox.askquestion('Welcome page', 'Are you sure you want to exit?', icon="warning")
@@ -98,7 +108,6 @@ def Exit():
         exit()
 
 def callback(event):
-    ##webbrowser.open_new(r"Policies\Policies.pdf")
     os.system("policies.py")
 #==================================VARIABLES==========================================
 
