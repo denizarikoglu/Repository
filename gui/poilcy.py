@@ -37,9 +37,8 @@ txtpoilcy = Text(Middel,width=550, height=200, ) ##adds a textbox on the right f
 txtpoilcy.pack(side=TOP)
 
 poilcy_file = open("poilcy.txt","r")
-
 txtpoilcy.insert('1.0', poilcy_file.read())
-
 poilcy_file.close()
+txtpoilcy.config(state=DISABLED)
 
 root.mainloop()
