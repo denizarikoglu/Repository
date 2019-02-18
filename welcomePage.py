@@ -17,12 +17,13 @@ window.resizable(0, 0)
 
 #==================================METHODS============================================
 def callback(event):
-    try:
-        os.system("Page\policies.py")
-    except:
-        os.system("policies.py")
-def letter():
-    webbrowser.open_new(r"file://E:/usw20182019/CS2S567/Repository/Policies/Welcome letter.docx")
+    os.system("policies.py")
+
+def leave():
+    os.system("offBoarding.py")
+
+def callback(event):
+    os.system("policies.py")
 #==================================FRAME==============================================
 Top = Frame(window, width=900, height=150)
 Top.pack(side=TOP)
@@ -47,10 +48,6 @@ Bottom.pack(side=BOTTOM)
 
 #==================================LIST WIDGET========================================
 img = PhotoImage(file="Images/UfixLogo.png")
-
-#==================================METHODS============================================
-def leave():
-    os.system("offBoarding.py")
 
 #==================================LABEL WIDGET========================================
 labelImage = Label(Top, image=img)
@@ -101,5 +98,4 @@ buttonL.pack()
 
 #==================================INITIALIZATION=====================================
 if __name__ == '__main__':
-    letter()
-    window.mainloop()
+    mainloop()

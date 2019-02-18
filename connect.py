@@ -23,7 +23,7 @@ def Database():
     global conn, cursor
     conn = sqlite3.connect("Ufixltd.s3db")
     cursor = conn.cursor()
-    cursor.execute("CREATE TABLE IF NOT EXISTS `Employee` (idEmployee INTEGER PRIMARY KEY  AUTOINCREMENT ,firstNameEmployee	VARCHAR ( 50 ),lastNameEmployee	VARCHAR ( 50 ),emailEmployee	VARCHAR ( 50 ),phoneEmployee	VARCHAR ( 20 ),idTeam	VARCHAR(50),log	VARCHAR(50),pass    VARCHAR(50))")
+    cursor.execute("CREATE TABLE IF NOT EXISTS `Employee` (idEmployee INTEGER PRIMARY KEY  AUTOINCREMENT ,firstNameEmployee	VARCHAR ( 50 ),lastNameEmployee	VARCHAR ( 50 ),emailEmployee	VARCHAR ( 50 ),phoneEmployee	VARCHAR ( 20 ),idTeam	VARCHAR(50),log	VARCHAR(50),pass    VARCHAR(50),connect     INTEGER)")
 
 
 def Create():
@@ -34,7 +34,7 @@ def Create():
         mdp = FirstName.get()+Team.get()
         mdp = mdp.encode()
         mdp = hashlib.sha1(mdp).hexdigest()
-        cursor.execute("INSERT INTO `Employee` (firstNameEmployee, lastNameEmployee, emailEmployee, phoneEmployee, idTeam, log, pass) VALUES(?, ?, ?, ?, ?, ?, ?)",
+        cursor.execute("INSERT INTO `Employee` (firstNameEmployee, lastNameEmployee, emailEmployee, phoneEmployee, idTeam, log, pass,connect) VALUES(?, ?, ?, ?, ?, ?, ?,0)",
                        (str(FirstName.get()), str(LastName.get()), str(Email.get()), str(Phone.get()), str(Team.get()), str(FirstName.get())+str(LastName.get()), mdp))
         conn.commit()
         FirstName.set("")

@@ -1,4 +1,5 @@
 import sqlite3
+import webbrowser
 from tkinter import *
 import os
 import hashlib
@@ -14,45 +15,69 @@ x = (screen_width / 2) - (width / 2)
 y = (screen_height / 2) - (height / 2)
 window.geometry('%dx%d+%d+%d' % (width, height, x, y))
 window.resizable(0, 0)
+
+
 Ilog = StringVar()
 Ipass = StringVar()
-Forms = Frame(window, width=200, height=200)
+var = StringVar()
+
+
+Forms = Frame(window, width=200, height=150)
 Forms.pack(side=TOP)
+Message = Frame(window, width=200, height=50)
+Message.pack()
+
+
 txt_ilog = Label(Forms, text="Log:", font=('arial', 16), bd=15)
 txt_ilog.grid(row=0, stick="e")
 txt_ipass = Label(Forms, text="Password:", font=('arial', 16), bd=15)
 txt_ipass.grid(row=1, stick="e")
+ErrorLabel = Label(Message, textvariable=var)
+ErrorLabel.pack()
+
+
 ilog = Entry(Forms, textvariable=Ilog, width=30)
 ilog.grid(row=0, column=1)
-ipass = Entry(Forms, textvariable=Ipass, width=30)
+ipass = Entry(Forms, show="*", textvariable=Ipass, width=30)
 ipass.grid(row=1, column=1)
 
 def Database():
     global conn, cursor
     conn = sqlite3.connect("Ufixltd.s3db")
     cursor = conn.cursor()
-    cursor.execute("CREATE TABLE IF NOT EXISTS `Employee` (idEmployee INTEGER PRIMARY KEY  AUTOINCREMENT ,firstNameEmployee	VARCHAR ( 50 ),lastNameEmployee	VARCHAR ( 50 ),emailEmployee	VARCHAR ( 50 ),phoneEmployee	VARCHAR ( 20 ),idTeam	VARCHAR(50),log	VARCHAR(50),pass    VARCHAR(50))")
+    cursor.execute("CREATE TABLE IF NOT EXISTS `Employee` (idEmployee INTEGER PRIMARY KEY  AUTOINCREMENT ,firstNameEmployee	VARCHAR ( 50 ),lastNameEmployee	VARCHAR ( 50 ),emailEmployee	VARCHAR ( 50 ),phoneEmployee	VARCHAR ( 20 ),idTeam	VARCHAR(50),log	VARCHAR(50),pass    VARCHAR(50),connect    INTEGER)")
 
 def conc():
     Database()
     cursor.execute("select pass From `Employee` WHERE  log = '" + Ilog.get() + "'")
     fetch = cursor.fetchone()
     if not fetch:
-        print("not log")
+        var.set("not log")
     else:
         fetch = fetch[0]
         mdp = Ipass.get()
         mdp = mdp.encode()
         if fetch == hashlib.sha1(mdp).hexdigest():
+            cursor.execute("select connect From `Employee` WHERE  log = '" + Ilog.get() + "'")
+            connect = cursor.fetchone()
+            connect = connect[0]
+            if connect == 0:
+                letter()
+            cursor.execute("UPDATE `Employee` set connect = connect+1 WHERE  log = '" + Ilog.get() + "'")
+            conn.commit()
             window.destroy()
+            os.system("policies.py")
             os.system("welcomePage.py")
         else:
-            print("wrong pass")
-
+            var.set("wrong pass")
+    conn.commit()
     Ipass.set("")
     Ilog.set("")
-    cursor.close()
     conn.close()
+def letter():
+    webbrowser.open_new(r"Policies\Welcome letter.pdf")
+
+
 
 button = Button(window, text="conn", width=20,command=conc)
 button.pack()

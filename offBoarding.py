@@ -26,7 +26,7 @@ def Questionnaire():
     fen2 = Tk()
     text1 = LabelFrame(fen2, text="Question 1")
     text1.pack()
-    Label(text1, text="what you ?").pack()
+    Label(text1, text="What circumstances prompted you to start looking for another job? \n Under what circumstances, if any, would you consider returning to the company?").pack()
     fen2.mainloop()
 
 def upload():
@@ -36,10 +36,7 @@ def upload():
     txt_upload.insert(END, name)
 
 def callback(event):
-    try:
-        os.system("Page\policies.py")
-    except ValueError:
-        os.system("policies.py")
+    os.system("policies.py")
 
 #==================================FRAME==============================================
 Top = Frame(root, width=600, height=50, bd=8, relief="raise")
