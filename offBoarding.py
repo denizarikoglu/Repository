@@ -86,13 +86,6 @@ def upload():
 def callback(event):
     os.system("policies.py")
 #==================================VARIABLES==========================================
-Q1 = StringVar()
-Q2 = StringVar()
-Q3 = StringVar()
-Q4 = StringVar()
-Q5 = StringVar()
-Q6 = StringVar()
-Q7 = StringVar()
 
 #==================================FRAME==============================================
 Top = Frame(root, width=600, height=50, bd=8, relief="raise")
