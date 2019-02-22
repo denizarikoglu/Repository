@@ -1,5 +1,7 @@
 import os
+import webbrowser
 from tkinter import *
+
 
 root = Tk()
 root.title("Policy")
@@ -64,6 +66,9 @@ def callback4(event):
     text.pack()
     fen2.mainloop()
 
+def policie(event):
+    webbrowser.open_new(r"E:\\usw20182019\CS2S567\Repository\Policies\Policies.pdf")
+
 def valide():
     if v.get() == 1:
         btn_exit.config(state=ACTIVE)
@@ -82,7 +87,7 @@ Middle = Frame(root, width=900, height=400, bd=8, relief="raise")
 Middle.pack()
 Bottom = Frame(root, width=900, height=50, bd=8, relief="raise")
 Bottom.pack(side=BOTTOM)
-Buttons = Frame(Middle, width=900, height=50, bd=8, relief="raise")
+Buttons = Frame(Middle, width=900, height=45, bd=8, relief="raise")
 Buttons.pack(side=BOTTOM)
 Link = Frame(Middle, width=100, height=50)
 Link.pack(side=BOTTOM)
@@ -102,6 +107,9 @@ link3.pack()
 link4 = Label(Link, width=100, text="Safety", fg="blue", cursor="hand2")
 link4.bind("<Button-1>", callback4)
 link4.pack()
+link5 = Label(Link, width=100, text="Policies Pdf", fg="blue", cursor="hand2")
+link5.bind("<Button-1>", policie)
+link5.pack()
 
 #==================================BUTTONS WIDGET=====================================
 btn_agree = Radiobutton(Buttons, width=70, text="I agree", variable=v, value=1, command=valide)
@@ -113,7 +121,7 @@ btn_exit.pack(side=RIGHT)
 
 #==================================LIST WIDGET========================================
 scrollbary = Scrollbar(Middle, orient=VERTICAL)
-text = Text(Middle, height=16, width=900, yscrollcommand=scrollbary.set)
+text = Text(Middle, height=15, width=900, yscrollcommand=scrollbary.set)
 scrollbary.config(command=text.yview)
 scrollbary.pack(side=RIGHT, fill=Y)
 file = open("Policies\Data_Protection.txt", "r")

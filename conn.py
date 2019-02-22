@@ -16,18 +16,18 @@ y = (screen_height / 2) - (height / 2)
 window.geometry('%dx%d+%d+%d' % (width, height, x, y))
 window.resizable(0, 0)
 
-
+#==================================VARIABLES==========================================
 Ilog = StringVar()
 Ipass = StringVar()
 var = StringVar()
 
-
+#==================================FRAME==============================================
 Forms = Frame(window, width=200, height=150)
 Forms.pack(side=TOP)
 Message = Frame(window, width=200, height=50)
 Message.pack()
 
-
+#==================================LABEL WIDGET========================================
 txt_ilog = Label(Forms, text="Log:", font=('arial', 16), bd=15)
 txt_ilog.grid(row=0, stick="e")
 txt_ipass = Label(Forms, text="Password:", font=('arial', 16), bd=15)
@@ -35,7 +35,7 @@ txt_ipass.grid(row=1, stick="e")
 ErrorLabel = Label(Message, textvariable=var)
 ErrorLabel.pack()
 
-
+#==================================ENTRY WIDGET=======================================
 ilog = Entry(Forms, textvariable=Ilog, width=30)
 ilog.grid(row=0, column=1)
 ipass = Entry(Forms, show="*", textvariable=Ipass, width=30)
@@ -78,7 +78,7 @@ def letter():
     webbrowser.open_new(r"Policies\Welcome letter.pdf")
 
 
-
+#==================================BUTTONS WIDGET=====================================
 button = Button(window, text="conn", width=20,command=conc)
 button.pack()
 #==================================INITIALIZATION=====================================

@@ -24,10 +24,58 @@ def Database():
 
 def Questionnaire():
     fen2 = Tk()
-    text1 = LabelFrame(fen2, text="Question 1")
+    fen2.title("Questionnaire")
+    label1 = LabelFrame(fen2, text="Question 1")
+    label1.pack()
+    Label(label1, text="What circumstances prompted you to start looking for another job? \n Under what circumstances, if any, would you consider returning to the company?\n").pack()
+    text1 = Text(label1, height=2, width=50)
     text1.pack()
-    Label(text1, text="What circumstances prompted you to start looking for another job? \n Under what circumstances, if any, would you consider returning to the company?").pack()
+    label2 = LabelFrame(fen2, text="Question 2")
+    label2.pack()
+    Label(label2, text="Were there any company policies you found difficult to understand? \n How can the firm make them clearer?").pack()
+    text2 = Text(label2, width=50, height=2)
+    text2.pack()
+    label3 = LabelFrame(fen2, text="Question 3")
+    label3.pack()
+    Label(label3, text="Do you feel you had the necessary training to be successful in your role? \n If not, how could it have been better?").pack()
+    text3 = Text(label3, width=50, height=2)
+    text3.pack()
+    label4 = LabelFrame(fen2, text="Question 4")
+    label4.pack()
+    Label(label4, text="Do you think management adequately recognised employee contributions?\n If not, how do you think recognition could be improved?").pack()
+    text4 = Text(label4, width=50, height=2)
+    text4.pack()
+    label5 = LabelFrame(fen2, text="Question 5")
+    label5.pack()
+    Label(label5, text="Did you feel you had the tools, resources and working conditions to be successful in your role? \n If not, which areas could be improved and how?").pack()
+    text5 = Text(label5, width=50, height=2)
+    text5.pack()
+    label6 = LabelFrame(fen2, text="Question 6")
+    label6.pack()
+    Label(label6, text="What can the organisation improve on? \n Do you have any suggestions for improving employee morale?").pack()
+    text6 = Text(label6, width=50, height=2)
+    text6.pack()
+    label7 = LabelFrame(fen2, text="Question 7")
+    label7.pack()
+    Label(label7, text="Is there anything else you’d like to add?").pack()
+    text7 = Text(label7, width=50, height=2)
+    text7.pack()
+    Button(fen2, text="Valide", width=100, fg="red", command=fen2.quit).pack()
     fen2.mainloop()
+    Database()
+    cursor.execute(
+        "INSERT INTO `Questionnaire` (question1, question2, question3, question4, question5, question6, question7) VALUES(?, ?, ?, ?, ?, ?, ?)",
+        (text1.get("1.0", END), text2.get("1.0", END), text3.get("1.0", END), text4.get("1.0", END), text5.get("1.0", END), text6.get("1.0", END), text7.get("1.0", END)))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+def Database():
+    global conn, cursor
+    conn = sqlite3.connect("Ufixltd.s3db")
+    cursor = conn.cursor()
+    cursor.execute( "CREATE TABLE IF NOT EXISTS `Questionnaire` (idQuestionnaire INTEGER PRIMARY KEY  AUTOINCREMENT ,question1	VARCHAR ( 500 ),question2	VARCHAR ( 500 ),question3	VARCHAR ( 500 ),question4	VARCHAR ( 500 ),question5	VARCHAR(500),question6	VARCHAR(500),question7    VARCHAR(500))")
+
 
 def upload():
     txt_upload.delete("0.0", END)
@@ -37,6 +85,14 @@ def upload():
 
 def callback(event):
     os.system("policies.py")
+#==================================VARIABLES==========================================
+Q1 = StringVar()
+Q2 = StringVar()
+Q3 = StringVar()
+Q4 = StringVar()
+Q5 = StringVar()
+Q6 = StringVar()
+Q7 = StringVar()
 
 #==================================FRAME==============================================
 Top = Frame(root, width=600, height=50, bd=8, relief="raise")
