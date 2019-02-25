@@ -29,7 +29,7 @@ root.resizable(0, 0)
 # from the "GUI.py" script, written by Joshua
 def Databse_Disciplinary_list():
     global conn, cursor
-    conn = sqlite3.connect('UfixLtd.s3db')
+    conn = sqlite3.connect('ufix.s3db')
     cursor = conn.cursor()
     cursor.execute("CREATE TABLE IF NOT EXISTS 'Disciplinary_list' (emp id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Discipline_Name TEXT, Reson_for_Action TEXT, Action_Taken TEXT, Severity_Level INTERGER)")
     # connects the list table
@@ -44,7 +44,11 @@ def Back_Page():
 
 # TODO: function must take all of the inputs of the text boxes and submit to the master database
 def Submit():
-    print("DEBUG: submitting changes, beep boop")
+    Databse_Disciplinary_list()
+    cursor.execute("INSERT INTO 'Disciplinary_list' (Discipline_Name, Reson_for_Action, Action_Taken, Severity_Level) VALUES(?, ?, ?, ?)", (
+        str(txtDisciplineName.get("1.0", "end-1c")), str(txtDisciplineDesc.get("1.0", "end-1c")),
+        str(txtAction.get("1.0", "end-1c")), int(drpSeverity.get())))
+    conn.commit()
 
 
 # TODO: function must show a dialogue allowing the user to select a pre-existing action to load
