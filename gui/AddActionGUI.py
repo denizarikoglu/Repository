@@ -10,7 +10,7 @@ import tkinter.ttk as ttk
 import sqlite3
 import os
 # import tkinter.ttk as ttk
-# import tkinter.messagebox as tkMessageBox
+import tkinter.messagebox as tkMessageBox
 
 # from Gui import Databse_Disciplinary_list
 
@@ -37,18 +37,74 @@ def Databse_Disciplinary_list():
 
 # close the current window and show the main disciplinary GUI
 def Back_Page():
-    print("DEBUG: going to main page, beep boop")
     root.destroy()
     os.system('python Gui.py')
 
 
+# check whether all fields have been edited and hold valid values.
+def Validate_Form():
+    if txtDisciplineName.get("1.0", "end-1c") == "":
+        txtDisciplineName.focus()
+        return False
+    elif txtDisciplineDesc.get("1.0", "end-1c") == "":
+        txtDisciplineDesc.focus()
+        return False
+    elif txtAction.get("1.0", "end-1c") == "":
+        txtAction.focus()
+        return False
+    elif drpSeverity.current() == -1:
+        drpSeverity.focus()
+        return False
+    return True
+
+
+def Check_For_Overwrite():
+    Databse_Disciplinary_list()
+    cursor.execute("SELECT Discipline_Name FROM Disciplinary_list")
+    results = cursor.fetchall()
+    for name in results:
+        if txtDisciplineName.get("1.0", "end-1c") == name[0]:
+            conn.close()
+            return True
+    conn.close()
+    return False
+
+
+def Delete_Entry(entryName):
+    Databse_Disciplinary_list()
+    try:
+        cursor.execute("DELETE FROM Disciplinary_list WHERE Discipline_Name = '{}'".format(entryName))
+    except:
+        pass
+    conn.commit()
+    conn.close()
+
+
 # TODO: function must take all of the inputs of the text boxes and submit to the master database
 def Submit():
-    Databse_Disciplinary_list()
-    cursor.execute("INSERT INTO 'Disciplinary_list' (Discipline_Name, Reson_for_Action, Action_Taken, Severity_Level) VALUES(?, ?, ?, ?)", (
-        str(txtDisciplineName.get("1.0", "end-1c")), str(txtDisciplineDesc.get("1.0", "end-1c")),
-        str(txtAction.get("1.0", "end-1c")), int(drpSeverity.get())))
-    conn.commit()
+    if not Validate_Form():
+        tkMessageBox.showerror("Form Error", "invalid form - please review and try again")
+        return
+    else:
+        if Check_For_Overwrite():
+            is_okay = tkMessageBox.askokcancel("Overwrite Item", "an action with the same name already exists - would you like to overwrite this entry?")
+            if not is_okay:
+                return
+            else:
+                Databse_Disciplinary_list()
+                cursor.execute(
+                    "UPDATE Disciplinary_list SET Reson_for_Action='{0}', Action_Taken='{1}', Severity_Level='{2}' WHERE Discipline_Name='{3}';".format(
+                        str(txtDisciplineDesc.get("1.0", "end-1c")), str(txtAction.get("1.0", "end-1c")),
+                        int(drpSeverity.get()), str(txtDisciplineName.get("1.0", "end-1c"))))
+                conn.commit()
+                conn.close()
+        else:
+            Databse_Disciplinary_list()
+            cursor.execute("INSERT INTO 'Disciplinary_list' (Discipline_Name, Reson_for_Action, Action_Taken, Severity_Level) VALUES(?, ?, ?, ?)", (
+                str(txtDisciplineName.get("1.0", "end-1c")), str(txtDisciplineDesc.get("1.0", "end-1c")),
+                str(txtAction.get("1.0", "end-1c")), int(drpSeverity.get())))
+            conn.commit()
+            conn.close()
 
 
 # TODO: function must show a dialogue allowing the user to select a pre-existing action to load
