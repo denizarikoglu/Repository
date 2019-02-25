@@ -91,10 +91,11 @@ def add_widgets(root):
 
 # show the "add new disciplinary action" screen to the user. Should dissable the main frame.
 def show_add_action_screen():
-    print("DEBUG: going to next page, beep boop")
     root.destroy()
     os.system('python AddActionGUI.py')
 
+def show_policy():
+    os.system('poilcy.py')
 # ==================================FRAME==============================================
 
 
@@ -181,6 +182,9 @@ btn_exit = Button(Bottom, width=15, text="Exit", command=exit_program)#should sh
 btn_exit.pack(side=RIGHT)
 btn_add_action = Button(Bottom, width=15, text="Add New Action", command=show_add_action_screen)
 btn_add_action.pack(side=LEFT)
+
+btn_show_policy = Button(Bottom, width=15, text="Show policy", command=show_policy)
+btn_show_policy.pack(side=LEFT)
 
 # ==================================DISCIPLINARY LIST FRAME==============================================
 

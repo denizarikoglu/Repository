@@ -17,9 +17,6 @@ root.resizable(0, 0)
 
 
 def exit_program():  # asks the user if they want to exit
-
-    result = tkMessageBox.askquestion('HR Demo Module', 'Are you sure you want to exit?', icon="warning")
-    if result == 'yes':
         root.destroy()
         exit()
 
