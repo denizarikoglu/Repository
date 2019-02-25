@@ -3,6 +3,7 @@ import sqlite3
 import tkinter.ttk as ttk
 import tkinter.messagebox as tkMessageBox
 import os
+import unittest
 
 root = Tk()
 root.title("Dispinary : Add new action")  # name for the window
