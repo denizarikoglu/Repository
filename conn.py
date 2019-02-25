@@ -1,8 +1,10 @@
+import json
 import sqlite3
 import webbrowser
 from tkinter import *
 import os
 import hashlib
+
 
 window = Tk()
 window.title("Connection to UFIX")
@@ -32,7 +34,7 @@ txt_ilog = Label(Forms, text="Log:", font=('arial', 16), bd=15)
 txt_ilog.grid(row=0, stick="e")
 txt_ipass = Label(Forms, text="Password:", font=('arial', 16), bd=15)
 txt_ipass.grid(row=1, stick="e")
-ErrorLabel = Label(Message, textvariable=var)
+ErrorLabel = Label(Message, textvariable=var, fg="red")
 ErrorLabel.pack()
 
 #==================================ENTRY WIDGET=======================================
@@ -52,7 +54,7 @@ def conc():
     cursor.execute("select pass From `Employee` WHERE  log = '" + Ilog.get() + "'")
     fetch = cursor.fetchone()
     if not fetch:
-        var.set("not log")
+        var.set("Not LOG")
     else:
         fetch = fetch[0]
         mdp = Ipass.get()
@@ -65,11 +67,14 @@ def conc():
                 letter()
             cursor.execute("UPDATE `Employee` set connect = connect+1 WHERE  log = '" + Ilog.get() + "'")
             conn.commit()
+            data = {"user": Ilog.get()}
+            with open("data_file.json", "w") as write_file:
+                json.dump(data, write_file)
             window.destroy()
             os.system("policies.py")
             os.system("welcomePage.py")
         else:
-            var.set("wrong pass")
+            var.set("WRONG PASSWORD")
     conn.commit()
     Ipass.set("")
     Ilog.set("")

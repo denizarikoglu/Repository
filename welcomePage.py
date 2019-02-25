@@ -21,6 +21,8 @@ def callback(event):
 
 def leave():
     os.system("offBoarding.py")
+def timetable():
+    os.system("timetable.py")
 
 def callback(event):
     os.system("policies.py")
@@ -82,7 +84,7 @@ linkEvent.pack()
 
 buttonPD = Button(Left, text="Personal details", width=20, cursor="hand2")
 buttonPD.pack()
-buttonTT = Button(Left, text="Timetable", width=20, cursor="hand2")
+buttonTT = Button(Left, text="Timetable", width=20, cursor="hand2", command=timetable)
 buttonTT.pack()
 buttonWT = Button(Left, text="Work Team", width=20, cursor="hand2")
 buttonWT.pack()
