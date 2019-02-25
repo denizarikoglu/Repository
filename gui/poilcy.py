@@ -30,8 +30,13 @@ Middel.pack(side=TOP)
 btn_exit = Button(Bottom, width=15, text="Exit", command=exit_program)#should show up on bottom frame but dosnet
 btn_exit.pack(side=BOTTOM)
 
-txtpoilcy = Text(Middel,width=550, height=200, ) ##adds a textbox on the right frame. dose not seam to care aboyt hight
+scrollbar = Scrollbar(Middel)
+scrollbar.pack(side=RIGHT, fill=Y)
+
+txtpoilcy = Text(Middel, yscrollcommand=scrollbar.set, width=550, height=200) ##adds a textbox on the right frame. dose not seam to care aboyt hight
 txtpoilcy.pack(side=TOP)
+
+scrollbar.config(command=txtpoilcy.yview)
 
 poilcy_file = open("poilcy.txt","r")
 txtpoilcy.insert('1.0', poilcy_file.read())

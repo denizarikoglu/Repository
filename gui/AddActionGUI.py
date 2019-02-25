@@ -35,7 +35,7 @@ def Databse_Disciplinary_list():
     # connects the list table
 
 
-# TODO: function must close the current window and show the main disciplinary GUI
+# close the current window and show the main disciplinary GUI
 def Back_Page():
     print("DEBUG: going to main page, beep boop")
     root.destroy()
