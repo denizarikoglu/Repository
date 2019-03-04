@@ -26,7 +26,31 @@ def Database():
     cursor = conn.cursor()
     cursor.execute("CREATE TABLE IF NOT EXISTS `TimeTable` (day VARCHAR ( 20 ) PRIMARY KEY,idTeam	INTEGER,hourStart	NUMERIC,hourFinish   NUMERIC)")
 
-
+def TimeTable():
+    Database()
+    with open("data_file.json", "r") as read_file:
+        data = json.load(read_file)
+        id = data["user"]
+    cursor.execute(
+        "SELECT * FROM `TimeTable` where idTeam = (SELECT idTeam FROM Employee where idEmployee ='" + id + "' )")
+    fetch = cursor.fetchall()
+    for data in fetch:
+        start = data[2] - 5
+        temp = data[3] - 5
+        if data[0] == "Monday":
+            colonne = 2
+        if data[0] == "Thuesday":
+            colonne = 3
+        if data[0] == "Wenesday":
+            colonne = 4
+        if data[0] == "Thursday":
+            colonne = 5
+        if data[0] == "Friday":
+            colonne = 6
+        for line in range(start, temp):
+            Label(root, bg="red", borderwidth=1, width=5).grid(row=line, column=colonne)
+    cursor.close()
+    conn.close()
 
 #==================================FRAME==============================================
 
@@ -56,32 +80,11 @@ Label(root, text='17:00', borderwidth=1).grid(row=12, column=1)
 Label(root, text='18:00', borderwidth=1).grid(row=13, column=1)
 Label(root, text='19:00', borderwidth=1).grid(row=14, column=1)
 Label(root, text='20:00', borderwidth=1).grid(row=15, column=1)
-Database()
-with open("data_file.json", "r") as read_file:
-    data = json.load(read_file)
-    id = data["user"]
-cursor.execute("SELECT * FROM `TimeTable` where idTeam = (SELECT idTeam FROM Employee where log ='" + id + "' )")
-fetch = cursor.fetchall()
-for data in fetch:
-    start = data[2] - 5
-    temp = data[3] - 5
-    if data[0] == "Monday":
-        colonne = 2
-    if data[0] == "Thuesday":
-        colonne = 3
-    if data[0] == "Wenesday":
-        colonne = 4
-    if data[0] == "Thursday":
-        colonne = 5
-    if data[0] == "Friday":
-        colonne = 6
-    for line in range(start, temp):
-        Label(root, bg="red", borderwidth=1, width=5).grid(row=line, column=colonne)
-cursor.close()
-conn.close()
 
 #==================================LIST WIDGET========================================
 
 #==================================INITIALIZATION=====================================
 if __name__ == '__main__':
+    TimeTable()
     root.mainloop()
+

@@ -1,3 +1,5 @@
+import json
+import sqlite3
 import webbrowser
 from tkinter import *
 import os
@@ -18,11 +20,17 @@ window.resizable(0, 0)
 #==================================METHODS============================================
 def callback(event):
     os.system("policies.py")
-
+def Database():
+    global conn, cursor
+    conn = sqlite3.connect("Ufixltd.s3db")
+    cursor = conn.cursor()
+    cursor.execute("CREATE TABLE IF NOT EXISTS `Employee` (idEmployee INTEGER PRIMARY KEY  AUTOINCREMENT ,firstNameEmployee	VARCHAR ( 50 ),lastNameEmployee	VARCHAR ( 50 ),emailEmployee	VARCHAR ( 50 ),phoneEmployee	VARCHAR ( 20 ),idTeam	VARCHAR(50),log	VARCHAR(50),pass    VARCHAR(50),connect     INTEGER)")
 def leave():
     os.system("offBoarding.py")
 def timetable():
     os.system("timetable.py")
+def Admin():
+    os.system("connect.py")
 def map():
     fen2 = Toplevel()
     fen2.title("Map")
@@ -32,6 +40,17 @@ def map():
     fen2.mainloop()
 def callback(event):
     os.system("policies.py")
+def Team():
+    Database()
+    with open("data_file.json", "r") as read_file:
+        data = json.load(read_file)
+        id = data["user"]
+        cursor.execute("SELECT teamName FROM `Team` where idTeam = (SELECT idTeam FROM Employee where idEmployee ='" + id + "' )")
+    fetch = cursor.fetchone()
+    if fetch[0] == "Admin":
+        buttonAdmin = Button(labelService, text="Admin", width=20, cursor="hand2", command=Admin)
+        buttonAdmin.pack()
+
 #==================================FRAME==============================================
 Top = Frame(window, width=900, height=150)
 Top.pack(side=TOP)
@@ -84,10 +103,6 @@ linkEvent = Label(labelEvent, text="Event", fg="blue", cursor="hand2")
 linkEvent.pack()
 
 #==================================BUTTONS WIDGET=====================================
-# Exit button
-#buttonClose = Button(Bottom, text="Close", width=100, fg="red", cursor="hand2", command=window.quit)
-#buttonClose.pack()
-
 buttonPD = Button(Left, text="Personal details", width=20, cursor="hand2")
 buttonPD.pack()
 buttonTT = Button(Left, text="Timetable", width=20, cursor="hand2", command=timetable)
@@ -110,4 +125,7 @@ buttonL.pack()
 
 #==================================INITIALIZATION=====================================
 if __name__ == '__main__':
+    Team()
     mainloop()
+
+

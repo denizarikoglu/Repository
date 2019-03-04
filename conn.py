@@ -21,6 +21,7 @@ window.resizable(0, 0)
 #==================================VARIABLES==========================================
 Ilog = StringVar()
 Ipass = StringVar()
+idEm = StringVar()
 var = StringVar()
 
 #==================================FRAME==============================================
@@ -60,14 +61,17 @@ def conc():
         mdp = Ipass.get()
         mdp = mdp.encode()
         if fetch == hashlib.sha1(mdp).hexdigest():
-            cursor.execute("select connect From `Employee` WHERE  log = '" + Ilog.get() + "'")
+            cursor.execute("select idEmployee From `Employee` WHERE  log = '" + Ilog.get() + "'")
+            id = cursor.fetchone()
+            idEm.set(id[0])
+            cursor.execute("select connect From `Employee` WHERE  idEmployee = '" + idEm.get() + "'")
             connect = cursor.fetchone()
             connect = connect[0]
             if connect == 0:
                 letter()
-            cursor.execute("UPDATE `Employee` set connect = connect+1 WHERE  log = '" + Ilog.get() + "'")
+            cursor.execute("UPDATE `Employee` set connect = connect+1 WHERE  idEmployee = '" + idEm.get() + "'")
             conn.commit()
-            data = {"user": Ilog.get()}
+            data = {"user": idEm.get()}
             with open("data_file.json", "w") as write_file:
                 json.dump(data, write_file)
             window.destroy()
