@@ -37,7 +37,6 @@ def Database():
 
 
 #==================================BUTTONS WIDGET=====================================
-Label(root, text='Hour', borderwidth=1).grid(row=1, column=1)
 Label(root, text='Monday', borderwidth=1).grid(row=1, column=2)
 Label(root, text='Thuesday', borderwidth=1).grid(row=1, column=3)
 Label(root, text='Wenesday', borderwidth=1).grid(row=1, column=4)

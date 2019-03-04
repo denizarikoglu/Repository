@@ -23,7 +23,13 @@ def leave():
     os.system("offBoarding.py")
 def timetable():
     os.system("timetable.py")
-
+def map():
+    fen2 = Toplevel()
+    fen2.title("Map")
+    img = PhotoImage(file="Images/map.png")
+    Image = Label(fen2, image=img)
+    Image.pack()
+    fen2.mainloop()
 def callback(event):
     os.system("policies.py")
 #==================================FRAME==============================================
@@ -88,8 +94,12 @@ buttonTT = Button(Left, text="Timetable", width=20, cursor="hand2", command=time
 buttonTT.pack()
 buttonWT = Button(Left, text="Work Team", width=20, cursor="hand2")
 buttonWT.pack()
+buttonMap = Button(Left, text="Map", width=20, cursor="hand2", command=map)
+buttonMap.pack()
 buttonDev = Button(Left, text="Devices", width=20, cursor="hand2")
 buttonDev.pack()
+
+
 buttonP = Button(labelService, text="PayRoll", width=20, cursor="hand2")
 buttonP.pack()
 buttonOFF = Button(labelService, text="OFF Boarding", width=20, cursor="hand2", command=leave)
