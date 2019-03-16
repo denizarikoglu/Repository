@@ -5,6 +5,7 @@ import tkinter.ttk as ttk
 import tkinter.messagebox as tkMessageBox
 
 
+
 root = Tk()
 root.title("Dispinary : Add new action")  # name for the window
 screen_width = root.winfo_screenwidth()

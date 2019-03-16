@@ -124,16 +124,16 @@ labTitleBar.pack(side=TOP)
 # ======================Left Side frame======================
 # order that thing are done here is how they will show up
 
-#selected_emp = StringVar(root)  # holds the currently selected employee
-#employee_ids = {"0000", "0001", "0002"}  # contains fake data
-# drop down box
-#drpEmployee = OptionMenu(Left, selected_emp, *employee_ids)
-# drpEmployee.grid(column=1, row=0)
-#drpEmployee.pack(side=TOP)
+labEmpleyID = Label(Left,font=('arial', 12),text="Employee ID")
+labEmpleyID.pack(side=TOP)
+
 TxtEmployeeId = Text(Left, height=1, width=10)#Textbox for user to enter users IDs
 TxtEmployeeId.pack(side=TOP)
 selected_type = StringVar(root)
 
+
+labDisciplinary = Label(Left,font=('arial', 12),text="Disciplinary Types")
+labDisciplinary.pack(side=TOP)
 
 disciplinary_types = []# drop down box verables
 disciplinary_discrtion =[]#holds text about dipiary types
