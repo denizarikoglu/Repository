@@ -19,8 +19,19 @@ root.config(bg="#99ff99")
 #========================================VARIABLES========================================
 USERNAME = StringVar()
 PASSWORD = StringVar()
+FirstNameemp = StringVar()
+LastNameemp = StringVar()
+ContactNumberemp = StringVar()
+EmailAddressemp = StringVar()
 USERNAMEemp = StringVar()
 PASSWORDemp = StringVar()
+DOBemp = StringVar()
+AddressLine1emp = StringVar()
+AddressLine2emp = StringVar()
+Countryemp = StringVar()
+PostCodeemp = StringVar()
+
+
 PRODUCT_NAME = StringVar()
 PRODUCT_PRICE = IntVar()
 PRODUCT_QTY = IntVar()
@@ -33,8 +44,8 @@ def Database():
     conn = sqlite3.connect("pythontut.db")
     cursor = conn.cursor()
     cursor.execute("CREATE TABLE IF NOT EXISTS `admin` (admin_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, username TEXT, password TEXT)")
-    cursor.execute("CREATE TABLE IF NOT EXISTS `employees` (employee_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, username TEXT, password TEXT, DOB TEXT)")
-    cursor.execute("CREATE TABLE IF NOT EXISTS `product` (product_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, product_name TEXT, product_qty TEXT, product_price TEXT)")
+    cursor.execute("CREATE TABLE IF NOT EXISTS `employees` (employee_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, username TEXT, password TEXT, DOB TEXT, 'Phone Number' TEXT)")
+    cursor.execute("CREATE TABLE IF NOT EXISTS `UFIX_PIM` (emp_id INTEGER PRIMARY KEY AUTOINCREMENT, First_name TEXT NOT NULL, Last_name TEXT NOT NULL, Contact_number TEXT NOT NULL, Email_Address TEXT NOT NULL, Date_of_Birth DATE NOT NULL, Address_line1 TEXT NOT NULL, Address_line2 TEXT NOT NULL, Country TEXT NOT NULL, Postcode TEXT NOT NULL, Username TEXT NOT NULL, Password TEXT NOT NULL)")
     cursor.execute("SELECT * FROM `admin` WHERE `username` = 'admin' AND `password` = 'admin'")
     if cursor.fetchone() is None:
         cursor.execute("INSERT INTO `admin` (username, password) VALUES('admin', 'admin')")
@@ -70,7 +81,7 @@ def LoginForm():
     global lbl_result
     TopLoginForm = Frame(loginform, width=600, height=100, bd=1, relief=SOLID)
     TopLoginForm.pack(side=TOP, pady=20)
-    lbl_text = Label(TopLoginForm, text="Administrator Login", font=('arial', 18), width=600)
+    lbl_text = Label(TopLoginForm, text="Login", font=('arial', 18), width=600)
     lbl_text.pack(fill=X)
     MidLoginForm = Frame(loginform, width=600)
     MidLoginForm.pack(side=TOP, pady=50)
@@ -92,36 +103,81 @@ def ShowNewEmpForm():
     global registerform
     registerform = Toplevel()
     registerform.title("Recruitment/Account Registration")
-    width = 600
-    height = 500
+    width = 800
+    height = 700
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
     x = (screen_width/2) - (width/2)
     y = (screen_height/2) - (height/2)
-    registerform.resizable(0, 0)
+    registerform.resizable(0,0)
     registerform.geometry("%dx%d+%d+%d" % (width, height, x, y))
     RegisterForm()
 
 def RegisterForm():
     global lbl_result
     TopRegisterForm = Frame(registerform, width=6000, height=100, bd=1, relief=SOLID)
+    #scrollbar = Scrollbar(registerform)
+    #scrollbar.pack( side = RIGHT, fill = Y )
     TopRegisterForm.pack(side=TOP, pady=20)
-    lbl_text = Label(TopRegisterForm, text="Registration New Employee", font=('arial', 18), width=600)
+    lbl_text = Label(TopRegisterForm, text="Registration New Employee", font=('arial', 18), width=800)
     lbl_text.pack(fill=X)
+    LeftRegisterForm = Frame(registerform, width=600)
+    LeftRegisterForm.pack(side=LEFT, pady=50)
     MidRegisterForm = Frame(registerform, width=600)
     MidRegisterForm.pack(side=TOP, pady=50)
-    lbl_username = Label(MidRegisterForm, text="Username:", font=('arial', 25), bd=18)
-    lbl_username.grid(row=0)
-    lbl_password = Label(MidRegisterForm, text="Password:", font=('arial', 25), bd=18)
-    lbl_password.grid(row=1)
+
+    lbl_FirstName= Label(LeftRegisterForm, text="FirstName:", font=('arial', 15), bd=18)
+    lbl_FirstName.grid(row=0)
+    lbl_LastName= Label(LeftRegisterForm, text="LastName:", font=('arial', 15), bd=18)
+    lbl_LastName.grid(row=1)
+    lbl_Contactnumber= Label(LeftRegisterForm, text="Contact Number:", font=('arial', 15), bd=18)
+    lbl_Contactnumber.grid(row=2)
+    lbl_EmailAddress= Label(LeftRegisterForm, text="Email Address:", font=('arial', 15), bd=18)
+    lbl_EmailAddress.grid(row=3)
+    lbl_DateofBirth= Label(LeftRegisterForm, text="Date Of Birth:", font=('arial', 15), bd=18)
+    lbl_DateofBirth.grid(row=4)
+    lbl_AddressLine1= Label(LeftRegisterForm, text="Address Line 1:", font=('arial', 15), bd=18)
+    lbl_AddressLine1.grid(row=5)
+    lbl_AddressLine2= Label(LeftRegisterForm, text="Address Line 2:", font=('arial', 15), bd=18)
+    lbl_AddressLine2.grid(row=6)
+    lbl_Country= Label(LeftRegisterForm, text="Country:", font=('arial', 15), bd=18)
+    lbl_Country.grid(row=7)
+    lbl_PostCode= Label(MidRegisterForm, text="PostCode:", font=('arial', 15), bd=18)
+    lbl_PostCode.grid(row=8)
+    lbl_username = Label(MidRegisterForm, text="Username:", font=('arial', 15), bd=18)
+    lbl_username.grid(row=9)
+    lbl_password = Label(MidRegisterForm, text="Password:", font=('arial', 15), bd=18)
+    lbl_password.grid(row=10)
     lbl_result = Label(MidRegisterForm, text="", font=('arial', 18))
-    lbl_result.grid(row=3, columnspan=2)
-    username = Entry(MidRegisterForm, textvariable=USERNAMEemp, font=('arial', 25), width=15)
-    username.grid(row=0, column=1)
-    password = Entry(MidRegisterForm, textvariable=PASSWORDemp, font=('arial', 25), width=15, show="*")
-    password.grid(row=1, column=1)
+    lbl_result.grid(row=13, columnspan=2)
+
+    FirstName = Entry(LeftRegisterForm, textvariable=FirstNameemp, font=('arial', 15), width=15)
+    FirstName.grid(row=0, column=1)
+    LastName = Entry(LeftRegisterForm, textvariable=LastNameemp, font=('arial', 15), width=15)
+    LastName.grid(row=1, column=1)
+    Contactnumber = Entry(LeftRegisterForm, textvariable=ContactNumberemp, font=('arial', 15), width=15)
+    Contactnumber.grid(row=2, column=1)
+    EmailAddress = Entry(LeftRegisterForm, textvariable=EmailAddressemp, font=('arial', 15), width=15)
+    EmailAddress.grid(row=3, column=1)
+    DateofBirth = Entry(LeftRegisterForm, textvariable=DOBemp, font=('arial', 15), width=15)
+    DateofBirth.grid(row=4, column=1)
+    AddressLine1 = Entry(LeftRegisterForm, textvariable=AddressLine1emp, font=('arial', 15), width=15)
+    AddressLine1.grid(row=5, column=1)
+    AddressLine2 = Entry(LeftRegisterForm, textvariable=AddressLine2emp, font=('arial', 15), width=15)
+    AddressLine2.grid(row=6, column=1)
+    Country = Entry(LeftRegisterForm, textvariable=Countryemp, font=('arial', 15), width=15)
+    Country.grid(row=7, column=1)
+    PostCode = Entry(MidRegisterForm, textvariable=PostCodeemp, font=('arial', 15), width=15)
+    PostCode.grid(row=8, column=1)
+    username = Entry(MidRegisterForm, textvariable=USERNAMEemp, font=('arial', 15), width=15)
+    username.grid(row=9, column=1)
+    password = Entry(MidRegisterForm, textvariable=PASSWORDemp, font=('arial', 15), width=15, show="*")
+    password.grid(row=10, column=1)
+
     btn_Register = Button(MidRegisterForm, text="Register", font=('arial', 18), width=30, command=Register)
-    btn_Register.grid(row=2, columnspan=2, pady=20)
+    btn_Register.grid(row=11, columnspan=2, pady=20)
+    btn_Policy = Button(MidRegisterForm, text="Policies", font=('arial', 18), width=30, command=PolicyView)
+    btn_Policy.grid(row=12, columnspan=2, pady=20)
     btn_Register.bind('<Return>', Login)
     
 def Home():
@@ -325,12 +381,16 @@ def Login(event=None):
 def Register(event=None):
     global admin_id
     Database()
-    if USERNAMEemp.get == "" or PASSWORDemp.get() == "":
+    if USERNAMEemp.get == "" or PASSWORDemp.get() == "" or DOBemp.get() == "" or FirstNameemp.get()==""or LastNameemp.get()=="" or ContactNumberemp.get()=="" or EmailAddressemp.get()=="" or AddressLine1emp.get()=="" or AddressLine2emp.get()=="" or Countryemp.get()=="" or PostCodeemp=="":
         lbl_result.config(text="Please complete the required field!", fg="red")
     else:
-        cursor.execute("INSERT INTO `employee` (username, password) VALUES(?, ?)" (USERNAMEemp.get(), PASSWORDemp.get()))
+        cursor.execute("INSERT INTO 'UFIX_PIM'(Username,Password,Date_of_Birth,First_name,last_name,Contact_number,Email_Address,Address_line1,Address_line2,Country,Postcode) VALUES(?,?,?,?,?,?,?,?,?,?,?)",(str(USERNAMEemp.get()),str(PASSWORDemp.get()),str(DOBemp.get()),str(FirstNameemp.get()),str(LastNameemp.get()),str(ContactNumberemp.get()),str(EmailAddressemp.get()),str(AddressLine1emp.get()),str(AddressLine2emp.get()),str(Countryemp.get()),str(PostCodeemp.get())))
+        conn.commit()
     cursor.close()
     conn.close()
+
+def PolicyView(event=None):
+    tkMessageBox.showinfo('Policies', 'It is our policy to make sure the use of our\n software and that the recruiting process is relatively easy and simple to use.\nAs part of a recruitment team there are many rules to follow within the law\nsuch as the newly updated GDPR laws. This is one of the most important laws\nto follow as a lot of personal data will be collected about each applicant. This\ndata must be stored securely where it can’t be exposed to anyone other than\nthe appropriate users.\nAs Brainvire is a big company and several different teams we all have different\npolicies within each group. Our policy will go through everything we expect\nfrom our employees and from everyone that will be using the software\nprovided by us.\n“Brainvire Ltd” is committed to:\n- Viewing all entries for positions as equals and only taking in the best of\nthe best.\n- Providing potential new employees with fair numeracy and literacy tests\nto help the process of elimination.\n- Promoting continual quality of improvement and the philosophy of\ngetting things “right the first time”.')
 
 def ShowHome():
     root.withdraw()
