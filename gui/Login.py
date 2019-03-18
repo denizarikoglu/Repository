@@ -33,7 +33,7 @@ def Login():
     Database_Users()
     results = cursor.fetchall()
     for row in results:
-        user_Name.append(row[1])
+        user_Name.append(row[10])
         user_pass.append(row[11])
     # print (row[0])
     cursor.close()  # closes database conection
@@ -50,7 +50,7 @@ Top = Frame(root, width=290, height=390, bd=8, relief="raise")
 Top.pack(side=TOP)
 
 
-labName = Label(Top,font=('arial', 12),text="Name")
+labName = Label(Top,font=('arial', 12),text="User Name")
 labName.pack(side=TOP)
 txtname = Text(Top,width=30, height=1 ) ##adds a textbox on the right frame. dose not seam to care aboyt hight
 txtname.pack(side=TOP)

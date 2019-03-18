@@ -109,15 +109,6 @@ Left.pack(side=LEFT)
 Right = Frame(root, width=600, height=500, bd=8, relief="raise")
 Right.pack(side=RIGHT)
 
-
-# textframeRight = Frame(Right, width=550, hight=200, relief="raise")#creats a fream for the textbox
-# textframeRight.pack(side=TOP)
-Forms = Frame(Left, width=300, height=450)
-Forms.pack(side=TOP)
-# Buttons = Frame(Left, width=300, height=100, bd=8, relief="raise")  # creats frame for Buttons?
-# Buttons.pack(side=BOTTOM)
-
-
 # ======================Top Side frame======================
 labTitleBar = Label(Top,width=900,font=('arial', 20),text = "Add new action")
 labTitleBar.pack(side=TOP)
@@ -147,7 +138,7 @@ for row in Disciplinary_list:
     disciplinary_types.append(row[1])#gets just the names for displinary type
     disciplinary_discrtion.append(row[2])
     displinary_action.append(row[3])
-comboDisciplinary = ttk.Combobox(Left, values=disciplinary_types )#TODO get to trgger comand when changed
+comboDisciplinary = ttk.Combobox(Left, values=disciplinary_types )
 comboDisciplinary.bind("<<ComboboxSelected>>",update_lables)#creats a callback to run whenvere combo box is updataed
 comboDisciplinary.pack(side=TOP)
 
@@ -165,7 +156,7 @@ labActionTaken.pack(side=TOP)
 Displinary_Action_Taken.set("Action taken")
 
 btn_CreatNewEntry = Button(Left, width=15, text="Create new entry", command=AddNewRecord)#creats new entry in table
-btn_CreatNewEntry.pack(side=BOTTOM)
+btn_CreatNewEntry.pack(side=TOP)
 
 
 # ======================Right Side frame======================
