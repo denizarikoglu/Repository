@@ -61,6 +61,25 @@ NumeracyWrittenq10 = StringVar()
 NumeracyWrittenq11 = StringVar()
 NumeracyWrittenq12 = StringVar()
 
+LiteracySpelling1 = StringVar()
+LiteracySpelling2 = StringVar()
+LiteracySpelling3 = StringVar()
+LiteracySpelling4 = StringVar()
+LiteracySpelling5 = StringVar()
+LiteracySpelling6 = StringVar()
+LiteracySpelling7 = StringVar()
+LiteracySpelling8 = StringVar()
+LiteracySpelling9 = StringVar()
+LiteracySpelling10 = StringVar()
+LiteracySpelling11 = StringVar()
+LiteracySpelling12 = StringVar()
+
+LiteracyGrammarPartA1 = StringVar()
+LiteracyGrammarPartA2 = StringVar()
+LiteracyGrammarPartA3 = StringVar()
+LiteracyGrammarPartA4 = StringVar()
+LiteracyGrammarPartA5 = StringVar()
+
 USERNAMEemplogin = StringVar()
 PASSWORDemplogin = StringVar()
 
@@ -79,6 +98,8 @@ def Database():
     cursor.execute("CREATE TABLE IF NOT EXISTS `UFIX_PIM` (emp_id INTEGER PRIMARY KEY AUTOINCREMENT, First_name TEXT NOT NULL, Last_name TEXT NOT NULL, Contact_number TEXT NOT NULL, Email_Address TEXT NOT NULL, Date_of_Birth DATE NOT NULL, Address_line1 TEXT NOT NULL, Address_line2 TEXT NOT NULL, Country TEXT NOT NULL, Postcode TEXT NOT NULL, Username TEXT NOT NULL, Password TEXT NOT NULL)")
     cursor.execute("CREATE TABLE IF NOT EXISTS `NumeracyTestMental` ( `Question 1` TEXT, `Question 2` TEXT, `Question 3` TEXT, `Question 4` TEXT, `Question 5` TEXT, `Question 6` TEXT, `Question 7` TEXT, `Question 8` TEXT, `Question 9` TEXT, `Question 10` TEXT, `Question 11` TEXT, `Question 12` TEXT, `Question 13` TEXT, `Question 14` TEXT, `Question 15` TEXT )")
     cursor.execute("CREATE TABLE IF NOT EXISTS `NumeracyTestWritten` ( `Question 1` TEXT, `Question 2` TEXT, `Question 3` TEXT, `Question 4` TEXT, `Question 5` TEXT, `Question 6` TEXT, `Question 7` TEXT, `Question 8` TEXT, `Question 9` TEXT, `Question 10` TEXT, `Question 11` TEXT, `Question 12` TEXT )")
+    cursor.execute("CREATE TABLE IF NOT EXISTS `LiteracySpelling` ( `Question 1` TEXT, `Question 2` TEXT, `Question 3` TEXT, `Question 4` TEXT, `Question 5` TEXT, `Question 6` TEXT, `Question 7` TEXT, `Question 8` TEXT, `Question 9` TEXT, `Question 10` TEXT )")
+    cursor.execute("CREATE TABLE IF NOT EXISTS `LiteracyGrammarPartA` ( `Question 1` TEXT, `Question 2` TEXT, `Question 3` TEXT, `Question 4` TEXT, `Question 5` TEXT )")
     cursor.execute("SELECT * FROM `admin` WHERE `username` = 'admin' AND `password` = 'admin'")
     if cursor.fetchone() is None:
         cursor.execute("INSERT INTO `admin` (username, password) VALUES('admin', 'admin')")
@@ -291,16 +312,24 @@ def HomeEmp():
     filemenu = Menu(menubar, tearoff=0)
     filemenu2 = Menu(menubar, tearoff=0)
     filemenu3 = Menu(menubar, tearoff=0)
+    filemenu4 = Menu(menubar, tearoff=0)
     filemenu.add_command(label="Logout", command=LogoutEmp)#CONTINUE HERE
     filemenu.add_command(label="Exit", command=Exit)
     filemenu2.add_command(label="Numeracy", command=NumeracyIntro)
     filemenu2.add_command(label="Literacy", command=LiteracyIntro)
     filemenu3.add_command(label="Numeracy Mental", command=NumeracyTestMental)
     filemenu3.add_command(label="Numeracy Written", command=NumeracyTestWritten)#written numeracy test
-    filemenu3.add_command(label="Literacy", command=Exit)
+    filemenu4.add_command(label="Spelling", command=LiteracySpellingTest)
+    filemenu4.add_command(label="Punctuation", command=Exit)
+    filemenu4.add_command(label="Grammar Part A", command=LiteracyGrammarPartATest)
+    filemenu4.add_command(label="Grammar Part B", command=Exit)
+    filemenu4.add_command(label="Grammar Part C", command=Exit)
+    filemenu4.add_command(label="Comprehension", command=Exit)
+
     menubar.add_cascade(label="Account", menu=filemenu)
     menubar.add_cascade(label="Intro", menu=filemenu2)
-    menubar.add_cascade(label="Test", menu=filemenu3)
+    menubar.add_cascade(label="Numeracy Test", menu=filemenu3)
+    menubar.add_cascade(label="Literacy Test", menu=filemenu4)
     HomeEmp.config(menu=menubar)
     HomeEmp.config(bg="#99ff99")
 
@@ -357,6 +386,138 @@ def AddNew():
     PRODUCT_QTY.set("")
     cursor.close()
     conn.close()
+
+def LiteracyGrammarPartATest():
+    global literacygrammarPartAtestform
+    literacygrammarPartAtestform = Toplevel()
+    literacygrammarPartAtestform.title("Recruitment/Literacy GrammarPartA Test")
+    width = 800
+    height = 700
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+    x = (screen_width/2) - (width/2)
+    y = (screen_height/2) - (height/2)
+    literacygrammarPartAtestform.resizable(0,0)
+    literacygrammarPartAtestform.geometry("%dx%d+%d+%d" % (width, height, x, y))
+    LiteracyGrammarPartATestForm()
+
+def LiteracyGrammarPartATestForm():
+    global lbl_result
+    TopLiteracyGrammarPartATestForm = Frame(literacygrammarPartAtestform, width=6000, height=100, bd=1, relief=SOLID)
+    TopLiteracyGrammarPartATestForm.pack(side=TOP, pady=20)
+    lbl_text = Label(TopLiteracyGrammarPartATestForm, text="Literacy Grammar PartA Test", font=('arial', 18), width=800)
+    lbl_text.pack(fill=X)
+    LeftLiteracyGrammarPartATestForm = Frame(literacygrammarPartAtestform, width=600)
+    LeftLiteracyGrammarPartATestForm.pack(side=LEFT, pady=50)
+    MidLiteracyGrammarPartATestForm = Frame(literacygrammarPartAtestform, width=600)
+    MidLiteracyGrammarPartATestForm.pack(side=TOP, pady=50)
+
+    osCommandString = "notepad.exe LiteracyTest.txt"
+    os.system(osCommandString)
+
+    lbl_1= Label(LeftLiteracyGrammarPartATestForm, text="Question 1:", font=('arial', 15), bd=18)
+    lbl_1.grid(row=0)
+    lbl_2= Label(LeftLiteracyGrammarPartATestForm, text="Question 2:", font=('arial', 15), bd=18)
+    lbl_2.grid(row=1)
+    lbl_3= Label(LeftLiteracyGrammarPartATestForm, text="Question 3:", font=('arial', 15), bd=18)
+    lbl_3.grid(row=2)
+    lbl_4= Label(LeftLiteracyGrammarPartATestForm, text="Question 4:", font=('arial', 15), bd=18)
+    lbl_4.grid(row=3)
+    lbl_5= Label(LeftLiteracyGrammarPartATestForm, text="Question 5:", font=('arial', 15), bd=18)
+    lbl_5.grid(row=4)
+    lbl_result = Label(LeftLiteracyGrammarPartATestForm, text="", font=('arial', 18))
+    lbl_result.grid(row=7, columnspan=2)#add 3 from previous row count
+
+    LiteracyGrammarPartA1q = Entry(LeftLiteracyGrammarPartATestForm, textvariable=LiteracyGrammarPartA1, font=('arial', 15), width=15)
+    LiteracyGrammarPartA1q.grid(row=0, column=1)
+    LiteracyGrammarPartA2q = Entry(LeftLiteracyGrammarPartATestForm, textvariable=LiteracyGrammarPartA2, font=('arial', 15), width=15)
+    LiteracyGrammarPartA2q.grid(row=1, column=1)
+    LiteracyGrammarPartA3q = Entry(LeftLiteracyGrammarPartATestForm, textvariable=LiteracyGrammarPartA3, font=('arial', 15), width=15)
+    LiteracyGrammarPartA3q.grid(row=2, column=1)
+    LiteracyGrammarPartA4q = Entry(LeftLiteracyGrammarPartATestForm, textvariable=LiteracyGrammarPartA4, font=('arial', 15), width=15)
+    LiteracyGrammarPartA4q.grid(row=3, column=1)
+    LiteracyGrammarPartA5q = Entry(LeftLiteracyGrammarPartATestForm, textvariable=LiteracyGrammarPartA5, font=('arial', 15), width=15)
+    LiteracyGrammarPartA5q.grid(row=4, column=1)
+
+    btn_LiteracyGrammarPartATest = Button(LeftLiteracyGrammarPartATestForm, text="Complete", font=('arial', 18), width=30, command=CompleteLiteracyGrammarPartA)
+    btn_LiteracyGrammarPartATest.grid(row=5, columnspan=2, pady=20)#add one to row from previous row count
+    btn_LiteracyGrammarPartATest.bind('<Return>', Login)
+
+def LiteracySpellingTest():
+    global literacyspellingtestform
+    literacyspellingtestform = Toplevel()
+    literacyspellingtestform.title("Recruitment/Literacy Spelling Test")
+    width = 800
+    height = 700
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+    x = (screen_width/2) - (width/2)
+    y = (screen_height/2) - (height/2)
+    literacyspellingtestform.resizable(0,0)
+    literacyspellingtestform.geometry("%dx%d+%d+%d" % (width, height, x, y))
+    LiteracySpellingTestForm()
+
+def LiteracySpellingTestForm():
+    global lbl_result
+    TopLiteracySpellingTestForm = Frame(literacyspellingtestform, width=6000, height=100, bd=1, relief=SOLID)
+    TopLiteracySpellingTestForm.pack(side=TOP, pady=20)
+    lbl_text = Label(TopLiteracySpellingTestForm, text="Literacy Spelling Test", font=('arial', 18), width=800)
+    lbl_text.pack(fill=X)
+    LeftLiteracySpellingTestForm = Frame(literacyspellingtestform, width=600)
+    LeftLiteracySpellingTestForm.pack(side=LEFT, pady=50)
+    MidLiteracySpellingTestForm = Frame(literacyspellingtestform, width=600)
+    MidLiteracySpellingTestForm.pack(side=TOP, pady=50)
+
+    osCommandString = "notepad.exe LiteracyTest.txt"
+    os.system(osCommandString)
+
+    lbl_1= Label(LeftLiteracySpellingTestForm, text="Question 1:", font=('arial', 15), bd=18)
+    lbl_1.grid(row=0)
+    lbl_2= Label(LeftLiteracySpellingTestForm, text="Question 2:", font=('arial', 15), bd=18)
+    lbl_2.grid(row=1)
+    lbl_3= Label(LeftLiteracySpellingTestForm, text="Question 3:", font=('arial', 15), bd=18)
+    lbl_3.grid(row=2)
+    lbl_4= Label(LeftLiteracySpellingTestForm, text="Question 4:", font=('arial', 15), bd=18)
+    lbl_4.grid(row=3)
+    lbl_5= Label(LeftLiteracySpellingTestForm, text="Question 5:", font=('arial', 15), bd=18)
+    lbl_5.grid(row=4)
+    lbl_6= Label(LeftLiteracySpellingTestForm, text="Question 6:", font=('arial', 15), bd=18)
+    lbl_6.grid(row=5)
+    lbl_7= Label(LeftLiteracySpellingTestForm, text="Question 7:", font=('arial', 15), bd=18)
+    lbl_7.grid(row=6)
+    lbl_8= Label(LeftLiteracySpellingTestForm, text="Question 8:", font=('arial', 15), bd=18)
+    lbl_8.grid(row=7)
+    lbl_9= Label(MidLiteracySpellingTestForm, text="Question 9:", font=('arial', 15), bd=18)
+    lbl_9.grid(row=8)
+    lbl_10 = Label(MidLiteracySpellingTestForm, text="Question 10:", font=('arial', 15), bd=18)
+    lbl_10.grid(row=9)
+    lbl_result = Label(MidLiteracySpellingTestForm, text="", font=('arial', 18))
+    lbl_result.grid(row=12, columnspan=2)#add 3 from previous row count
+
+    LiteracySpelling1q = Entry(LeftLiteracySpellingTestForm, textvariable=LiteracySpelling1, font=('arial', 15), width=15)
+    LiteracySpelling1q.grid(row=0, column=1)
+    LiteracySpelling2q = Entry(LeftLiteracySpellingTestForm, textvariable=LiteracySpelling2, font=('arial', 15), width=15)
+    LiteracySpelling2q.grid(row=1, column=1)
+    LiteracySpelling3q = Entry(LeftLiteracySpellingTestForm, textvariable=LiteracySpelling3, font=('arial', 15), width=15)
+    LiteracySpelling3q.grid(row=2, column=1)
+    LiteracySpelling4q = Entry(LeftLiteracySpellingTestForm, textvariable=LiteracySpelling4, font=('arial', 15), width=15)
+    LiteracySpelling4q.grid(row=3, column=1)
+    LiteracySpelling5q = Entry(LeftLiteracySpellingTestForm, textvariable=LiteracySpelling5, font=('arial', 15), width=15)
+    LiteracySpelling5q.grid(row=4, column=1)
+    LiteracySpelling6q = Entry(LeftLiteracySpellingTestForm, textvariable=LiteracySpelling6, font=('arial', 15), width=15)
+    LiteracySpelling6q.grid(row=5, column=1)
+    LiteracySpelling7q = Entry(LeftLiteracySpellingTestForm, textvariable=LiteracySpelling7, font=('arial', 15), width=15)
+    LiteracySpelling7q.grid(row=6, column=1)
+    LiteracySpelling8q = Entry(LeftLiteracySpellingTestForm, textvariable=LiteracySpelling8, font=('arial', 15), width=15)
+    LiteracySpelling8q.grid(row=7, column=1)
+    LiteracySpelling9q = Entry(MidLiteracySpellingTestForm, textvariable=LiteracySpelling9, font=('arial', 15), width=15)
+    LiteracySpelling9q.grid(row=8, column=1)
+    LiteracySpelling10q = Entry(MidLiteracySpellingTestForm, textvariable=LiteracySpelling10, font=('arial', 15), width=15)
+    LiteracySpelling10q.grid(row=9, column=1)
+
+    btn_LiteracySpellingTest = Button(MidLiteracySpellingTestForm, text="Complete", font=('arial', 18), width=30, command=CompleteLiteracySpelling)
+    btn_LiteracySpellingTest.grid(row=10, columnspan=2, pady=20)#add one to row from previous row count
+    btn_LiteracySpellingTest.bind('<Return>', Login)
 
 def NumeracyTestWritten():
     global numeracytestwrittenform
@@ -716,6 +877,26 @@ def CompleteNumeracyWrittentest(event=None):
         lbl_result.config(text="Please complete the required field!", fg="red")
     else:
         cursor.execute("INSERT INTO 'NumeracyTestWritten'('Question 1', 'Question 2', 'Question 3', 'Question 4', 'Question 5', 'Question 6', 'Question 7', 'Question 8', 'Question 9', 'Question 10', 'Question 11', 'Question 12') VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",(str(NumeracyWrittenq1.get()),str(NumeracyWrittenq2.get()),str(NumeracyWrittenq3.get()),str(NumeracyWrittenq4.get()),str(NumeracyWrittenq5.get()),str(NumeracyWrittenq6.get()),str(NumeracyWrittenq7.get()),str(NumeracyWrittenq8.get()),str(NumeracyWrittenq9.get()),str(NumeracyWrittenq10.get()),str(NumeracyWrittenq11.get()),str(NumeracyWrittenq12.get())))
+        conn.commit()
+    cursor.close()
+    conn.close()
+
+def CompleteLiteracySpelling(event=None):
+    Database()
+    if LiteracySpelling1.get() == "":
+        lbl_result.config(text="Please complete the required field!", fg="red")
+    else:
+        cursor.execute("INSERT INTO 'LiteracySpelling'('Question 1', 'Question 2', 'Question 3', 'Question 4', 'Question 5', 'Question 6', 'Question 7', 'Question 8', 'Question 9', 'Question 10') VALUES(?,?,?,?,?,?,?,?,?,?)",(str(LiteracySpelling1.get()),str(LiteracySpelling2.get()),str(LiteracySpelling3.get()),str(LiteracySpelling4.get()),str(LiteracySpelling5.get()),str(LiteracySpelling6.get()),str(LiteracySpelling7.get()),str(LiteracySpelling8.get()),str(LiteracySpelling9.get()),str(LiteracySpelling10.get())))
+        conn.commit()
+    cursor.close()
+    conn.close()
+
+def CompleteLiteracyGrammarPartA(event=None):
+    Database()
+    if LiteracyGrammarPartA1.get() == "":
+        lbl_result.config(text="Please complete the required field!", fg="red")
+    else:
+        cursor.execute("INSERT INTO 'LiteracyGrammarPartA'('Question 1', 'Question 2', 'Question 3', 'Question 4', 'Question 5') VALUES(?,?,?,?,?)",(str(LiteracyGrammarPartA1.get()),str(LiteracyGrammarPartA2.get()),str(LiteracyGrammarPartA3.get()),str(LiteracyGrammarPartA4.get()),str(LiteracyGrammarPartA5.get())))
         conn.commit()
     cursor.close()
     conn.close()
