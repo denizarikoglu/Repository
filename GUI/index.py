@@ -80,6 +80,18 @@ LiteracyGrammarPartA3 = StringVar()
 LiteracyGrammarPartA4 = StringVar()
 LiteracyGrammarPartA5 = StringVar()
 
+LiteracyGrammarPartB1 = StringVar()
+LiteracyGrammarPartB2 = StringVar()
+
+LiteracyGrammarPartC1 = StringVar()
+LiteracyGrammarPartC2 = StringVar()
+LiteracyGrammarPartC3 = StringVar()
+
+LiteracyComprehensionA = StringVar()
+LiteracyComprehensionB = StringVar()
+LiteracyComprehensionC = StringVar()
+LiteracyComprehensionD = StringVar()
+
 USERNAMEemplogin = StringVar()
 PASSWORDemplogin = StringVar()
 
@@ -100,6 +112,9 @@ def Database():
     cursor.execute("CREATE TABLE IF NOT EXISTS `NumeracyTestWritten` ( `Question 1` TEXT, `Question 2` TEXT, `Question 3` TEXT, `Question 4` TEXT, `Question 5` TEXT, `Question 6` TEXT, `Question 7` TEXT, `Question 8` TEXT, `Question 9` TEXT, `Question 10` TEXT, `Question 11` TEXT, `Question 12` TEXT )")
     cursor.execute("CREATE TABLE IF NOT EXISTS `LiteracySpelling` ( `Question 1` TEXT, `Question 2` TEXT, `Question 3` TEXT, `Question 4` TEXT, `Question 5` TEXT, `Question 6` TEXT, `Question 7` TEXT, `Question 8` TEXT, `Question 9` TEXT, `Question 10` TEXT )")
     cursor.execute("CREATE TABLE IF NOT EXISTS `LiteracyGrammarPartA` ( `Question 1` TEXT, `Question 2` TEXT, `Question 3` TEXT, `Question 4` TEXT, `Question 5` TEXT )")
+    cursor.execute("CREATE TABLE IF NOT EXISTS `LiteracyGrammarPartB` ( `Question 1` TEXT, `Question 2` TEXT )")
+    cursor.execute("CREATE TABLE IF NOT EXISTS `LiteracyGrammarPartC` ( `Question 1` TEXT, `Question 2` TEXT, `Question 3` TEXT )")
+    cursor.execute("CREATE TABLE IF NOT EXISTS `LiteracyComprehension` ( `Part A` TEXT, `Part B` TEXT, `Part C` TEXT, `Part D` TEXT )")
     cursor.execute("SELECT * FROM `admin` WHERE `username` = 'admin' AND `password` = 'admin'")
     if cursor.fetchone() is None:
         cursor.execute("INSERT INTO `admin` (username, password) VALUES('admin', 'admin')")
@@ -114,7 +129,7 @@ def Exit():
 def ShowExistingempForm():
     global loginempform
     loginempform = Toplevel()
-    loginempform.title("Recruitment/Account Login")
+    loginempform.title("Recruitment/Account Employee Login")
     width = 600
     height = 500
     screen_width = root.winfo_screenwidth()
@@ -129,7 +144,7 @@ def LoginempForm():
     global lbl_result
     TopLoginempForm = Frame(loginempform, width=600, height=100, bd=1, relief=SOLID)
     TopLoginempForm.pack(side=TOP, pady=20)
-    lbl_text = Label(TopLoginempForm, text="Login", font=('arial', 18), width=600)
+    lbl_text = Label(TopLoginempForm, text="Employee Login", font=('arial', 18), width=600)
     lbl_text.pack(fill=X)
     MidLoginempForm = Frame(loginempform, width=600)
     MidLoginempForm.pack(side=TOP, pady=50)
@@ -165,7 +180,7 @@ def LoginForm():
     global lbl_result
     TopLoginForm = Frame(loginform, width=600, height=100, bd=1, relief=SOLID)
     TopLoginForm.pack(side=TOP, pady=20)
-    lbl_text = Label(TopLoginForm, text="Login", font=('arial', 18), width=600)
+    lbl_text = Label(TopLoginForm, text="Admin Login", font=('arial', 18), width=600)
     lbl_text.pack(fill=X)
     MidLoginForm = Frame(loginform, width=600)
     MidLoginForm.pack(side=TOP, pady=50)
@@ -322,9 +337,9 @@ def HomeEmp():
     filemenu4.add_command(label="Spelling", command=LiteracySpellingTest)
     filemenu4.add_command(label="Punctuation", command=Exit)
     filemenu4.add_command(label="Grammar Part A", command=LiteracyGrammarPartATest)
-    filemenu4.add_command(label="Grammar Part B", command=Exit)
-    filemenu4.add_command(label="Grammar Part C", command=Exit)
-    filemenu4.add_command(label="Comprehension", command=Exit)
+    filemenu4.add_command(label="Grammar Part B", command=LiteracyGrammarPartBTest)
+    filemenu4.add_command(label="Grammar Part C", command=LiteracyGrammarPartCTest)
+    filemenu4.add_command(label="Comprehension", command=LiteracyComprehensionTest)
 
     menubar.add_cascade(label="Account", menu=filemenu)
     menubar.add_cascade(label="Intro", menu=filemenu2)
@@ -387,12 +402,156 @@ def AddNew():
     cursor.close()
     conn.close()
 
+def LiteracyComprehensionTest():
+    global literacyComprehensionform
+    literacyComprehensionform = Toplevel()
+    literacyComprehensionform.title("Recruitment/Literacy Comprehension Test")
+    width = 600
+    height = 500
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+    x = (screen_width/2) - (width/2)
+    y = (screen_height/2) - (height/2)
+    literacyComprehensionform.resizable(0,0)
+    literacyComprehensionform.geometry("%dx%d+%d+%d" % (width, height, x, y))
+    LiteracyComprehensionForm()
+
+def LiteracyComprehensionForm():
+    global lbl_result
+    TopLiteracyComprehensionForm = Frame(literacyComprehensionform, width=6000, height=100, bd=1, relief=SOLID)
+    TopLiteracyComprehensionForm.pack(side=TOP, pady=20)
+    lbl_text = Label(TopLiteracyComprehensionForm, text="Literacy Grammar Part C Test", font=('arial', 18), width=800)
+    lbl_text.pack(fill=X)
+    LeftLiteracyComprehensionForm = Frame(literacyComprehensionform, width=600)
+    LeftLiteracyComprehensionForm.pack(side=TOP, pady=50)
+    MidLiteracyComprehensionForm = Frame(literacyComprehensionform, width=600)
+    MidLiteracyComprehensionForm.pack(side=TOP, pady=50)
+
+    osCommandString = "notepad.exe LiteracyTest.txt"
+    os.system(osCommandString)
+
+    lbl_1= Label(LeftLiteracyComprehensionForm, text="Part A:", font=('arial', 15), bd=18)
+    lbl_1.grid(row=0)
+    lbl_2= Label(LeftLiteracyComprehensionForm, text="Part B:", font=('arial', 15), bd=18)
+    lbl_2.grid(row=1)
+    lbl_3= Label(LeftLiteracyComprehensionForm, text="Part C:", font=('arial', 15), bd=18)
+    lbl_3.grid(row=2)
+    lbl_4= Label(LeftLiteracyComprehensionForm, text="Part D:", font=('arial', 15), bd=18)
+    lbl_4.grid(row=3)
+    lbl_result = Label(LeftLiteracyComprehensionForm, text="", font=('arial', 18))
+    lbl_result.grid(row=6, columnspan=2)#add 3 from previous row count
+
+    LiteracyComprehensionAq = Entry(LeftLiteracyComprehensionForm, textvariable=LiteracyComprehensionA, font=('arial', 15), width=15)
+    LiteracyComprehensionAq.grid(row=0, column=1)
+    LiteracyComprehensionBq = Entry(LeftLiteracyComprehensionForm, textvariable=LiteracyComprehensionB, font=('arial', 15), width=15)
+    LiteracyComprehensionBq.grid(row=1, column=1)
+    LiteracyComprehensionCq = Entry(LeftLiteracyComprehensionForm, textvariable=LiteracyComprehensionC, font=('arial', 15), width=15)
+    LiteracyComprehensionCq.grid(row=2, column=1)
+    LiteracyComprehensionDq = Entry(LeftLiteracyComprehensionForm, textvariable=LiteracyComprehensionD, font=('arial', 15), width=15)
+    LiteracyComprehensionDq.grid(row=3, column=1)
+
+    btn_LiteracyComprehension = Button(LeftLiteracyComprehensionForm, text="Complete", font=('arial', 18), width=30, command=CompleteLiteracyComprehension)
+    btn_LiteracyComprehension.grid(row=4, columnspan=2, pady=20)#add one to row from previous row count
+    btn_LiteracyComprehension.bind('<Return>', Login)
+
+def LiteracyGrammarPartCTest():
+    global literacygrammarPartCtestform
+    literacygrammarPartCtestform = Toplevel()
+    literacygrammarPartCtestform.title("Recruitment/Literacy GrammarPart C Test")
+    width = 600
+    height = 500
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+    x = (screen_width/2) - (width/2)
+    y = (screen_height/2) - (height/2)
+    literacygrammarPartCtestform.resizable(0,0)
+    literacygrammarPartCtestform.geometry("%dx%d+%d+%d" % (width, height, x, y))
+    LiteracyGrammarPartCTestForm()
+
+def LiteracyGrammarPartCTestForm():
+    global lbl_result
+    TopLiteracyGrammarPartCTestForm = Frame(literacygrammarPartCtestform, width=6000, height=100, bd=1, relief=SOLID)
+    TopLiteracyGrammarPartCTestForm.pack(side=TOP, pady=20)
+    lbl_text = Label(TopLiteracyGrammarPartCTestForm, text="Literacy Grammar Part C Test", font=('arial', 18), width=800)
+    lbl_text.pack(fill=X)
+    LeftLiteracyGrammarPartCTestForm = Frame(literacygrammarPartCtestform, width=600)
+    LeftLiteracyGrammarPartCTestForm.pack(side=TOP, pady=50)
+    MidLiteracyGrammarPartCTestForm = Frame(literacygrammarPartCtestform, width=600)
+    MidLiteracyGrammarPartCTestForm.pack(side=TOP, pady=50)
+
+    osCommandString = "notepad.exe LiteracyTest.txt"
+    os.system(osCommandString)
+
+    lbl_1= Label(LeftLiteracyGrammarPartCTestForm, text="1:", font=('arial', 15), bd=18)
+    lbl_1.grid(row=0)
+    lbl_2= Label(LeftLiteracyGrammarPartCTestForm, text="2:", font=('arial', 15), bd=18)
+    lbl_2.grid(row=1)
+    lbl_3= Label(LeftLiteracyGrammarPartCTestForm, text="3:", font=('arial', 15), bd=18)
+    lbl_3.grid(row=2)
+    lbl_result = Label(LeftLiteracyGrammarPartCTestForm, text="", font=('arial', 18))
+    lbl_result.grid(row=5, columnspan=2)#add 3 from previous row count
+
+    LiteracyGrammarPartC1q = Entry(LeftLiteracyGrammarPartCTestForm, textvariable=LiteracyGrammarPartC1, font=('arial', 15), width=15)
+    LiteracyGrammarPartC1q.grid(row=0, column=1)
+    LiteracyGrammarPartC2q = Entry(LeftLiteracyGrammarPartCTestForm, textvariable=LiteracyGrammarPartC2, font=('arial', 15), width=15)
+    LiteracyGrammarPartC2q.grid(row=1, column=1)
+    LiteracyGrammarPartC3q = Entry(LeftLiteracyGrammarPartCTestForm, textvariable=LiteracyGrammarPartC3, font=('arial', 15), width=15)
+    LiteracyGrammarPartC3q.grid(row=2, column=1)
+
+    btn_LiteracyGrammarPartCTest = Button(LeftLiteracyGrammarPartCTestForm, text="Complete", font=('arial', 18), width=30, command=CompleteLiteracyGrammarPartC)
+    btn_LiteracyGrammarPartCTest.grid(row=3, columnspan=2, pady=20)#add one to row from previous row count
+    btn_LiteracyGrammarPartCTest.bind('<Return>', Login)
+
+def LiteracyGrammarPartBTest():
+    global literacygrammarPartBtestform
+    literacygrammarPartBtestform = Toplevel()
+    literacygrammarPartBtestform.title("Recruitment/Literacy GrammarPart B Test")
+    width = 600
+    height = 500
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+    x = (screen_width/2) - (width/2)
+    y = (screen_height/2) - (height/2)
+    literacygrammarPartBtestform.resizable(0,0)
+    literacygrammarPartBtestform.geometry("%dx%d+%d+%d" % (width, height, x, y))
+    LiteracyGrammarPartBTestForm()
+
+def LiteracyGrammarPartBTestForm():
+    global lbl_result
+    TopLiteracyGrammarPartBTestForm = Frame(literacygrammarPartBtestform, width=6000, height=100, bd=1, relief=SOLID)
+    TopLiteracyGrammarPartBTestForm.pack(side=TOP, pady=20)
+    lbl_text = Label(TopLiteracyGrammarPartBTestForm, text="Literacy Grammar Part B Test", font=('arial', 18), width=800)
+    lbl_text.pack(fill=X)
+    LeftLiteracyGrammarPartBTestForm = Frame(literacygrammarPartBtestform, width=600)
+    LeftLiteracyGrammarPartBTestForm.pack(side=TOP, pady=50)
+    MidLiteracyGrammarPartBTestForm = Frame(literacygrammarPartBtestform, width=600)
+    MidLiteracyGrammarPartBTestForm.pack(side=TOP, pady=50)
+
+    osCommandString = "notepad.exe LiteracyTest.txt"
+    os.system(osCommandString)
+
+    lbl_1= Label(LeftLiteracyGrammarPartBTestForm, text="1:", font=('arial', 15), bd=18)
+    lbl_1.grid(row=0)
+    lbl_2= Label(LeftLiteracyGrammarPartBTestForm, text="2:", font=('arial', 15), bd=18)
+    lbl_2.grid(row=1)
+    lbl_result = Label(LeftLiteracyGrammarPartBTestForm, text="", font=('arial', 18))
+    lbl_result.grid(row=4, columnspan=2)#add 3 from previous row count
+
+    LiteracyGrammarPartB1q = Entry(LeftLiteracyGrammarPartBTestForm, textvariable=LiteracyGrammarPartB1, font=('arial', 15), width=15)
+    LiteracyGrammarPartB1q.grid(row=0, column=1)
+    LiteracyGrammarPartB2q = Entry(LeftLiteracyGrammarPartBTestForm, textvariable=LiteracyGrammarPartB2, font=('arial', 15), width=15)
+    LiteracyGrammarPartB2q.grid(row=1, column=1)
+
+    btn_LiteracyGrammarPartBTest = Button(LeftLiteracyGrammarPartBTestForm, text="Complete", font=('arial', 18), width=30, command=CompleteLiteracyGrammarPartB)
+    btn_LiteracyGrammarPartBTest.grid(row=2, columnspan=2, pady=20)#add one to row from previous row count
+    btn_LiteracyGrammarPartBTest.bind('<Return>', Login)
+
 def LiteracyGrammarPartATest():
     global literacygrammarPartAtestform
     literacygrammarPartAtestform = Toplevel()
-    literacygrammarPartAtestform.title("Recruitment/Literacy GrammarPartA Test")
-    width = 800
-    height = 700
+    literacygrammarPartAtestform.title("Recruitment/Literacy GrammarPart A Test")
+    width = 600
+    height = 500
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
     x = (screen_width/2) - (width/2)
@@ -408,7 +567,7 @@ def LiteracyGrammarPartATestForm():
     lbl_text = Label(TopLiteracyGrammarPartATestForm, text="Literacy Grammar PartA Test", font=('arial', 18), width=800)
     lbl_text.pack(fill=X)
     LeftLiteracyGrammarPartATestForm = Frame(literacygrammarPartAtestform, width=600)
-    LeftLiteracyGrammarPartATestForm.pack(side=LEFT, pady=50)
+    LeftLiteracyGrammarPartATestForm.pack(side=TOP, pady=50)
     MidLiteracyGrammarPartATestForm = Frame(literacygrammarPartAtestform, width=600)
     MidLiteracyGrammarPartATestForm.pack(side=TOP, pady=50)
 
@@ -901,6 +1060,36 @@ def CompleteLiteracyGrammarPartA(event=None):
     cursor.close()
     conn.close()
 
+def CompleteLiteracyGrammarPartB(event=None):
+    Database()
+    if LiteracyGrammarPartB1.get() == "":
+        lbl_result.config(text="Please complete the required field!", fg="red")
+    else:
+        cursor.execute("INSERT INTO 'LiteracyGrammarPartB'('Question 1', 'Question 2') VALUES(?,?)",(str(LiteracyGrammarPartB1.get()),str(LiteracyGrammarPartB2.get())))
+        conn.commit()
+    cursor.close()
+    conn.close()
+
+def CompleteLiteracyGrammarPartC(event=None):
+    Database()
+    if LiteracyGrammarPartC1.get() == "":
+        lbl_result.config(text="Please complete the required field!", fg="red")
+    else:
+        cursor.execute("INSERT INTO 'LiteracyGrammarPartC'('Question 1', 'Question 2', 'Question 3') VALUES(?,?,?)",(str(LiteracyGrammarPartC1.get()),str(LiteracyGrammarPartC2.get()),str(LiteracyGrammarPartC3.get())))
+        conn.commit()
+    cursor.close()
+    conn.close()
+
+def CompleteLiteracyComprehension(event=None):
+    Database()
+    if LiteracyComprehensionA.get() == "":
+        lbl_result.config(text="Please complete the required field!", fg="red")
+    else:
+        cursor.execute("INSERT INTO 'LiteracyComprehension'('Part A', 'Part B', 'Part C', 'Part D') VALUES(?,?,?,?)",(str(LiteracyComprehensionA.get()),str(LiteracyComprehensionB.get()),str(LiteracyComprehensionC.get()),str(LiteracyComprehensionD.get())))
+        conn.commit()
+    cursor.close()
+    conn.close()
+
 def PolicyView(event=None):
     tkMessageBox.showinfo('Policies', 'Our policy to make sure the use of our\n software and that the recruiting process is relatively easy and simple to use.\nAs part of a recruitment team there are many rules to follow within the law\nsuch as the newly updated GDPR laws. This is one of the most important laws\nto follow as a lot of personal data will be collected about each applicant. This\ndata must be stored securely where it can’t be exposed to anyone other than\nthe appropriate users.\nAs Brainvire is a big company and several different teams we all have different\npolicies within each group. Our policy will go through everything we expect\nfrom our employees and from everyone that will be using the software\nprovided by us.\n“Brainvire Ltd” is committed to:\n- Viewing all entries for positions as equals and only taking in the best of\nthe best.\n- Providing potential new employees with fair numeracy and literacy tests\nto help the process of elimination.\n- Promoting continual quality of improvement and the philosophy of\ngetting things “right the first time”.')
 
@@ -908,14 +1097,11 @@ def ShowHome():
     root.withdraw()
     Home()
     loginform.destroy()
-    registerform.destroy()
-    loginempform.destroy()
 
 def ShowHomeEmp():
     root.withdraw()
     HomeEmp()
     loginempform.destroy()
-    registerform.destroy()
 
 #========================================MENUBAR WIDGETS==================================
 menubar = Menu(root)
