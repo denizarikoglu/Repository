@@ -92,6 +92,12 @@ LiteracyComprehensionB = StringVar()
 LiteracyComprehensionC = StringVar()
 LiteracyComprehensionD = StringVar()
 
+JobTitleAdd = StringVar()
+ContractStartDateAdd = StringVar()
+ContractEndDateAdd = StringVar()
+StartingSalaryAdd = StringVar()
+BriefDescriptionAdd = StringVar()
+
 USERNAMEemplogin = StringVar()
 PASSWORDemplogin = StringVar()
 
@@ -99,6 +105,7 @@ PRODUCT_NAME = StringVar()
 PRODUCT_PRICE = IntVar()
 PRODUCT_QTY = IntVar()
 SEARCH = StringVar()
+SEARCHJOBS = StringVar()
 
 #========================================METHODS==========================================
 
@@ -108,13 +115,14 @@ def Database():
     cursor = conn.cursor()
     cursor.execute("CREATE TABLE IF NOT EXISTS `admin` (admin_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, username TEXT, password TEXT)")
     cursor.execute("CREATE TABLE IF NOT EXISTS `UFIX_PIM` (emp_id INTEGER PRIMARY KEY AUTOINCREMENT, First_name TEXT NOT NULL, Last_name TEXT NOT NULL, Contact_number TEXT NOT NULL, Email_Address TEXT NOT NULL, Date_of_Birth DATE NOT NULL, Address_line1 TEXT NOT NULL, Address_line2 TEXT NOT NULL, Country TEXT NOT NULL, Postcode TEXT NOT NULL, Username TEXT NOT NULL, Password TEXT NOT NULL)")
-    cursor.execute("CREATE TABLE IF NOT EXISTS `NumeracyTestMental` ( `Question 1` TEXT, `Question 2` TEXT, `Question 3` TEXT, `Question 4` TEXT, `Question 5` TEXT, `Question 6` TEXT, `Question 7` TEXT, `Question 8` TEXT, `Question 9` TEXT, `Question 10` TEXT, `Question 11` TEXT, `Question 12` TEXT, `Question 13` TEXT, `Question 14` TEXT, `Question 15` TEXT )")
-    cursor.execute("CREATE TABLE IF NOT EXISTS `NumeracyTestWritten` ( `Question 1` TEXT, `Question 2` TEXT, `Question 3` TEXT, `Question 4` TEXT, `Question 5` TEXT, `Question 6` TEXT, `Question 7` TEXT, `Question 8` TEXT, `Question 9` TEXT, `Question 10` TEXT, `Question 11` TEXT, `Question 12` TEXT )")
-    cursor.execute("CREATE TABLE IF NOT EXISTS `LiteracySpelling` ( `Question 1` TEXT, `Question 2` TEXT, `Question 3` TEXT, `Question 4` TEXT, `Question 5` TEXT, `Question 6` TEXT, `Question 7` TEXT, `Question 8` TEXT, `Question 9` TEXT, `Question 10` TEXT )")
-    cursor.execute("CREATE TABLE IF NOT EXISTS `LiteracyGrammarPartA` ( `Question 1` TEXT, `Question 2` TEXT, `Question 3` TEXT, `Question 4` TEXT, `Question 5` TEXT )")
-    cursor.execute("CREATE TABLE IF NOT EXISTS `LiteracyGrammarPartB` ( `Question 1` TEXT, `Question 2` TEXT )")
-    cursor.execute("CREATE TABLE IF NOT EXISTS `LiteracyGrammarPartC` ( `Question 1` TEXT, `Question 2` TEXT, `Question 3` TEXT )")
-    cursor.execute("CREATE TABLE IF NOT EXISTS `LiteracyComprehension` ( `Part A` TEXT, `Part B` TEXT, `Part C` TEXT, `Part D` TEXT )")
+    cursor.execute("CREATE TABLE IF NOT EXISTS `NumeracyTestMental` ( `emp_id` TEXT,`Question 1` TEXT, `Question 2` TEXT, `Question 3` TEXT, `Question 4` TEXT, `Question 5` TEXT, `Question 6` TEXT, `Question 7` TEXT, `Question 8` TEXT, `Question 9` TEXT, `Question 10` TEXT, `Question 11` TEXT, `Question 12` TEXT, `Question 13` TEXT, `Question 14` TEXT, `Question 15` TEXT )")
+    cursor.execute("CREATE TABLE IF NOT EXISTS `NumeracyTestWritten` ( `emp_id` TEXT,`Question 1` TEXT, `Question 2` TEXT, `Question 3` TEXT, `Question 4` TEXT, `Question 5` TEXT, `Question 6` TEXT, `Question 7` TEXT, `Question 8` TEXT, `Question 9` TEXT, `Question 10` TEXT, `Question 11` TEXT, `Question 12` TEXT )")
+    cursor.execute("CREATE TABLE IF NOT EXISTS `LiteracySpelling` ( `emp_id` TEXT,`Question 1` TEXT, `Question 2` TEXT, `Question 3` TEXT, `Question 4` TEXT, `Question 5` TEXT, `Question 6` TEXT, `Question 7` TEXT, `Question 8` TEXT, `Question 9` TEXT, `Question 10` TEXT )")
+    cursor.execute("CREATE TABLE IF NOT EXISTS `LiteracyGrammarPartA` ( `emp_id` TEXT,`Question 1` TEXT, `Question 2` TEXT, `Question 3` TEXT, `Question 4` TEXT, `Question 5` TEXT )")
+    cursor.execute("CREATE TABLE IF NOT EXISTS `LiteracyGrammarPartB` ( `emp_id` TEXT,`Question 1` TEXT, `Question 2` TEXT )")
+    cursor.execute("CREATE TABLE IF NOT EXISTS `LiteracyGrammarPartC` ( `emp_id` TEXT,`Question 1` TEXT, `Question 2` TEXT, `Question 3` TEXT )")
+    cursor.execute("CREATE TABLE IF NOT EXISTS `LiteracyComprehension` ( `emp_id` TEXT,`Part A` TEXT, `Part B` TEXT, `Part C` TEXT, `Part D` TEXT )")
+    cursor.execute("CREATE TABLE IF NOT EXISTS `Available_Jobs` ( `Job Title` TEXT, `Contract Start Date` TEXT, `Contract End Date` TEXT, `Starting Salary` TEXT, `Brief Description` TEXT )")
     cursor.execute("SELECT * FROM `admin` WHERE `username` = 'admin' AND `password` = 'admin'")
     if cursor.fetchone() is None:
         cursor.execute("INSERT INTO `admin` (username, password) VALUES('admin', 'admin')")
@@ -300,10 +308,12 @@ def Home():
     filemenu2 = Menu(menubar, tearoff=0)
     filemenu.add_command(label="Logout", command=Logout)
     filemenu.add_command(label="Exit", command=Exit)
-    filemenu2.add_command(label="Add new", command=ShowAddNew)
-    filemenu2.add_command(label="View", command=ShowView)
+    #filemenu2.add_command(label="Add new", command=ShowAddNew)
+    #filemenu2.add_command(label="View", command=ShowView)
+    filemenu2.add_command(label="Add Jobs", command=ShowAddAvailableJobs)
+    filemenu2.add_command(label="View Jobs", command=ShowViewJobsAdmin)
     menubar.add_cascade(label="Account", menu=filemenu)
-    menubar.add_cascade(label="Inventory", menu=filemenu2)
+    menubar.add_cascade(label="Jobs", menu=filemenu2)
     Home.config(menu=menubar)
     Home.config(bg="#99ff99")
 
@@ -328,6 +338,7 @@ def HomeEmp():
     filemenu2 = Menu(menubar, tearoff=0)
     filemenu3 = Menu(menubar, tearoff=0)
     filemenu4 = Menu(menubar, tearoff=0)
+    filemenu5 = Menu(menubar, tearoff=0)
     filemenu.add_command(label="Logout", command=LogoutEmp)#CONTINUE HERE
     filemenu.add_command(label="Exit", command=Exit)
     filemenu2.add_command(label="Numeracy", command=NumeracyIntro)
@@ -340,13 +351,79 @@ def HomeEmp():
     filemenu4.add_command(label="Grammar Part B", command=LiteracyGrammarPartBTest)
     filemenu4.add_command(label="Grammar Part C", command=LiteracyGrammarPartCTest)
     filemenu4.add_command(label="Comprehension", command=LiteracyComprehensionTest)
-
+    filemenu5.add_command(label="View Jobs", command=ShowViewJobs)
     menubar.add_cascade(label="Account", menu=filemenu)
     menubar.add_cascade(label="Intro", menu=filemenu2)
     menubar.add_cascade(label="Numeracy Test", menu=filemenu3)
     menubar.add_cascade(label="Literacy Test", menu=filemenu4)
+    menubar.add_cascade(label="Jobs", menu=filemenu5)
     HomeEmp.config(menu=menubar)
     HomeEmp.config(bg="#99ff99")
+
+def NumeracyIntro():
+    osCommandString = "notepad.exe NumeracyIntro.txt"
+    os.system(osCommandString)
+
+def LiteracyIntro():
+    osCommandString = "notepad.exe LiteracyIntro.txt"
+    os.system(osCommandString)
+
+def ShowAddAvailableJobs():
+    global addavailablejobsform
+    addavailablejobsform = Toplevel()
+    addavailablejobsform.title("Recruitment/Add New Available Job")
+    width = 600
+    height = 500
+    screen_width = Home.winfo_screenwidth()
+    screen_height = Home.winfo_screenheight()
+    x = (screen_width/2) - (width/2)
+    y = (screen_height/2) - (height/2)
+    addavailablejobsform.geometry("%dx%d+%d+%d" % (width, height, x, y))
+    addavailablejobsform.resizable(0, 0)
+    AddAvailableJobs()
+
+def AddAvailableJobs():
+    TopAddNew = Frame(addavailablejobsform, width=600, height=100, bd=1, relief=SOLID)
+    TopAddNew.pack(side=TOP, pady=20)
+    lbl_text = Label(TopAddNew, text="Add New Available Job", font=('arial', 18), width=600)
+    lbl_text.pack(fill=X)
+    MidAddAvailableJobs = Frame(addavailablejobsform, width=600)
+    MidAddAvailableJobs.pack(side=TOP, pady=50)
+    lbl_1 = Label(MidAddAvailableJobs, text="Job Title:", font=('arial', 25), bd=10)
+    lbl_1.grid(row=0, sticky=W)
+    lbl_2 = Label(MidAddAvailableJobs, text="Contract Start Date:", font=('arial', 25), bd=10)
+    lbl_2.grid(row=1, sticky=W)
+    lbl_3 = Label(MidAddAvailableJobs, text="Contract End Date:", font=('arial', 25), bd=10)
+    lbl_3.grid(row=2, sticky=W)
+    lbl_4 = Label(MidAddAvailableJobs, text="Starting Salary:", font=('arial', 25), bd=10)
+    lbl_4.grid(row=3, sticky=W)
+    lbl_5 = Label(MidAddAvailableJobs, text="Brief Description:", font=('arial', 25), bd=10)
+    lbl_5.grid(row=4, sticky=W)
+    JobTitle = Entry(MidAddAvailableJobs, textvariable=JobTitleAdd, font=('arial', 25), width=15)
+    JobTitle.grid(row=0, column=1)
+    ContractStartDate = Entry(MidAddAvailableJobs, textvariable=ContractStartDateAdd, font=('arial', 25), width=15)
+    ContractStartDate.grid(row=1, column=1)
+    ContractEndDate = Entry(MidAddAvailableJobs, textvariable=ContractEndDateAdd, font=('arial', 25), width=15)
+    ContractEndDate.grid(row=2, column=1)
+    StartingSalary = Entry(MidAddAvailableJobs, textvariable=StartingSalaryAdd, font=('arial', 25), width=15)
+    StartingSalary.grid(row=3, column=1)
+    BriefDescription = Entry(MidAddAvailableJobs, textvariable=BriefDescriptionAdd, font=('arial', 25), width=15)
+    BriefDescription.grid(row=4, column=1)
+
+    btn_addAddAvailableJobs = Button(MidAddAvailableJobs, text="Add", font=('arial', 18), width=30, bg="#009ACD", command=AddNewAvailableJobs)
+    btn_addAddAvailableJobs.grid(row=5, columnspan=2, pady=20)
+
+def AddNewAvailableJobs():
+    Database()
+    cursor.execute("INSERT INTO `Available_Jobs` ('Job Title','Contract Start Date','Contract End Date','Starting Salary','Brief Description') VALUES(?, ?, ?,?,?)", (str(JobTitleAdd.get()), str(ContractStartDateAdd.get()), str(ContractEndDateAdd.get()),str(StartingSalaryAdd.get()),str(BriefDescriptionAdd.get())))
+    conn.commit()
+    JobTitleAdd.set("")
+    ContractStartDateAdd.set("")
+    ContractEndDateAdd.set("")
+    StartingSalaryAdd.set("")
+    BriefDescriptionAdd.set("")
+    cursor.close()
+    conn.close()
 
 def ShowAddNew():
     global addnewform
@@ -361,14 +438,6 @@ def ShowAddNew():
     addnewform.geometry("%dx%d+%d+%d" % (width, height, x, y))
     addnewform.resizable(0, 0)
     AddNewForm()
-
-def NumeracyIntro():
-    osCommandString = "notepad.exe NumeracyIntro.txt"
-    os.system(osCommandString)
-
-def LiteracyIntro():
-    osCommandString = "notepad.exe LiteracyIntro.txt"
-    os.system(osCommandString)
 
 def AddNewForm():
     TopAddNew = Frame(addnewform, width=600, height=100, bd=1, relief=SOLID)
@@ -564,7 +633,7 @@ def LiteracyGrammarPartATestForm():
     global lbl_result
     TopLiteracyGrammarPartATestForm = Frame(literacygrammarPartAtestform, width=6000, height=100, bd=1, relief=SOLID)
     TopLiteracyGrammarPartATestForm.pack(side=TOP, pady=20)
-    lbl_text = Label(TopLiteracyGrammarPartATestForm, text="Literacy Grammar PartA Test", font=('arial', 18), width=800)
+    lbl_text = Label(TopLiteracyGrammarPartATestForm, text="Literacy Grammar Part A Test", font=('arial', 18), width=800)
     lbl_text.pack(fill=X)
     LeftLiteracyGrammarPartATestForm = Frame(literacygrammarPartAtestform, width=600)
     LeftLiteracyGrammarPartATestForm.pack(side=TOP, pady=50)
@@ -765,7 +834,7 @@ def NumeracyTestWrittenForm():
 def NumeracyTestMental():
     global numeracytestform
     numeracytestform = Toplevel()
-    numeracytestform.title("Recruitment/Numeracy Test")
+    numeracytestform.title("Recruitment/Numeracy Mental Test")
     width = 800
     height = 700
     screen_width = root.winfo_screenwidth()
@@ -780,7 +849,7 @@ def NumeracyTestMentalForm():
     global lbl_result
     TopNumeracyTestForm = Frame(numeracytestform, width=6000, height=100, bd=1, relief=SOLID)
     TopNumeracyTestForm.pack(side=TOP, pady=20)
-    lbl_text = Label(TopNumeracyTestForm, text="Numeracy Test Form", font=('arial', 18), width=800)
+    lbl_text = Label(TopNumeracyTestForm, text="Numeracy Test Mental Form", font=('arial', 18), width=800)
     lbl_text.pack(fill=X)
     LeftNumeracyTestForm = Frame(numeracytestform, width=600)
     LeftNumeracyTestForm.pack(side=LEFT, pady=50)
@@ -857,6 +926,105 @@ def NumeracyTestMentalForm():
     btn_NumeracyTest = Button(MidNumeracyTestForm, text="Complete", font=('arial', 18), width=30, command=CompleteNumeracytest)
     btn_NumeracyTest.grid(row=15, columnspan=2, pady=20)#add one to row from previous row count
     btn_NumeracyTest.bind('<Return>', Login)
+
+def ShowViewJobsAdmin():
+    global viewformjobs
+    viewformjobs = Toplevel()
+    viewformjobs.title("Recruitment/View Product")
+    width = 600
+    height = 400
+    screen_width = Home.winfo_screenwidth()
+    screen_height = Home.winfo_screenheight()
+    x = (screen_width/2) - (width/2)
+    y = (screen_height/2) - (height/2)
+    viewformjobs.geometry("%dx%d+%d+%d" % (width, height, x, y))
+    viewformjobs.resizable(0, 0)
+    ViewFormJobs()
+
+def ShowViewJobs():
+    global viewformjobs
+    viewformjobs = Toplevel()
+    viewformjobs.title("Recruitment/View Product")
+    width = 600
+    height = 400
+    screen_width = HomeEmp.winfo_screenwidth()
+    screen_height = HomeEmp.winfo_screenheight()
+    x = (screen_width/2) - (width/2)
+    y = (screen_height/2) - (height/2)
+    viewformjobs.geometry("%dx%d+%d+%d" % (width, height, x, y))
+    viewformjobs.resizable(0, 0)
+    ViewFormJobs()
+
+def ViewFormJobs():
+    global treejobs
+    TopViewFormJobs = Frame(viewformjobs, width=600, bd=1, relief=SOLID)
+    TopViewFormJobs.pack(side=TOP, fill=X)
+    LeftViewFormJobs = Frame(viewformjobs, width=600)
+    LeftViewFormJobs.pack(side=LEFT, fill=Y)
+    MidViewFormJobs = Frame(viewformjobs, width=600)
+    MidViewFormJobs.pack(side=RIGHT)
+    lbl_textjobs = Label(TopViewFormJobs, text="View Available Jobs", font=('arial', 18), width=600)
+    lbl_textjobs.pack(fill=X)
+    lbl_txtsearchjobs = Label(LeftViewFormJobs, text="Search", font=('arial', 15))
+    lbl_txtsearchjobs.pack(side=TOP, anchor=W)
+    searchjobs = Entry(LeftViewFormJobs, textvariable=SEARCHJOBS, font=('arial', 15), width=10)
+    searchjobs.pack(side=TOP,  padx=10, fill=X)
+    btn_searchjobs = Button(LeftViewFormJobs, text="Search", command=SearchJobs)
+    btn_searchjobs.pack(side=TOP, padx=10, pady=10, fill=X)
+    scrollbarx = Scrollbar(MidViewFormJobs, orient=HORIZONTAL)
+    scrollbary = Scrollbar(MidViewFormJobs, orient=VERTICAL)
+    treejobs = ttk.Treeview(MidViewFormJobs, columns=("Job Title", "Contract Start Date", "Contract End Date", "Starting Salary", "Brief Description"), selectmode="extended", height=100, yscrollcommand=scrollbary.set, xscrollcommand=scrollbarx.set)
+    scrollbary.config(command=treejobs.yview)
+    scrollbary.pack(side=RIGHT, fill=Y)
+    scrollbarx.config(command=treejobs.xview)
+    scrollbarx.pack(side=BOTTOM, fill=X)
+    treejobs.heading('Job Title', text="Job Title",anchor=W)
+    treejobs.heading('Contract Start Date', text="Contract Start Date",anchor=W)
+    treejobs.heading('Contract End Date', text="Contract End Date",anchor=W)
+    treejobs.heading('Starting Salary', text="Starting Salary",anchor=W)
+    treejobs.heading('Brief Description', text="Brief Description",anchor=W)
+    treejobs.column('#0', stretch=NO, minwidth=0, width=0)
+    treejobs.column('#1', stretch=NO, minwidth=0, width=120)
+    treejobs.column('#2', stretch=NO, minwidth=0, width=200)
+    treejobs.column('#3', stretch=NO, minwidth=0, width=120)
+    treejobs.column('#4', stretch=NO, minwidth=0, width=120)
+    treejobs.column('#5', stretch=NO, minwidth=0, width=120)
+    treejobs.pack()
+    DisplayDataJobs()
+
+def DisplayDataJobs():
+    Database()
+    cursor.execute("SELECT * FROM `Available_Jobs`")
+    fetch = cursor.fetchall()
+    for data in fetch:
+        treejobs.insert('', 'end', values=(data))
+    cursor.close()
+    conn.close()
+
+def SearchJobs():
+    if SEARCHJOBS.get() != "":
+        treejobs.delete(*treejobs.get_children())
+        Database()
+        cursor.execute("SELECT * FROM `Available_Jobs` WHERE `Job Title` LIKE ?", ('%'+str(SEARCHJOBS.get())+'%',))
+        fetch = cursor.fetchall()
+        for data in fetch:
+            treejobs.insert('', 'end', values=(data))
+        cursor.close()
+        conn.close()
+
+def ShowView():
+    global viewform
+    viewform = Toplevel()
+    viewform.title("Recruitment/View Product")
+    width = 600
+    height = 400
+    screen_width = Home.winfo_screenwidth()
+    screen_height = Home.winfo_screenheight()
+    x = (screen_width/2) - (width/2)
+    y = (screen_height/2) - (height/2)
+    viewform.geometry("%dx%d+%d+%d" % (width, height, x, y))
+    viewform.resizable(0, 0)
+    ViewForm()
 
 def ViewForm():
     global tree
@@ -938,20 +1106,6 @@ def Delete():
             cursor.close()
             conn.close()
 
-def ShowView():
-    global viewform
-    viewform = Toplevel()
-    viewform.title("Recruitment/View Product")
-    width = 600
-    height = 400
-    screen_width = Home.winfo_screenwidth()
-    screen_height = Home.winfo_screenheight()
-    x = (screen_width/2) - (width/2)
-    y = (screen_height/2) - (height/2)
-    viewform.geometry("%dx%d+%d+%d" % (width, height, x, y))
-    viewform.resizable(0, 0)
-    ViewForm()
-
 def Logout():
     result = tkMessageBox.askquestion('Recruitment', 'Are you sure you want to logout?', icon="warning")
     if result == 'yes':
@@ -1025,7 +1179,7 @@ def CompleteNumeracytest(event=None):
     if NumeracyMentalq1.get() == "":
         lbl_result.config(text="Please complete the required field!", fg="red")
     else:
-        cursor.execute("INSERT INTO 'NumeracyTestMental'('Question 1', 'Question 2', 'Question 3', 'Question 4', 'Question 5', 'Question 6', 'Question 7', 'Question 8', 'Question 9', 'Question 10', 'Question 11', 'Question 12', 'Question 13', 'Question 14', 'Question 15') VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(str(NumeracyMentalq1.get()),str(NumeracyMentalq2.get()),str(NumeracyMentalq3.get()),str(NumeracyMentalq4.get()),str(NumeracyMentalq5.get()),str(NumeracyMentalq6.get()),str(NumeracyMentalq7.get()),str(NumeracyMentalq8.get()),str(NumeracyMentalq9.get()),str(NumeracyMentalq10.get()),str(NumeracyMentalq11.get()),str(NumeracyMentalq12.get()),str(NumeracyMentalq13.get()),str(NumeracyMentalq14.get()),str(NumeracyMentalq15.get())))
+        cursor.execute("INSERT INTO 'NumeracyTestMental'('emp_id','Question 1', 'Question 2', 'Question 3', 'Question 4', 'Question 5', 'Question 6', 'Question 7', 'Question 8', 'Question 9', 'Question 10', 'Question 11', 'Question 12', 'Question 13', 'Question 14', 'Question 15') VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(emp_id,str(NumeracyMentalq1.get()),str(NumeracyMentalq2.get()),str(NumeracyMentalq3.get()),str(NumeracyMentalq4.get()),str(NumeracyMentalq5.get()),str(NumeracyMentalq6.get()),str(NumeracyMentalq7.get()),str(NumeracyMentalq8.get()),str(NumeracyMentalq9.get()),str(NumeracyMentalq10.get()),str(NumeracyMentalq11.get()),str(NumeracyMentalq12.get()),str(NumeracyMentalq13.get()),str(NumeracyMentalq14.get()),str(NumeracyMentalq15.get())))
         conn.commit()
     cursor.close()
     conn.close()
@@ -1035,7 +1189,7 @@ def CompleteNumeracyWrittentest(event=None):
     if NumeracyWrittenq1.get() == "":
         lbl_result.config(text="Please complete the required field!", fg="red")
     else:
-        cursor.execute("INSERT INTO 'NumeracyTestWritten'('Question 1', 'Question 2', 'Question 3', 'Question 4', 'Question 5', 'Question 6', 'Question 7', 'Question 8', 'Question 9', 'Question 10', 'Question 11', 'Question 12') VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",(str(NumeracyWrittenq1.get()),str(NumeracyWrittenq2.get()),str(NumeracyWrittenq3.get()),str(NumeracyWrittenq4.get()),str(NumeracyWrittenq5.get()),str(NumeracyWrittenq6.get()),str(NumeracyWrittenq7.get()),str(NumeracyWrittenq8.get()),str(NumeracyWrittenq9.get()),str(NumeracyWrittenq10.get()),str(NumeracyWrittenq11.get()),str(NumeracyWrittenq12.get())))
+        cursor.execute("INSERT INTO 'NumeracyTestWritten'('emp_id','Question 1', 'Question 2', 'Question 3', 'Question 4', 'Question 5', 'Question 6', 'Question 7', 'Question 8', 'Question 9', 'Question 10', 'Question 11', 'Question 12') VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)",(emp_id,str(NumeracyWrittenq1.get()),str(NumeracyWrittenq2.get()),str(NumeracyWrittenq3.get()),str(NumeracyWrittenq4.get()),str(NumeracyWrittenq5.get()),str(NumeracyWrittenq6.get()),str(NumeracyWrittenq7.get()),str(NumeracyWrittenq8.get()),str(NumeracyWrittenq9.get()),str(NumeracyWrittenq10.get()),str(NumeracyWrittenq11.get()),str(NumeracyWrittenq12.get())))
         conn.commit()
     cursor.close()
     conn.close()
@@ -1045,7 +1199,7 @@ def CompleteLiteracySpelling(event=None):
     if LiteracySpelling1.get() == "":
         lbl_result.config(text="Please complete the required field!", fg="red")
     else:
-        cursor.execute("INSERT INTO 'LiteracySpelling'('Question 1', 'Question 2', 'Question 3', 'Question 4', 'Question 5', 'Question 6', 'Question 7', 'Question 8', 'Question 9', 'Question 10') VALUES(?,?,?,?,?,?,?,?,?,?)",(str(LiteracySpelling1.get()),str(LiteracySpelling2.get()),str(LiteracySpelling3.get()),str(LiteracySpelling4.get()),str(LiteracySpelling5.get()),str(LiteracySpelling6.get()),str(LiteracySpelling7.get()),str(LiteracySpelling8.get()),str(LiteracySpelling9.get()),str(LiteracySpelling10.get())))
+        cursor.execute("INSERT INTO 'LiteracySpelling'('emp_id','Question 1', 'Question 2', 'Question 3', 'Question 4', 'Question 5', 'Question 6', 'Question 7', 'Question 8', 'Question 9', 'Question 10') VALUES(?,?,?,?,?,?,?,?,?,?,?)",(emp_id,str(LiteracySpelling1.get()),str(LiteracySpelling2.get()),str(LiteracySpelling3.get()),str(LiteracySpelling4.get()),str(LiteracySpelling5.get()),str(LiteracySpelling6.get()),str(LiteracySpelling7.get()),str(LiteracySpelling8.get()),str(LiteracySpelling9.get()),str(LiteracySpelling10.get())))
         conn.commit()
     cursor.close()
     conn.close()
@@ -1055,7 +1209,7 @@ def CompleteLiteracyGrammarPartA(event=None):
     if LiteracyGrammarPartA1.get() == "":
         lbl_result.config(text="Please complete the required field!", fg="red")
     else:
-        cursor.execute("INSERT INTO 'LiteracyGrammarPartA'('Question 1', 'Question 2', 'Question 3', 'Question 4', 'Question 5') VALUES(?,?,?,?,?)",(str(LiteracyGrammarPartA1.get()),str(LiteracyGrammarPartA2.get()),str(LiteracyGrammarPartA3.get()),str(LiteracyGrammarPartA4.get()),str(LiteracyGrammarPartA5.get())))
+        cursor.execute("INSERT INTO 'LiteracyGrammarPartA'('emp_id','Question 1', 'Question 2', 'Question 3', 'Question 4', 'Question 5') VALUES(?,?,?,?,?,?)",(emp_id,str(LiteracyGrammarPartA1.get()),str(LiteracyGrammarPartA2.get()),str(LiteracyGrammarPartA3.get()),str(LiteracyGrammarPartA4.get()),str(LiteracyGrammarPartA5.get())))
         conn.commit()
     cursor.close()
     conn.close()
@@ -1065,7 +1219,7 @@ def CompleteLiteracyGrammarPartB(event=None):
     if LiteracyGrammarPartB1.get() == "":
         lbl_result.config(text="Please complete the required field!", fg="red")
     else:
-        cursor.execute("INSERT INTO 'LiteracyGrammarPartB'('Question 1', 'Question 2') VALUES(?,?)",(str(LiteracyGrammarPartB1.get()),str(LiteracyGrammarPartB2.get())))
+        cursor.execute("INSERT INTO 'LiteracyGrammarPartB'('emp_id','Question 1', 'Question 2') VALUES(?,?,?)",(emp_id,str(LiteracyGrammarPartB1.get()),str(LiteracyGrammarPartB2.get())))
         conn.commit()
     cursor.close()
     conn.close()
@@ -1075,7 +1229,7 @@ def CompleteLiteracyGrammarPartC(event=None):
     if LiteracyGrammarPartC1.get() == "":
         lbl_result.config(text="Please complete the required field!", fg="red")
     else:
-        cursor.execute("INSERT INTO 'LiteracyGrammarPartC'('Question 1', 'Question 2', 'Question 3') VALUES(?,?,?)",(str(LiteracyGrammarPartC1.get()),str(LiteracyGrammarPartC2.get()),str(LiteracyGrammarPartC3.get())))
+        cursor.execute("INSERT INTO 'LiteracyGrammarPartC'('emp_id','Question 1', 'Question 2', 'Question 3') VALUES(?,?,?,?)",(emp_id,str(LiteracyGrammarPartC1.get()),str(LiteracyGrammarPartC2.get()),str(LiteracyGrammarPartC3.get())))
         conn.commit()
     cursor.close()
     conn.close()
@@ -1085,7 +1239,7 @@ def CompleteLiteracyComprehension(event=None):
     if LiteracyComprehensionA.get() == "":
         lbl_result.config(text="Please complete the required field!", fg="red")
     else:
-        cursor.execute("INSERT INTO 'LiteracyComprehension'('Part A', 'Part B', 'Part C', 'Part D') VALUES(?,?,?,?)",(str(LiteracyComprehensionA.get()),str(LiteracyComprehensionB.get()),str(LiteracyComprehensionC.get()),str(LiteracyComprehensionD.get())))
+        cursor.execute("INSERT INTO 'LiteracyComprehension'('emp_id','Part A', 'Part B', 'Part C', 'Part D') VALUES(?,?,?,?,?)",(emp_id,str(LiteracyComprehensionA.get()),str(LiteracyComprehensionB.get()),str(LiteracyComprehensionC.get()),str(LiteracyComprehensionD.get())))
         conn.commit()
     cursor.close()
     conn.close()
