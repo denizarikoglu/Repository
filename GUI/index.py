@@ -98,6 +98,8 @@ ContractEndDateAdd = StringVar()
 StartingSalaryAdd = StringVar()
 BriefDescriptionAdd = StringVar()
 
+JobIDAssign= StringVar()
+
 USERNAMEemplogin = StringVar()
 PASSWORDemplogin = StringVar()
 
@@ -122,7 +124,8 @@ def Database():
     cursor.execute("CREATE TABLE IF NOT EXISTS `LiteracyGrammarPartB` ( `emp_id` TEXT,`Question 1` TEXT, `Question 2` TEXT )")
     cursor.execute("CREATE TABLE IF NOT EXISTS `LiteracyGrammarPartC` ( `emp_id` TEXT,`Question 1` TEXT, `Question 2` TEXT, `Question 3` TEXT )")
     cursor.execute("CREATE TABLE IF NOT EXISTS `LiteracyComprehension` ( `emp_id` TEXT,`Part A` TEXT, `Part B` TEXT, `Part C` TEXT, `Part D` TEXT )")
-    cursor.execute("CREATE TABLE IF NOT EXISTS `Available_Jobs` ( `Job Title` TEXT, `Contract Start Date` TEXT, `Contract End Date` TEXT, `Starting Salary` TEXT, `Brief Description` TEXT )")
+    cursor.execute("CREATE TABLE IF NOT EXISTS `Available_Jobs` (job_id INTEGER PRIMARY KEY AUTOINCREMENT, `Job Title` TEXT, `Contract Start Date` TEXT, `Contract End Date` TEXT, `Starting Salary` TEXT, `Brief Description` TEXT )")
+    cursor.execute("CREATE TABLE IF NOT EXISTS `EmployeeJobsAssigned` ( `emp_id` TEXT, `job_id` TEXT )")
     cursor.execute("SELECT * FROM `admin` WHERE `username` = 'admin' AND `password` = 'admin'")
     if cursor.fetchone() is None:
         cursor.execute("INSERT INTO `admin` (username, password) VALUES('admin', 'admin')")
@@ -352,6 +355,7 @@ def HomeEmp():
     filemenu4.add_command(label="Grammar Part C", command=LiteracyGrammarPartCTest)
     filemenu4.add_command(label="Comprehension", command=LiteracyComprehensionTest)
     filemenu5.add_command(label="View Jobs", command=ShowViewJobs)
+    filemenu5.add_command(label="Apply", command=ShowAssignJob)
     menubar.add_cascade(label="Account", menu=filemenu)
     menubar.add_cascade(label="Intro", menu=filemenu2)
     menubar.add_cascade(label="Numeracy Test", menu=filemenu3)
@@ -367,6 +371,42 @@ def NumeracyIntro():
 def LiteracyIntro():
     osCommandString = "notepad.exe LiteracyIntro.txt"
     os.system(osCommandString)
+
+def ShowAssignJob():
+    global assignjobform
+    assignjobform = Toplevel()
+    assignjobform.title("Recruitment/Apply for a job")
+    width = 600
+    height = 500
+    screen_width = HomeEmp.winfo_screenwidth()
+    screen_height = HomeEmp.winfo_screenheight()
+    x = (screen_width/2) - (width/2)
+    y = (screen_height/2) - (height/2)
+    assignjobform.geometry("%dx%d+%d+%d" % (width, height, x, y))
+    assignjobform.resizable(0, 0)
+    AddAssignJob()
+
+def AddAssignJob():
+    TopAddAssignJob = Frame(assignjobform, width=600, height=100, bd=1, relief=SOLID)
+    TopAddAssignJob.pack(side=TOP, pady=20)
+    lbl_text = Label(TopAddAssignJob, text="Apply for a job", font=('arial', 18), width=600)
+    lbl_text.pack(fill=X)
+    MidAddAssignJob = Frame(assignjobform, width=600)
+    MidAddAssignJob.pack(side=TOP, pady=50)
+    lbl_1 = Label(MidAddAssignJob, text="Job ID:", font=('arial', 25), bd=10)
+    lbl_1.grid(row=0, sticky=W)
+    JobID = Entry(MidAddAssignJob, textvariable=JobIDAssign, font=('arial', 25), width=15)
+    JobID.grid(row=0, column=1)
+
+    btn_AddAssignJob = Button(MidAddAssignJob, text="Add", font=('arial', 18), width=30, bg="#009ACD", command=AddAssignJobNew)
+    btn_AddAssignJob.grid(row=5, columnspan=2, pady=20)
+
+def AddAssignJobNew():
+    Database()
+    cursor.execute("INSERT INTO `EmployeeJobsAssigned` ('emp_id','job_id') VALUES(?, ?)", (emp_id ,str(JobIDAssign.get())))
+    conn.commit()
+    cursor.close()
+    conn.close()
 
 def ShowAddAvailableJobs():
     global addavailablejobsform
@@ -931,7 +971,7 @@ def ShowViewJobsAdmin():
     global viewformjobs
     viewformjobs = Toplevel()
     viewformjobs.title("Recruitment/View Product")
-    width = 600
+    width = 800
     height = 400
     screen_width = Home.winfo_screenwidth()
     screen_height = Home.winfo_screenheight()
@@ -945,7 +985,7 @@ def ShowViewJobs():
     global viewformjobs
     viewformjobs = Toplevel()
     viewformjobs.title("Recruitment/View Product")
-    width = 600
+    width = 800
     height = 400
     screen_width = HomeEmp.winfo_screenwidth()
     screen_height = HomeEmp.winfo_screenheight()
@@ -957,7 +997,7 @@ def ShowViewJobs():
 
 def ViewFormJobs():
     global treejobs
-    TopViewFormJobs = Frame(viewformjobs, width=600, bd=1, relief=SOLID)
+    TopViewFormJobs = Frame(viewformjobs, width=800, bd=1, relief=SOLID)
     TopViewFormJobs.pack(side=TOP, fill=X)
     LeftViewFormJobs = Frame(viewformjobs, width=600)
     LeftViewFormJobs.pack(side=LEFT, fill=Y)
@@ -973,7 +1013,7 @@ def ViewFormJobs():
     btn_searchjobs.pack(side=TOP, padx=10, pady=10, fill=X)
     scrollbarx = Scrollbar(MidViewFormJobs, orient=HORIZONTAL)
     scrollbary = Scrollbar(MidViewFormJobs, orient=VERTICAL)
-    treejobs = ttk.Treeview(MidViewFormJobs, columns=("Job Title", "Contract Start Date", "Contract End Date", "Starting Salary", "Brief Description"), selectmode="extended", height=100, yscrollcommand=scrollbary.set, xscrollcommand=scrollbarx.set)
+    treejobs = ttk.Treeview(MidViewFormJobs, columns=("ID", "Job Title", "Contract Start Date", "Contract End Date", "Starting Salary", "Brief Description"), selectmode="extended", height=100, yscrollcommand=scrollbary.set, xscrollcommand=scrollbarx.set)
     scrollbary.config(command=treejobs.yview)
     scrollbary.pack(side=RIGHT, fill=Y)
     scrollbarx.config(command=treejobs.xview)
@@ -984,13 +1024,35 @@ def ViewFormJobs():
     treejobs.heading('Starting Salary', text="Starting Salary",anchor=W)
     treejobs.heading('Brief Description', text="Brief Description",anchor=W)
     treejobs.column('#0', stretch=NO, minwidth=0, width=0)
-    treejobs.column('#1', stretch=NO, minwidth=0, width=120)
-    treejobs.column('#2', stretch=NO, minwidth=0, width=200)
+    treejobs.column('#1', stretch=NO, minwidth=0, width=20)
+    treejobs.column('#2', stretch=NO, minwidth=0, width=100)
     treejobs.column('#3', stretch=NO, minwidth=0, width=120)
     treejobs.column('#4', stretch=NO, minwidth=0, width=120)
     treejobs.column('#5', stretch=NO, minwidth=0, width=120)
+    treejobs.column('#5', stretch=NO, minwidth=0, width=120)
     treejobs.pack()
+
+    if admin_id != "":
+        btn_deletejobs = Button(LeftViewFormJobs, text="Delete", command=DeleteJobs)
+        btn_deletejobs.pack(side=TOP, padx=10, pady=10, fill=X)
+
     DisplayDataJobs()
+
+def DeleteJobs():
+    if not treejobs.selection() and admin_id != "":
+       print("ERROR")
+    else:
+        result = tkMessageBox.askquestion('Recruitment', 'Are you sure you want to delete this record?', icon="warning")
+        if result == 'yes':
+            curItem = treejobs.focus()
+            contents =(treejobs.item(curItem))
+            selecteditem = contents['values']
+            treejobs.delete(curItem)
+            Database()
+            cursor.execute("DELETE FROM `Available_Jobs` WHERE `job_id` = %d" % selecteditem[0])
+            conn.commit()
+            cursor.close()
+            conn.close()
 
 def DisplayDataJobs():
     Database()
