@@ -100,6 +100,8 @@ BriefDescriptionAdd = StringVar()
 
 JobIDAssign= StringVar()
 
+LiteracyPunctuationText = StringVar()
+
 USERNAMEemplogin = StringVar()
 PASSWORDemplogin = StringVar()
 
@@ -126,6 +128,7 @@ def Database():
     cursor.execute("CREATE TABLE IF NOT EXISTS `LiteracyComprehension` ( `emp_id` TEXT,`Part A` TEXT, `Part B` TEXT, `Part C` TEXT, `Part D` TEXT )")
     cursor.execute("CREATE TABLE IF NOT EXISTS `Available_Jobs` (job_id INTEGER PRIMARY KEY AUTOINCREMENT, `Job Title` TEXT, `Contract Start Date` TEXT, `Contract End Date` TEXT, `Starting Salary` TEXT, `Brief Description` TEXT )")
     cursor.execute("CREATE TABLE IF NOT EXISTS `EmployeeJobsAssigned` ( `emp_id` TEXT, `job_id` TEXT )")
+    cursor.execute("CREATE TABLE IF NOT EXISTS `LiteracyPunctuation` ( `emp_id` TEXT, `Text` TEXT )")
     cursor.execute("SELECT * FROM `admin` WHERE `username` = 'admin' AND `password` = 'admin'")
     if cursor.fetchone() is None:
         cursor.execute("INSERT INTO `admin` (username, password) VALUES('admin', 'admin')")
@@ -349,7 +352,7 @@ def HomeEmp():
     filemenu3.add_command(label="Numeracy Mental", command=NumeracyTestMental)
     filemenu3.add_command(label="Numeracy Written", command=NumeracyTestWritten)#written numeracy test
     filemenu4.add_command(label="Spelling", command=LiteracySpellingTest)
-    filemenu4.add_command(label="Punctuation", command=Exit)
+    filemenu4.add_command(label="Punctuation", command=LiteracyPunctuationTest)
     filemenu4.add_command(label="Grammar Part A", command=LiteracyGrammarPartATest)
     filemenu4.add_command(label="Grammar Part B", command=LiteracyGrammarPartBTest)
     filemenu4.add_command(label="Grammar Part C", command=LiteracyGrammarPartCTest)
@@ -387,6 +390,7 @@ def ShowAssignJob():
     AddAssignJob()
 
 def AddAssignJob():
+    global lbl_result
     TopAddAssignJob = Frame(assignjobform, width=600, height=100, bd=1, relief=SOLID)
     TopAddAssignJob.pack(side=TOP, pady=20)
     lbl_text = Label(TopAddAssignJob, text="Apply for a job", font=('arial', 18), width=600)
@@ -397,14 +401,17 @@ def AddAssignJob():
     lbl_1.grid(row=0, sticky=W)
     JobID = Entry(MidAddAssignJob, textvariable=JobIDAssign, font=('arial', 25), width=15)
     JobID.grid(row=0, column=1)
+    lbl_result = Label(MidAddAssignJob, text="", font=('arial', 18))
+    lbl_result.grid(row=1, columnspan=2)#add 3 from previous row count
 
-    btn_AddAssignJob = Button(MidAddAssignJob, text="Add", font=('arial', 18), width=30, bg="#009ACD", command=AddAssignJobNew)
+    btn_AddAssignJob = Button(MidAddAssignJob, text="Apply", font=('arial', 18), width=30, bg="#009ACD", command=AddAssignJobNew)
     btn_AddAssignJob.grid(row=5, columnspan=2, pady=20)
 
 def AddAssignJobNew():
     Database()
     cursor.execute("INSERT INTO `EmployeeJobsAssigned` ('emp_id','job_id') VALUES(?, ?)", (emp_id ,str(JobIDAssign.get())))
     conn.commit()
+    lbl_result.config(text="Successful!", fg="green")
     cursor.close()
     conn.close()
 
@@ -465,52 +472,6 @@ def AddNewAvailableJobs():
     cursor.close()
     conn.close()
 
-def ShowAddNew():
-    global addnewform
-    addnewform = Toplevel()
-    addnewform.title("Recruitment/Add new")
-    width = 600
-    height = 500
-    screen_width = Home.winfo_screenwidth()
-    screen_height = Home.winfo_screenheight()
-    x = (screen_width/2) - (width/2)
-    y = (screen_height/2) - (height/2)
-    addnewform.geometry("%dx%d+%d+%d" % (width, height, x, y))
-    addnewform.resizable(0, 0)
-    AddNewForm()
-
-def AddNewForm():
-    TopAddNew = Frame(addnewform, width=600, height=100, bd=1, relief=SOLID)
-    TopAddNew.pack(side=TOP, pady=20)
-    lbl_text = Label(TopAddNew, text="Add New Product", font=('arial', 18), width=600)
-    lbl_text.pack(fill=X)
-    MidAddNew = Frame(addnewform, width=600)
-    MidAddNew.pack(side=TOP, pady=50)
-    lbl_productname = Label(MidAddNew, text="Product Name:", font=('arial', 25), bd=10)
-    lbl_productname.grid(row=0, sticky=W)
-    lbl_qty = Label(MidAddNew, text="Product Quantity:", font=('arial', 25), bd=10)
-    lbl_qty.grid(row=1, sticky=W)
-    lbl_price = Label(MidAddNew, text="Product Price:", font=('arial', 25), bd=10)
-    lbl_price.grid(row=2, sticky=W)
-    productname = Entry(MidAddNew, textvariable=PRODUCT_NAME, font=('arial', 25), width=15)
-    productname.grid(row=0, column=1)
-    productqty = Entry(MidAddNew, textvariable=PRODUCT_QTY, font=('arial', 25), width=15)
-    productqty.grid(row=1, column=1)
-    productprice = Entry(MidAddNew, textvariable=PRODUCT_PRICE, font=('arial', 25), width=15)
-    productprice.grid(row=2, column=1)
-    btn_add = Button(MidAddNew, text="Save", font=('arial', 18), width=30, bg="#009ACD", command=AddNew)
-    btn_add.grid(row=3, columnspan=2, pady=20)
-
-def AddNew():
-    Database()
-    cursor.execute("INSERT INTO `product` (product_name, product_qty, product_price) VALUES(?, ?, ?)", (str(PRODUCT_NAME.get()), int(PRODUCT_QTY.get()), int(PRODUCT_PRICE.get())))
-    conn.commit()
-    PRODUCT_NAME.set("")
-    PRODUCT_PRICE.set("")
-    PRODUCT_QTY.set("")
-    cursor.close()
-    conn.close()
-
 def LiteracyComprehensionTest():
     global literacyComprehensionform
     literacyComprehensionform = Toplevel()
@@ -527,7 +488,7 @@ def LiteracyComprehensionTest():
 
 def LiteracyComprehensionForm():
     global lbl_result
-    TopLiteracyComprehensionForm = Frame(literacyComprehensionform, width=6000, height=100, bd=1, relief=SOLID)
+    TopLiteracyComprehensionForm = Frame(literacyComprehensionform, width=600, height=100, bd=1, relief=SOLID)
     TopLiteracyComprehensionForm.pack(side=TOP, pady=20)
     lbl_text = Label(TopLiteracyComprehensionForm, text="Literacy Grammar Part C Test", font=('arial', 18), width=800)
     lbl_text.pack(fill=X)
@@ -562,6 +523,44 @@ def LiteracyComprehensionForm():
     btn_LiteracyComprehension = Button(LeftLiteracyComprehensionForm, text="Complete", font=('arial', 18), width=30, command=CompleteLiteracyComprehension)
     btn_LiteracyComprehension.grid(row=4, columnspan=2, pady=20)#add one to row from previous row count
     btn_LiteracyComprehension.bind('<Return>', Login)
+
+def LiteracyPunctuationTest():
+    global literacyPunctuationform
+    literacyPunctuationform = Toplevel()
+    literacyPunctuationform.title("Recruitment/Literacy Punctuation")
+    width = 800
+    height = 1000
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+    x = (screen_width/2) - (width/2)
+    y = (screen_height/2) - (height/2)
+    literacyPunctuationform.resizable(0,0)
+    literacyPunctuationform.geometry("%dx%d+%d+%d" % (width, height, x, y))
+    LiteracyPunctuationForm()
+
+def LiteracyPunctuationForm():
+    global lbl_result
+    TopLiteracyPunctuationForm = Frame(literacyPunctuationform, width=6000, height=100, bd=1, relief=SOLID)
+    TopLiteracyPunctuationForm.pack(side=TOP, pady=20)
+    lbl_text = Label(TopLiteracyPunctuationForm, text="Literacy Punctuation", font=('arial', 18), width=800)
+    lbl_text.pack(fill=X)
+    LeftLiteracyPunctuationForm = Frame(literacyPunctuationform, width=600)
+    LeftLiteracyPunctuationForm.pack(side=TOP, pady=50)
+
+    osCommandString = "notepad.exe LiteracyTest.txt"
+    os.system(osCommandString)
+
+    lbl_1= Label(LeftLiteracyPunctuationForm, text="This is an extract from Brookdale School’s newsletter.\nDo you have some spare time?\nAre you willing to give the school a helping hand\nWe are looking for volunteers from the community to join us in enhancing the\nopportunities and experiences of Brookdale Schools children. There are\nvarious ways in which you could help as a paired reader; as a sports coach or\nreferee; as a chaperone on outings by sharing a specialist knowledge you\nhave.\nThe paired reading scheme has been running at brookdale for two years,\nduring which time over one hundred children have benefited from the help\ngiven to them by volunteers. The scheme operates every morning from 9.00\nto 9.30 a.m. helpers elect to come as many mornings as they feel able and full\nguidance and training are given. Pupils responses have been almost wholly\npositive one twelve-year-old recently said “I thought I’d never be able to read,\nbut thanks to Mrs Davis, whos been helping me for eight months Ive just read\n‘The Magician’s Nephew’ and The silver Chair’ all on my own.”\n\nBelow is the correct version, with the answers highlighted in green:\nThis is an extract from Brookdale School’s newsletter.\nDo you have some spare time?\nAre you willing to give the school a helping hand?\nWe are looking for volunteers from the community to join us in enhancing the\nopportunities and experiences of Brookdale School’s children. There are\nvarious ways in which you could help: as a paired reader; as a sports coach or\nreferee; as a chaperone on outings; by sharing a specialist knowledge you\nhave.\nThe paired reading scheme has been running at Brookdale for two years,\nduring which time over one hundred children have benefitted from the help\ngiven to them by volunteers. The scheme operates every morning from 9.00\nto 9.30 a.m. Helpers elect to come as many mornings as they feel able and full\nguidance and training are given. Pupils’ responses have been almost wholly\npositive. One twelve-year-old recently said, “I thought I’d never be able to read,\nbut thanks to Mrs Davis, who’s been helping me for eight months, I’ve just read\n‘The Magician’s Nephew’ and ‘The Silver Chair’ all on my own.”", font=('arial', 15), bd=18)
+    lbl_1.grid(row=0)
+    lbl_result = Label(LeftLiteracyPunctuationForm, text="", font=('arial', 18))
+    lbl_result.grid(row=3, columnspan=2)#add 3 from previous row count
+
+    LiteracyGrammarPartC1q = Entry(LeftLiteracyPunctuationForm, textvariable=LiteracyPunctuationText, font=('arial', 15), width=15)
+    LiteracyGrammarPartC1q.grid(row=0, column=1)
+
+    btn_LiteracyPunctuation = Button(LeftLiteracyPunctuationForm, text="Complete", font=('arial', 18), width=30, command=CompleteLiteracyPunctuationForm)
+    btn_LiteracyPunctuation.grid(row=1, columnspan=2, pady=20)#add one to row from previous row count
+    btn_LiteracyPunctuation.bind('<Return>', Login)
 
 def LiteracyGrammarPartCTest():
     global literacygrammarPartCtestform
@@ -1018,6 +1017,7 @@ def ViewFormJobs():
     scrollbary.pack(side=RIGHT, fill=Y)
     scrollbarx.config(command=treejobs.xview)
     scrollbarx.pack(side=BOTTOM, fill=X)
+    treejobs.heading('ID', text="ID",anchor=W)
     treejobs.heading('Job Title', text="Job Title",anchor=W)
     treejobs.heading('Contract Start Date', text="Contract Start Date",anchor=W)
     treejobs.heading('Contract End Date', text="Contract End Date",anchor=W)
@@ -1035,7 +1035,6 @@ def ViewFormJobs():
     if admin_id != "":
         btn_deletejobs = Button(LeftViewFormJobs, text="Delete", command=DeleteJobs)
         btn_deletejobs.pack(side=TOP, padx=10, pady=10, fill=X)
-
     DisplayDataJobs()
 
 def DeleteJobs():
@@ -1233,6 +1232,7 @@ def Register(event=None):
     else:
         cursor.execute("INSERT INTO 'UFIX_PIM'(Username,Password,Date_of_Birth,First_name,last_name,Contact_number,Email_Address,Address_line1,Address_line2,Country,Postcode) VALUES(?,?,?,?,?,?,?,?,?,?,?)",(str(USERNAMEemp.get()),str(PASSWORDemp.get()),str(DOBemp.get()),str(FirstNameemp.get()),str(LastNameemp.get()),str(ContactNumberemp.get()),str(EmailAddressemp.get()),str(AddressLine1emp.get()),str(AddressLine2emp.get()),str(Countryemp.get()),str(PostCodeemp.get())))
         conn.commit()
+        lbl_result.config(text="Successful!", fg="green")
     cursor.close()
     conn.close()
 
@@ -1243,6 +1243,7 @@ def CompleteNumeracytest(event=None):
     else:
         cursor.execute("INSERT INTO 'NumeracyTestMental'('emp_id','Question 1', 'Question 2', 'Question 3', 'Question 4', 'Question 5', 'Question 6', 'Question 7', 'Question 8', 'Question 9', 'Question 10', 'Question 11', 'Question 12', 'Question 13', 'Question 14', 'Question 15') VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(emp_id,str(NumeracyMentalq1.get()),str(NumeracyMentalq2.get()),str(NumeracyMentalq3.get()),str(NumeracyMentalq4.get()),str(NumeracyMentalq5.get()),str(NumeracyMentalq6.get()),str(NumeracyMentalq7.get()),str(NumeracyMentalq8.get()),str(NumeracyMentalq9.get()),str(NumeracyMentalq10.get()),str(NumeracyMentalq11.get()),str(NumeracyMentalq12.get()),str(NumeracyMentalq13.get()),str(NumeracyMentalq14.get()),str(NumeracyMentalq15.get())))
         conn.commit()
+        lbl_result.config(text="Successful!", fg="green")
     cursor.close()
     conn.close()
 
@@ -1253,6 +1254,7 @@ def CompleteNumeracyWrittentest(event=None):
     else:
         cursor.execute("INSERT INTO 'NumeracyTestWritten'('emp_id','Question 1', 'Question 2', 'Question 3', 'Question 4', 'Question 5', 'Question 6', 'Question 7', 'Question 8', 'Question 9', 'Question 10', 'Question 11', 'Question 12') VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)",(emp_id,str(NumeracyWrittenq1.get()),str(NumeracyWrittenq2.get()),str(NumeracyWrittenq3.get()),str(NumeracyWrittenq4.get()),str(NumeracyWrittenq5.get()),str(NumeracyWrittenq6.get()),str(NumeracyWrittenq7.get()),str(NumeracyWrittenq8.get()),str(NumeracyWrittenq9.get()),str(NumeracyWrittenq10.get()),str(NumeracyWrittenq11.get()),str(NumeracyWrittenq12.get())))
         conn.commit()
+        lbl_result.config(text="Successful!", fg="green")
     cursor.close()
     conn.close()
 
@@ -1263,6 +1265,7 @@ def CompleteLiteracySpelling(event=None):
     else:
         cursor.execute("INSERT INTO 'LiteracySpelling'('emp_id','Question 1', 'Question 2', 'Question 3', 'Question 4', 'Question 5', 'Question 6', 'Question 7', 'Question 8', 'Question 9', 'Question 10') VALUES(?,?,?,?,?,?,?,?,?,?,?)",(emp_id,str(LiteracySpelling1.get()),str(LiteracySpelling2.get()),str(LiteracySpelling3.get()),str(LiteracySpelling4.get()),str(LiteracySpelling5.get()),str(LiteracySpelling6.get()),str(LiteracySpelling7.get()),str(LiteracySpelling8.get()),str(LiteracySpelling9.get()),str(LiteracySpelling10.get())))
         conn.commit()
+        lbl_result.config(text="Successful!", fg="green")
     cursor.close()
     conn.close()
 
@@ -1273,6 +1276,7 @@ def CompleteLiteracyGrammarPartA(event=None):
     else:
         cursor.execute("INSERT INTO 'LiteracyGrammarPartA'('emp_id','Question 1', 'Question 2', 'Question 3', 'Question 4', 'Question 5') VALUES(?,?,?,?,?,?)",(emp_id,str(LiteracyGrammarPartA1.get()),str(LiteracyGrammarPartA2.get()),str(LiteracyGrammarPartA3.get()),str(LiteracyGrammarPartA4.get()),str(LiteracyGrammarPartA5.get())))
         conn.commit()
+        lbl_result.config(text="Successful!", fg="green")
     cursor.close()
     conn.close()
 
@@ -1283,6 +1287,7 @@ def CompleteLiteracyGrammarPartB(event=None):
     else:
         cursor.execute("INSERT INTO 'LiteracyGrammarPartB'('emp_id','Question 1', 'Question 2') VALUES(?,?,?)",(emp_id,str(LiteracyGrammarPartB1.get()),str(LiteracyGrammarPartB2.get())))
         conn.commit()
+        lbl_result.config(text="Successful!", fg="green")
     cursor.close()
     conn.close()
 
@@ -1293,8 +1298,21 @@ def CompleteLiteracyGrammarPartC(event=None):
     else:
         cursor.execute("INSERT INTO 'LiteracyGrammarPartC'('emp_id','Question 1', 'Question 2', 'Question 3') VALUES(?,?,?,?)",(emp_id,str(LiteracyGrammarPartC1.get()),str(LiteracyGrammarPartC2.get()),str(LiteracyGrammarPartC3.get())))
         conn.commit()
+        lbl_result.config(text="Successful!", fg="green")
     cursor.close()
     conn.close()
+
+def CompleteLiteracyPunctuationForm(event=None):
+    Database()
+    if LiteracyPunctuationText.get() == "":
+        lbl_result.config(text="Please complete the required field!", fg="red")
+    else:
+        cursor.execute("INSERT INTO 'LiteracyPunctuation'('emp_id','Text') VALUES(?,?)",(emp_id,str(LiteracyPunctuationText.get())))
+        conn.commit()
+        lbl_result.config(text="Successful!", fg="green")
+    cursor.close()
+    conn.close()
+
 
 def CompleteLiteracyComprehension(event=None):
     Database()
@@ -1303,6 +1321,7 @@ def CompleteLiteracyComprehension(event=None):
     else:
         cursor.execute("INSERT INTO 'LiteracyComprehension'('emp_id','Part A', 'Part B', 'Part C', 'Part D') VALUES(?,?,?,?,?)",(emp_id,str(LiteracyComprehensionA.get()),str(LiteracyComprehensionB.get()),str(LiteracyComprehensionC.get()),str(LiteracyComprehensionD.get())))
         conn.commit()
+        lbl_result.config(text="Successful!", fg="green")
     cursor.close()
     conn.close()
 
