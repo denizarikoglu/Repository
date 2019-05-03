@@ -1,5 +1,9 @@
 Fork for Displinary work
 
+all files for the program are under the folder GUI
+
+foilder Files is for group files
+
 Location for UfixLtd.s3db is 'Repository\gui\UfixLtd.s3db
 
 "# Repository" >> README.md
